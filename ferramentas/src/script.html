@@ -1,0 +1,479 @@
+
+<script>
+  /* ------------------------------------------------------------------
+     Cartilha do aluno (flauta) — navegação por aulas.
+
+     Este array é a única fonte da ordem: o índice 0 é a capa (sem número).
+     As aulas recebem o rótulo "AULA N" automaticamente; os capítulos de
+     consulta (group:'consulta') ficam sem número. Para acrescentar uma aula
+     nova, crie a <section data-chapter="..."> e inclua um item aqui.
+     ------------------------------------------------------------------ */
+  const chapters = [
+    {id:'capa',            label:'Bem-vindo'},
+    {id:'notas',           label:'Notas e cifras'},
+    {id:'escala',          label:'Escala maior e graus'},
+    {id:'acordes',         label:'Como nasce um acorde'},
+    {id:'campo-maior',     label:'Campo harmônico maior'},
+    {id:'progressoes',     label:'Progressões e cadências'},
+    {id:'menor-natural',   label:'Menor natural'},
+    {id:'menor-harmonica', label:'Menor harmônica'},
+    {id:'menor-melodica',  label:'Menor melódica'},
+    {id:'jogos',           label:'Jogos e desafios'},
+    {id:'tabelas',         label:'Tabelas dos campos', group:'consulta'},
+    {id:'respostas',       label:'Respostas',          group:'consulta'},
+    {id:'duvidas',         label:'Dúvidas frequentes', group:'consulta'},
+  ];
+
+  /* Chave própria: as cartilhas (violão, teclado, flauta) moram no mesmo
+     domínio do GitHub Pages e dividem o mesmo localStorage. */
+  const STORE_KEY = 'cartilha-flauta';
+
+  function loadState(){
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveState(){
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+    catch(e){ /* sem persistência, tudo bem */ }
+  }
+
+  const state = loadState();
+  if(!Array.isArray(state.seen)) state.seen = [];
+  if(!state.checks || typeof state.checks !== 'object') state.checks = {};
+  const seen = new Set(state.seen);
+  let currentIdx = 0;
+
+  const progText = document.getElementById('progText');
+  const btnPrev  = document.getElementById('btnPrev');
+  const btnNext  = document.getElementById('btnNext');
+
+  // ---------- barra lateral + numeração das aulas ----------
+  const nav = document.getElementById('chapterNav');
+  let aulaNum = 0, lastGroup = null;
+  chapters.forEach((c, i) => {
+    if(c.group && c.group !== lastGroup){
+      const g = document.createElement('div');
+      g.className = 'chap-group';
+      g.textContent = c.group === 'consulta' ? 'Consulta' : c.group;
+      nav.appendChild(g);
+    }
+    lastGroup = c.group || null;
+    if(i > 0 && !c.group) aulaNum++;
+    c.num = (i > 0 && !c.group) ? aulaNum : null;
+
+    const btn = document.createElement('button');
+    btn.className = 'chap-btn';
+    btn.type = 'button';
+    btn.dataset.id = c.id;
+    const mark = i === 0 ? '—' : (c.num ? c.num : '·');
+    btn.innerHTML = '<span class="num">' + mark + '</span><span>' + c.label + '</span>';
+    btn.addEventListener('click', () => showChapter(c.id));
+    nav.appendChild(btn);
+    c.btn = btn;
+
+    c.section = document.querySelector('.chapter[data-chapter="' + c.id + '"]');
+    if(c.section && c.num){
+      const eyebrow = c.section.querySelector('.eyebrow');
+      if(eyebrow) eyebrow.textContent = 'AULA ' + c.num;
+    }
+  });
+  const totalAulas = aulaNum;
+
+  function showChapter(id, opts){
+    opts = opts || {};
+    const idx = chapters.findIndex(c => c.id === id);
+    if(idx < 0) return;
+    stopAll();
+
+    seen.add(id);
+    chapters.forEach((c, i) => {
+      const on = (i === idx);
+      if(c.section) c.section.classList.toggle('active', on);
+      c.btn.classList.toggle('active', on);
+      c.btn.classList.toggle('seen', seen.has(c.id));
+      c.btn.setAttribute('aria-current', on ? 'true' : 'false');
+    });
+
+    currentIdx = idx;
+    const c = chapters[idx];
+    progText.textContent = idx === 0 ? 'Capa · ' + totalAulas + ' aulas'
+      : c.num ? 'Aula ' + c.num + ' de ' + totalAulas
+      : c.label;
+    btnPrev.disabled = (idx === 0);
+    btnNext.disabled = (idx === chapters.length - 1);
+
+    state.last = id; state.seen = Array.from(seen); saveState();
+
+    if(c.btn.scrollIntoView) c.btn.scrollIntoView({block:'nearest', inline:'center'});
+    window.scrollTo(0, 0);
+
+    const hash = '#' + id;
+    if(location.hash !== hash){
+      if(opts.replace) history.replaceState(null, '', hash);
+      else             history.pushState(null, '', hash);
+    }
+  }
+
+  function go(dir){
+    const next = currentIdx + dir;
+    if(next >= 0 && next < chapters.length) showChapter(chapters[next].id);
+  }
+  btnPrev.addEventListener('click', () => go(-1));
+  btnNext.addEventListener('click', () => go(1));
+
+  window.addEventListener('hashchange', () => {
+    const id = location.hash.replace('#', '');
+    if(id && id !== chapters[currentIdx].id) showChapter(id, {replace:true});
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const t = e.target;
+    if(t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    if(e.key === 'ArrowRight'){ e.preventDefault(); go(1); }
+    else if(e.key === 'ArrowLeft'){ e.preventDefault(); go(-1); }
+  });
+
+  // ---------- checklists (lembra o que o aluno já marcou) ----------
+  document.querySelectorAll('.checklist').forEach(list => {
+    const key = list.dataset.key;
+    const boxes = [].slice.call(list.querySelectorAll('input[type=checkbox]'));
+    const saved = Array.isArray(state.checks[key]) ? state.checks[key] : [];
+    const prog = document.createElement('div');
+    prog.className = 'check-progress no-print';
+    list.after(prog);
+    function update(){
+      const n = boxes.filter(b => b.checked).length;
+      prog.textContent = n === boxes.length
+        ? '✓ Tudo marcado — pode seguir para a próxima aula!'
+        : n + ' de ' + boxes.length + ' marcados';
+    }
+    boxes.forEach((b, i) => {
+      b.checked = !!saved[i];
+      b.addEventListener('change', () => {
+        state.checks[key] = boxes.map(x => x.checked);
+        saveState(); update();
+      });
+    });
+    update();
+  });
+
+  // ---------- impressão / PDF ----------
+  let impressaoAtiva = false;
+  let faqFechados = [];
+  function prepararImpressao(){
+    if(impressaoAtiva) return;
+    impressaoAtiva = true;
+    stopAll();
+    faqFechados = [].filter.call(document.querySelectorAll('details.faq'), d => !d.open);
+    faqFechados.forEach(d => { d.open = true; });
+    // imagens com loading="lazy" em aulas escondidas: força o carregamento
+    document.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+  }
+  function restaurarImpressao(){
+    if(!impressaoAtiva) return;
+    impressaoAtiva = false;
+    faqFechados.forEach(d => { d.open = false; });
+    faqFechados = [];
+  }
+  window.addEventListener('beforeprint', prepararImpressao);
+  window.addEventListener('afterprint', restaurarImpressao);
+  if(window.matchMedia){
+    const mq = window.matchMedia('print');
+    const onPrintChange = (e) => { e.matches ? prepararImpressao() : restaurarImpressao(); };
+    if(mq.addEventListener) mq.addEventListener('change', onPrintChange);
+    else if(mq.addListener)  mq.addListener(onPrintChange);
+  }
+  document.getElementById('btnPrint').addEventListener('click', () => {
+    prepararImpressao();
+    // dá tempo das partituras das outras aulas carregarem antes de abrir a impressão
+    const imgs = [].slice.call(document.querySelectorAll('figure.pauta img'));
+    Promise.all(imgs.map(img => img.complete ? null : new Promise(r => { img.onload = img.onerror = r; })))
+      .then(() => window.print());
+  });
+
+  /* ==================================================================
+     ÁUDIO — sintetizador simples (Web Audio), sem arquivos de som.
+     Cada partitura traz em data-play as notas [midi, tempos] e, quando
+     é um exercício de acordes, a base [início, [midis], duração].
+     ================================================================== */
+  let actx = null, master = null, playing = null;
+  function audio(){
+    if(!actx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      actx = new AC();
+      master = actx.createGain(); master.gain.value = 0.9;
+      master.connect(actx.destination);
+    }
+    if(actx.state === 'suspended') actx.resume();
+    return actx;
+  }
+  const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+
+  function flute(t, midi, dur, vol, nodes){
+    const o = actx.createOscillator(), o2 = actx.createOscillator(), g = actx.createGain();
+    const vib = actx.createOscillator(), vg = actx.createGain();
+    o.type = 'sine'; o2.type = 'triangle';
+    o.frequency.value = mtof(midi); o2.frequency.value = mtof(midi) * 2;
+    vib.frequency.value = 5; vg.gain.value = mtof(midi) * 0.004;
+    vib.connect(vg); vg.connect(o.frequency);
+    const g2 = actx.createGain(); g2.gain.value = 0.12;
+    o.connect(g); o2.connect(g2); g2.connect(g); g.connect(master);
+    const end = t + Math.max(0.08, dur * 0.92);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.04);
+    g.gain.setValueAtTime(vol * 0.85, Math.max(t + 0.05, end - 0.06));
+    g.gain.exponentialRampToValueAtTime(0.0001, end);
+    [o, o2, vib].forEach(x => { x.start(t); x.stop(end + 0.05); nodes.push(x); });
+  }
+  function pad(t, midis, dur, nodes){
+    midis.forEach(m => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'triangle'; o.frequency.value = mtof(m);
+      o.connect(g); g.connect(master);
+      const vol = 0.045, end = t + dur;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.08);
+      g.gain.setValueAtTime(vol, Math.max(t + 0.09, end - 0.12));
+      g.gain.exponentialRampToValueAtTime(0.0001, end);
+      o.start(t); o.stop(end + 0.05); nodes.push(o);
+    });
+  }
+
+  function stopAll(){
+    if(!playing) return;
+    playing.nodes.forEach(n => { try { n.stop(); } catch(e){} });
+    clearTimeout(playing.timer);
+    if(playing.onend) playing.onend();
+    playing = null;
+  }
+
+  /* toca uma sequência; loop=true repete até parar */
+  function playSeq(data, bpm, opts){
+    opts = opts || {};
+    if(!audio()) return;
+    stopAll();
+    const beat = 60 / bpm;
+    const nodes = [];
+    const total = Math.max(
+      (data.n || []).reduce((s, x) => s + x[1], 0),
+      (data.p || []).reduce((s, x) => Math.max(s, x[0] + x[2]), 0)
+    );
+    const reps = opts.loop ? 4 : 1;
+    const t0 = actx.currentTime + 0.12;
+    for(let r = 0; r < reps; r++){
+      const base = t0 + r * total * beat;
+      let t = base;
+      (data.n || []).forEach(([m, d]) => {
+        if(m > 0) flute(t, m, d * beat, opts.melVol || 0.22, nodes);
+        t += d * beat;
+      });
+      if(opts.pad !== false) (data.p || []).forEach(([s, ms, d]) => pad(base + s * beat, ms, d * beat, nodes));
+    }
+    playing = { nodes, onend: opts.onend || null };
+    playing.timer = setTimeout(() => { const p = playing; playing = null; if(p && p.onend) p.onend(); }, (reps * total * beat + 0.4) * 1000);
+  }
+
+  // botões "Ouvir" das partituras
+  document.querySelectorAll('figure.pauta[data-play]').forEach(fig => {
+    let data;
+    try { data = JSON.parse(fig.dataset.play); } catch(e){ return; }
+    const row = document.createElement('div');
+    row.className = 'play-row';
+    const hasMel = (data.n || []).some(x => x[0] > 0);
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'play-btn';
+    const label = hasMel ? '▶ Ouvir' : '▶ Ouvir a base (repete 4×)';
+    btn.textContent = label;
+    const sel = document.createElement('label');
+    sel.className = 'tempo';
+    sel.innerHTML = 'Andamento <select><option value="50">devagar (50)</option><option value="60" selected>60</option><option value="72">72</option><option value="88">88</option></select>';
+    row.appendChild(btn); row.appendChild(sel);
+    let padBtn = null;
+    if(hasMel && (data.p || []).length){
+      padBtn = document.createElement('label');
+      padBtn.className = 'tempo';
+      padBtn.innerHTML = '<input type="checkbox" checked> com acorde de fundo';
+      row.appendChild(padBtn);
+    }
+    fig.appendChild(row);
+    btn.addEventListener('click', () => {
+      if(btn.classList.contains('playing')){ stopAll(); return; }
+      const bpm = +sel.querySelector('select').value;
+      const withPad = padBtn ? padBtn.querySelector('input').checked : true;
+      btn.classList.add('playing'); btn.textContent = '■ Parar';
+      playSeq(data, bpm, { loop: !hasMel, pad: withPad, onend: () => { btn.classList.remove('playing'); btn.textContent = label; } });
+    });
+  });
+
+  /* ==================================================================
+     TEORIA mínima para os jogos (mesma lógica do gerador das partituras)
+     ================================================================== */
+  const LET = 'CDEFGAB', NAT = [0,2,4,5,7,9,11];
+  const ESCALAS = { maior:[0,2,4,5,7,9,11], natural:[0,2,3,5,7,8,10], harmonica:[0,2,3,5,7,8,11], melodica:[0,2,3,5,7,9,11] };
+  const Q4 = {'4,7,11':'7M','4,7,10':'7','3,7,10':'m7','3,6,10':'m7(b5)','3,6,9':'°','3,7,11':'m7M','4,8,11':'7M(#5)','4,8,10':'7(#5)'};
+  const ROM = ['I','II','III','IV','V','VI','VII'];
+  function nota(str){ // "Bb" -> {l, pc}
+    const l = LET.indexOf(str[0]); let acc = 0;
+    for(const ch of str.slice(1)) acc += ch === '#' ? 1 : (ch === 'b' ? -1 : 0);
+    return { l, acc, pc: (NAT[l] + acc + 12) % 12 };
+  }
+  function nomeNota(n){ return LET[n.l] + (n.acc > 0 ? '#'.repeat(n.acc) : 'b'.repeat(-n.acc)); }
+  function escala(tonica, tipo){
+    const t = nota(tonica);
+    return ESCALAS[tipo].map((iv, i) => {
+      const l = (t.l + i) % 7, alvo = (t.pc + iv) % 12;
+      let acc = (alvo - NAT[l] + 12) % 12; if(acc > 6) acc -= 12;
+      return { l, acc, pc: alvo };
+    });
+  }
+  function campo(tonica, tipo){
+    const sc = escala(tonica, tipo), mai = escala(tonica, 'maior');
+    return sc.map((n, d) => {
+      const notas = [0,2,4,6].map(k => sc[(d + k) % 7]);
+      const ints = notas.slice(1).map(x => (x.pc - n.pc + 12) % 12).join(',');
+      const q = Q4[ints] || '';
+      const dif = (n.pc - mai[d].pc + 12) % 12;
+      const pre = dif === 11 ? '♭' : (dif === 1 ? '#' : '');
+      // midi: raiz entre C4 (60) e B4 (71), demais notas empilhadas
+      let prev = 60 + n.pc; const midis = [prev];
+      notas.slice(1).forEach(x => { let m = 60 + x.pc; while(m <= prev) m += 12; midis.push(m); prev = m; });
+      return { roman: pre + ROM[d] + q, cifra: nomeNota(n) + q, notas: notas.map(nomeNota), midis };
+    });
+  }
+  const pretty = s => s.replace(/^b(?=[IV])/, '♭');
+  const rnd = n => Math.floor(Math.random() * n);
+
+  // ---------- Jogo 1: telefone musical ----------
+  (function(){
+    const out = document.getElementById('telOut');
+    let seq = null, sc = null, tonica = null;
+    function novo(){
+      const [t, tipo] = document.getElementById('telTom').value.split('|');
+      const tam = +document.getElementById('telTam').value;
+      tonica = t; sc = escala(t, tipo);
+      seq = [1];
+      while(seq.length < tam){ let g = 1 + rnd(7); if(g !== seq[seq.length - 1]) seq.push(g); }
+      if(tam > 3) seq[seq.length - 1] = Math.random() < 0.6 ? 1 : seq[seq.length - 1];
+      const graus = tipo === 'maior' ? ['1','2','3','4','5','6','7'] : ['1','2','♭3','4','5', tipo === 'melodica' ? '6' : '♭6', tipo === 'natural' ? '♭7' : '7'];
+      out.innerHTML = seq.map(g => '<span>' + graus[g - 1] + '</span>').join('<span class="small">–</span>');
+      out.dataset.revealed = '';
+    }
+    document.getElementById('telNovo').addEventListener('click', novo);
+    document.getElementById('telMostra').addEventListener('click', () => {
+      if(!seq){ novo(); return; }
+      if(out.dataset.revealed) return;
+      out.dataset.revealed = '1';
+      const span = document.createElement('span');
+      span.className = 'reveal';
+      span.textContent = '→ ' + seq.map(g => pretty(nomeNota(sc[g - 1]))).join(' – ');
+      out.appendChild(span);
+    });
+    document.getElementById('telOuvir').addEventListener('click', () => {
+      if(!seq) novo();
+      const base = 60 + sc[0].pc;
+      const n = seq.map(g => { let m = 60 + sc[g - 1].pc; while(m < base) m += 12; return [m, 1]; });
+      n[n.length - 1][1] = 2;
+      playSeq({ n }, 72);
+    });
+  })();
+
+  // ---------- Jogo 2: dado harmônico ----------
+  (function(){
+    const out = document.getElementById('dadoOut');
+    let prog = null;
+    function rolar(){
+      const [t, tipo] = document.getElementById('dadoTom').value.split('|');
+      const c = campo(t, tipo);
+      const graus = [0];
+      while(graus.length < 4){
+        let g = 1 + rnd(6);
+        if(g !== graus[graus.length - 1]) graus.push(g);
+      }
+      prog = graus.map(g => c[g]);
+      out.innerHTML = prog.map(x => '<span>' + pretty(x.roman) + '</span>').join('<span class="small">–</span>');
+      out.dataset.revealed = '';
+    }
+    document.getElementById('dadoRolar').addEventListener('click', rolar);
+    document.getElementById('dadoMostra').addEventListener('click', () => {
+      if(!prog){ rolar(); return; }
+      if(out.dataset.revealed) return;
+      out.dataset.revealed = '1';
+      const div = document.createElement('div');
+      div.className = 'reveal';
+      div.style.flexBasis = '100%';
+      div.innerHTML = prog.map(x => '<b>' + pretty(x.cifra) + '</b> <span class="small">(' + x.notas.map(pretty).join(' ') + ')</span>').join(' &nbsp;·&nbsp; ');
+      out.appendChild(div);
+    });
+    document.getElementById('dadoOuvir').addEventListener('click', () => {
+      if(!prog) rolar();
+      const n = [], p = [];
+      prog.forEach((x, i) => {
+        const up = i % 2 === 0 ? x.midis : x.midis.slice().reverse();
+        up.forEach(m => n.push([m, 1]));
+        p.push([i * 4, x.midis.map(m => m - 12), 4]);
+      });
+      playSeq({ n, p }, 72);
+    });
+  })();
+
+  // ---------- Jogo 3: detetive do ouvido ----------
+  (function(){
+    const TIPOS = [
+      { nome:'Maior', ints:[0,4,7] }, { nome:'Menor', ints:[0,3,7] },
+      { nome:'Diminuta', ints:[0,3,6] }, { nome:'Aumentada', ints:[0,4,8] }
+    ];
+    const btns = document.getElementById('detBtns');
+    const out = document.getElementById('detOut');
+    const scoreEl = document.getElementById('detScore');
+    let atual = null, acertos = 0, total = 0, respondido = true;
+    function montarBotoes(){
+      const n = +document.getElementById('detNivel').value;
+      btns.innerHTML = '';
+      TIPOS.slice(0, n).forEach((t, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.textContent = t.nome;
+        b.addEventListener('click', () => responder(i, b));
+        btns.appendChild(b);
+      });
+    }
+    function tocar(){
+      if(!atual) return;
+      const n = atual.ints.map(iv => [atual.raiz + iv, 0.9]);
+      n.push([atual.raiz + atual.ints[2], 0.1]);
+      playSeq({ n: n.slice(0, 3).concat([[0, 0.3]]), p: [[3.3, atual.ints.map(iv => atual.raiz + iv), 2.2]] }, 80, { melVol: 0.24 });
+    }
+    function novo(){
+      const n = +document.getElementById('detNivel').value;
+      const t = TIPOS[rnd(n)];
+      atual = { ints: t.ints, nome: t.nome, idx: TIPOS.indexOf(t), raiz: 62 + rnd(8) };
+      respondido = false;
+      [].forEach.call(btns.children, b => b.className = '');
+      out.innerHTML = '<span class="small">Ouça e escolha o tipo…</span>';
+      tocar();
+    }
+    function responder(i, b){
+      if(!atual || respondido) return;
+      respondido = true; total++;
+      const certo = i === atual.idx;
+      if(certo) acertos++;
+      b.className = certo ? 'ok' : 'no';
+      if(!certo) btns.children[atual.idx].className = 'ok';
+      out.innerHTML = certo ? '<span>Isso! ' + atual.nome + '.</span>' : '<span class="small">Era <b>' + atual.nome + '</b>. Aperte “Repetir” e compare.</span>';
+      scoreEl.textContent = 'Acertos: ' + acertos + ' de ' + total;
+    }
+    document.getElementById('detNivel').addEventListener('change', () => { montarBotoes(); atual = null; out.innerHTML = '<span class="small">Aperte “Tocar acorde”.</span>'; });
+    document.getElementById('detTocar').addEventListener('click', novo);
+    document.getElementById('detRepetir').addEventListener('click', tocar);
+    montarBotoes();
+  })();
+
+  // ---------- abertura ----------
+  const inicial = location.hash.replace('#', '');
+  const abrir = chapters.some(c => c.id === inicial) ? inicial
+              : (chapters.some(c => c.id === state.last) ? state.last : 'capa');
+  showChapter(abrir, {replace:true});
+</script>
+</body>
+</html>

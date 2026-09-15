@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graus e Campos na Flauta — Cartilha do Aluno</title>
+<meta name="description" content="Cartilha do aluno de flauta transversal: nome das notas e cifras, escala maior e graus, formação de acordes, campo harmônico maior e campos menores (natural, harmônico e melódico), com exercícios em partitura, áudio e jogos.">
+<meta name="theme-color" content="#4A3220">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2E9D3;
+    --paper-deep:#E9DCBC;
+    --sheet:#FBF7EC;
+    --ink:#3B2A1B;
+    --ink-soft:#6B5340;
+    --wood:#8C5A2E;
+    --wood-deep:#4A3220;
+    --wood-light:#C99A5B;
+    --brass:#B8862E;
+    --brass-deep:#9A6A1C;
+    --string:#D8B24C;
+    --sage:#4B6B4F;
+    --sage-deep:#2F5A3A;
+    --rose:#8C3B2E;
+    --hi:#B0362A;
+    --line:rgba(59,42,27,0.18);
+    --shadow: 4px 4px 0 rgba(59,42,27,0.10);
+    --radius: 4px;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Work Sans', -apple-system, sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.55;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(59,42,27,0.05) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+
+  h1,h2,h3,h4{font-family:var(--font-display); color:var(--wood-deep); margin:0 0 0.4em; font-weight:600;}
+  h3{ font-size:1.18rem; margin-top:1.6em; }
+  p{margin:0 0 1em;}
+  a{color:var(--wood-deep);}
+
+  /* ---------- Layout shell ---------- */
+  .shell{ display:grid; grid-template-columns: 250px 1fr; min-height:100vh; }
+  @media (max-width:860px){ .shell{ grid-template-columns: 1fr; } }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    background:var(--wood-deep); color:var(--paper);
+    padding:28px 18px 18px;
+    position:sticky; top:0; height:100vh; overflow-y:auto;
+  }
+  @media (max-width:860px){ .sidebar{ position:static; height:auto; padding:16px; } }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:22px; padding-bottom:16px;
+    border-bottom:1px solid rgba(242,233,211,0.18);
+  }
+  .brand svg{ width:34px; height:34px; flex-shrink:0; }
+  .brand .t{ font-family:var(--font-display); font-size:1.05rem; line-height:1.15; color:var(--paper);}
+  .brand .t small{ display:block; font-family:var(--font-body); font-size:0.7rem; color:var(--wood-light); font-weight:500; letter-spacing:0.02em; margin-top:2px;}
+
+  nav.chapters{ margin:0; padding:0; }
+  .chap-btn{
+    display:flex; align-items:center; gap:10px;
+    width:100%; text-align:left;
+    background:none; border:none; cursor:pointer;
+    color:var(--wood-light);
+    font-family:var(--font-body); font-size:0.88rem; font-weight:500;
+    padding:9px 10px; border-radius:3px; margin-bottom:2px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .chap-btn .num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px; border-radius:50%;
+    border:1px solid rgba(242,233,211,0.35);
+    font-size:0.7rem; flex-shrink:0;
+  }
+  .chap-btn:hover{ background:rgba(242,233,211,0.08); color:var(--paper); }
+  .chap-btn.active{ background:var(--brass); color:var(--wood-deep); font-weight:700;}
+  .chap-btn.active .num{ border-color:var(--wood-deep); }
+  .chap-btn.seen .num{ border-color:var(--brass); background:rgba(184,134,46,0.32); color:var(--paper); }
+  .chap-btn.active.seen .num{ background:rgba(74,50,32,0.20); color:var(--wood-deep); border-color:var(--wood-deep); }
+  .chap-group{
+    font-size:0.64rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:rgba(242,233,211,0.45); margin:14px 10px 4px; font-weight:600;
+  }
+  @media (max-width:860px){
+    nav.chapters{ display:flex; overflow-x:auto; gap:6px; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
+    .chap-btn{ white-space:nowrap; width:auto; }
+    .chap-group{ display:none; }
+  }
+
+  .side-actions{
+    margin-top:20px; padding-top:16px;
+    border-top:1px solid rgba(242,233,211,0.18);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .side-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:none; border:1px solid rgba(242,233,211,0.35);
+    color:var(--paper);
+    font-family:var(--font-body); font-size:0.82rem; font-weight:600;
+    padding:9px 12px; border-radius:20px; cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .side-btn:hover{ background:var(--brass); color:var(--wood-deep); border-color:var(--brass); }
+  .side-hint{ font-size:0.68rem; color:var(--wood-light); text-align:center; line-height:1.6; }
+  .side-hint kbd{
+    font-family:var(--font-body); font-size:0.7rem;
+    border:1px solid rgba(242,233,211,0.30); border-radius:3px; padding:0 4px; margin:0 1px;
+  }
+  @media (max-width:860px){
+    .side-actions{ flex-direction:row; align-items:center; justify-content:flex-start; margin-top:12px; padding-top:12px; }
+    .side-hint{ display:none; }
+  }
+
+  /* ---------- Main content ---------- */
+  main{ padding:0; display:flex; flex-direction:column; min-width:0; }
+  .content-scroll{ flex:1; padding:44px 56px 30px; max-width:960px; }
+  @media (max-width:860px){ .content-scroll{ padding:28px 16px 20px; } }
+
+  .eyebrow{ font-size:0.78rem; color:var(--rose); font-weight:600; margin-bottom:6px; }
+  .chapter{ display:none; animation: fade .3s ease; }
+  .chapter.active{ display:block; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .lead{ font-size:1.08rem; color:var(--ink-soft); max-width:62ch; }
+  .divider{ height:1px; background:var(--line); margin:28px 0; border:none; }
+
+  .card{
+    background:var(--paper-deep); border:1px solid var(--line);
+    border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow);
+  }
+  .card h4{ font-size:1rem; margin-bottom:6px; }
+  .card p:last-child{ margin-bottom:0; }
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  @media (max-width:760px){ .grid-2,.grid-3{ grid-template-columns:1fr; } }
+
+  .tip{
+    border-left:3px solid var(--sage); background:rgba(75,107,79,0.08);
+    padding:12px 16px; border-radius:0 4px 4px 0; font-size:0.94rem; margin:18px 0;
+  }
+  .tip b{ color:var(--sage-deep); }
+  .warn{
+    border-left:3px solid var(--rose); background:rgba(140,59,46,0.07);
+    padding:12px 16px; border-radius:0 4px 4px 0; font-size:0.94rem; margin:18px 0;
+  }
+  .warn b{ color:var(--rose); }
+
+  /* ideia-chave da aula */
+  .key-idea{
+    background:var(--wood-deep); color:var(--paper);
+    border-radius:var(--radius); padding:18px 22px; margin:22px 0;
+    box-shadow:var(--shadow);
+  }
+  .key-idea .lbl{ font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--string); font-weight:700; margin-bottom:4px; }
+  .key-idea p{ margin:0; font-family:var(--font-display); font-size:1.18rem; line-height:1.35; }
+  .key-idea b{ color:var(--string); font-weight:600; }
+
+  /* legenda da partitura */
+  .key-bar{
+    display:flex; flex-wrap:wrap; align-items:center; gap:8px 18px;
+    background:var(--paper-deep); border:1px solid var(--line);
+    border-radius:var(--radius); padding:10px 16px; margin:0 0 18px;
+    font-size:0.8rem; color:var(--ink-soft);
+  }
+  .key-bar b{ color:var(--wood-deep); }
+  .key-bar span{ display:inline-flex; align-items:center; gap:6px; }
+  .sw{ font-weight:700; font-size:0.86rem; }
+  .sw.roman{ color:var(--brass-deep); }
+  .sw.cifra{ color:var(--ink); }
+  .sw.grau{ color:var(--sage-deep); }
+  .sw.hi{ color:var(--hi); }
+
+  /* fórmulas em "fichas" */
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 16px; }
+  .chip{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    min-width:64px; padding:8px 8px 6px;
+    background:var(--sheet); border:1px solid var(--line); border-radius:6px;
+    font-family:var(--font-body);
+  }
+  .chip .r{ font-size:0.72rem; font-weight:700; color:var(--brass-deep); }
+  .chip .c{ font-family:var(--font-display); font-weight:600; font-size:1.12rem; color:var(--wood-deep); line-height:1.2; }
+  .chip .g{ font-size:0.7rem; color:var(--sage-deep); font-weight:600; }
+  .chip.changed{ border-color:var(--hi); box-shadow:inset 0 -3px 0 var(--hi); }
+  @media (max-width:520px){ .chip{ min-width:calc(25% - 6px); } }
+
+  /* partituras */
+  figure.pauta{
+    margin:22px 0; padding:14px 16px 12px;
+    background:var(--sheet); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  figure.pauta figcaption{ margin-bottom:8px; }
+  .ex-tag{
+    display:inline-block; font-size:0.7rem; font-weight:700; letter-spacing:0.04em;
+    color:var(--paper); background:var(--wood); border-radius:12px; padding:2px 9px; margin-right:6px;
+    vertical-align:2px;
+  }
+  .ex-title{ font-family:var(--font-display); font-weight:600; color:var(--wood-deep); font-size:1.04rem; }
+  .ex-how{ display:block; font-size:0.86rem; color:var(--ink-soft); margin-top:3px; }
+  figure.pauta picture, figure.pauta img{ display:block; max-width:100%; height:auto; }
+  figure.pauta img{ margin:4px 0 2px; }
+  .play-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:8px; }
+  .play-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--sage-deep); color:var(--paper); border:none;
+    padding:7px 14px; border-radius:18px; cursor:pointer;
+    font-family:var(--font-body); font-weight:600; font-size:0.8rem;
+  }
+  .play-btn:hover{ background:var(--sage); }
+  .play-btn.playing{ background:var(--rose); }
+  .play-btn.ghost{ background:none; color:var(--sage-deep); border:1px solid var(--sage); }
+  .tempo{ font-size:0.78rem; color:var(--ink-soft); display:inline-flex; align-items:center; gap:6px; }
+  .tempo select{ font-family:var(--font-body); font-size:0.8rem; background:var(--sheet); border:1px solid var(--line); border-radius:12px; padding:3px 8px; color:var(--ink); }
+
+  /* passos de estudo */
+  .steps{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .steps li{ background:var(--paper-deep); border:1px solid var(--line); border-radius:6px; padding:14px 12px; }
+  .steps .n{ font-family:var(--font-display); font-weight:700; font-size:1.5rem; color:var(--brass); line-height:1; }
+  .steps h4{ margin:6px 0 4px; font-size:0.98rem; }
+  .steps p{ margin:0; font-size:0.84rem; color:var(--ink-soft); }
+  @media (max-width:760px){ .steps{ grid-template-columns:1fr 1fr; } }
+
+  /* listas de exercício em texto (igual às outras cartilhas) */
+  .ex-list{ list-style:none; margin:0; padding:0; }
+  .ex-list li{ display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--line); }
+  .ex-list li:last-child{ border-bottom:none; }
+  .ex-list .n{
+    flex-shrink:0; width:30px; height:30px; border-radius:50%;
+    background:var(--wood-deep); color:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display); font-weight:600; font-size:0.95rem;
+  }
+  .ex-list h4{ margin:0 0 3px; font-size:1rem; }
+  .ex-list p{ margin:0; font-size:0.92rem; color:var(--ink-soft); }
+
+  /* tabelas */
+  .table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; margin:14px 0 22px; border:1px solid var(--line); border-radius:var(--radius); background:var(--sheet); }
+  table.campo{ border-collapse:collapse; width:100%; font-size:0.86rem; min-width:620px; }
+  table.campo th, table.campo td{ padding:7px 8px; border-bottom:1px solid var(--line); text-align:center; white-space:nowrap; }
+  table.campo thead th{ background:var(--paper-deep); color:var(--brass-deep); font-size:0.76rem; font-weight:700; }
+  table.campo tbody th{ text-align:left; font-family:var(--font-display); color:var(--wood-deep); font-weight:600; }
+  table.campo tbody tr:last-child td, table.campo tbody tr:last-child th{ border-bottom:none; }
+  table.campo tr.easy th::after{ content:"●"; color:var(--sage); font-size:0.6rem; margin-left:5px; vertical-align:2px; }
+  table.campo td.hl{ color:var(--hi); font-weight:600; }
+  table.simple{ border-collapse:collapse; width:100%; font-size:0.9rem; }
+  table.simple th, table.simple td{ padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+  table.simple thead th{ background:var(--paper-deep); color:var(--wood-deep); font-size:0.8rem; }
+
+  /* teste rápido */
+  .quiz{ list-style:none; margin:0; padding:0; counter-reset:q; }
+  .quiz li{ counter-increment:q; padding:10px 0; border-bottom:1px solid var(--line); font-size:0.94rem; }
+  .quiz li:last-child{ border-bottom:none; }
+  .quiz li::before{ content:counter(q) ". "; font-weight:700; color:var(--brass-deep); }
+  .quiz details{ display:inline; }
+  .quiz summary{
+    display:inline-block; cursor:pointer; list-style:none; margin-left:6px;
+    font-size:0.74rem; font-weight:600; color:var(--sage-deep);
+    border:1px solid var(--sage); border-radius:12px; padding:1px 9px;
+  }
+  .quiz summary::-webkit-details-marker{ display:none; }
+  .quiz details[open] summary{ background:var(--sage-deep); color:var(--paper); border-color:var(--sage-deep); }
+  .quiz .ans{ display:block; margin-top:6px; color:var(--sage-deep); font-weight:600; }
+
+  /* checklist da aula */
+  .checklist{ list-style:none; margin:0; padding:0; }
+  .checklist li{ padding:6px 0; }
+  .checklist label{ display:flex; gap:10px; align-items:flex-start; cursor:pointer; font-size:0.94rem; }
+  .checklist input{ width:18px; height:18px; margin-top:2px; accent-color:var(--sage-deep); flex-shrink:0; }
+  .check-progress{ font-size:0.78rem; color:var(--ink-soft); margin-top:8px; }
+
+  /* jogos */
+  .game{ background:var(--sheet); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; margin:18px 0; box-shadow:var(--shadow); }
+  .game h4{ margin:0 0 4px; font-size:1.05rem; }
+  .game p.how{ font-size:0.9rem; color:var(--ink-soft); margin:0 0 12px; }
+  .game .controls{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .game select{ font-family:var(--font-body); font-size:0.85rem; background:#fff; border:1px solid var(--line); border-radius:14px; padding:5px 10px; color:var(--ink); }
+  .game .out{
+    margin-top:14px; min-height:64px; display:flex; flex-wrap:wrap; align-items:center; gap:10px;
+    font-family:var(--font-display); font-size:1.7rem; color:var(--wood-deep); font-weight:600;
+  }
+  .game .out .small{ font-family:var(--font-body); font-size:0.9rem; color:var(--ink-soft); font-weight:500; }
+  .game .reveal{ font-family:var(--font-body); font-size:1rem; color:var(--sage-deep); font-weight:600; }
+  .game .score-line{ font-size:0.8rem; color:var(--ink-soft); margin-top:6px; }
+  .answer-btns{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .answer-btns button{ font-family:var(--font-body); font-size:0.85rem; font-weight:600; background:#fff; border:1px solid var(--line); border-radius:16px; padding:6px 12px; cursor:pointer; color:var(--wood-deep); }
+  .answer-btns button.ok{ background:var(--sage-deep); color:#fff; border-color:var(--sage-deep); }
+  .answer-btns button.no{ background:var(--rose); color:#fff; border-color:var(--rose); }
+
+  /* FAQ */
+  details.faq{ border-bottom:1px solid var(--line); padding:14px 0; }
+  details.faq summary{
+    cursor:pointer; font-family:var(--font-display); font-weight:600;
+    font-size:1.02rem; color:var(--wood-deep); list-style:none;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  details.faq summary::-webkit-details-marker{ display:none; }
+  details.faq summary::after{ content:"+"; font-size:1.3rem; color:var(--brass); font-family:var(--font-body); font-weight:400; }
+  details.faq[open] summary::after{ content:"–"; }
+  details.faq p{ margin-top:10px; font-size:0.94rem; color:var(--ink-soft); max-width:65ch; }
+
+  /* footer nav */
+  .page-footer{
+    border-top:1px solid var(--line); padding:18px 56px;
+    display:flex; justify-content:space-between; align-items:center; gap:8px;
+    background:var(--paper-deep);
+  }
+  @media (max-width:860px){ .page-footer{ padding:14px 16px; } }
+  .page-footer .prog{ font-size:0.8rem; color:var(--ink-soft); font-family:var(--font-body); text-align:center; }
+  .nav-btn{
+    background:var(--wood-deep); color:var(--paper);
+    border:none; padding:10px 18px; border-radius:20px;
+    font-family:var(--font-body); font-weight:600; font-size:0.85rem;
+    cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+  }
+  .nav-btn:disabled{ opacity:0.35; cursor:default; }
+  .nav-btn:hover:not(:disabled){ background:var(--brass); color:var(--wood-deep); }
+
+  .cover{ display:flex; flex-direction:column; align-items:flex-start; justify-content:center; min-height:50vh; }
+  .cover .big{ font-size:clamp(2.1rem, 5vw, 3.2rem); line-height:1.05; max-width:14ch; }
+  .cover > svg{ margin:0 0 22px; max-width:100%; height:auto; }
+  .credit{ font-size:0.8rem; color:var(--ink-soft); margin-top:18px; }
+
+  .nowrap{ white-space:nowrap; }
+  .mono{ font-variant-numeric:tabular-nums; }
+
+  :focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+
+  /* ---------- Impressao / PDF ---------- */
+  @media print{
+    @page{ margin:13mm 12mm; }
+    html,body{ background:#fff !important; background-image:none !important; color:#000; font-size:10.5pt; }
+    .shell{ display:block; min-height:0; }
+    .sidebar, .page-footer, .side-actions, .no-print, .play-row, .game .controls, .answer-btns{ display:none !important; }
+    main{ display:block; }
+    .content-scroll{ max-width:none; padding:0; }
+
+    /* a cartilha inteira sai numa tirada so, uma aula por pagina */
+    .chapter{ display:block !important; animation:none !important; }
+    .chapter + .chapter{ break-before:page; page-break-before:always; }
+    .cover{ min-height:0; }
+
+    figure.pauta, .card, .tip, .warn, .key-idea, .key-bar, .ex-list li, details.faq, .game, .quiz li, .steps li, .chips, .table-scroll{
+      break-inside:avoid; page-break-inside:avoid;
+    }
+    h1,h2,h3,h4{ break-after:avoid; page-break-after:avoid; }
+
+    /* economia de tinta: fundos chapados viram branco com borda */
+    .card, .key-bar, figure.pauta, .game, .steps li, .chip, .table-scroll{ background:#fff; box-shadow:none; border:1px solid #b9ab92; }
+    .key-idea{ background:#fff; color:#000; border:2px solid var(--wood-deep); box-shadow:none; }
+    .key-idea .lbl, .key-idea b{ color:var(--brass-deep); }
+    .tip, .warn{ background:#fff; }
+    figure.pauta{ padding:8px 10px; margin:12px 0; }
+    .table-scroll{ overflow:visible; }
+    table.campo{ min-width:0; font-size:8.5pt; }
+    table.campo th, table.campo td{ padding:4px 5px; }
+    .game .out{ display:none; }
+    .quiz summary{ display:none; }
+    details.faq summary::after{ content:"" !important; }
+    a{ color:#000; text-decoration:none; }
+    .checklist input{ appearance:none; -webkit-appearance:none; border:1.5px solid #555; border-radius:3px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="20" cy="20" r="19" stroke="#D8B24C" stroke-width="1.4"/>
+        <g transform="rotate(-35 20 20)">
+          <rect x="4" y="17.6" width="32" height="4.8" rx="2.4" fill="none" stroke="#D8B24C" stroke-width="1.3"/>
+          <circle cx="10" cy="20" r="1.1" fill="#D8B24C"/>
+          <circle cx="19" cy="20" r="1.1" fill="#D8B24C"/>
+          <circle cx="23.5" cy="20" r="1.1" fill="#D8B24C"/>
+          <circle cx="28" cy="20" r="1.1" fill="#D8B24C"/>
+          <circle cx="32" cy="20" r="1.1" fill="#D8B24C"/>
+        </g>
+      </svg>
+      <div class="t">Graus e Campos<small>CARTILHA DO ALUNO · FLAUTA</small></div>
+    </div>
+    <nav class="chapters" id="chapterNav" aria-label="Aulas da cartilha"></nav>
+
+    <div class="side-actions">
+      <button class="side-btn" id="btnPrint" type="button">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+          <path d="M4 6V2h8v4M4 12H2V7h12v5h-2M4 10h8v4H4z" stroke="currentColor" stroke-width="1.4"
+                stroke-linejoin="round" stroke-linecap="round"/>
+        </svg>
+        Imprimir / salvar em PDF
+      </button>
+      <p class="side-hint">
+        Imprime a cartilha <b>inteira</b>, uma aula por página.<br>
+        Navegue com <kbd>&larr;</kbd> <kbd>&rarr;</kbd>
+      </p>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main>
+    <div class="content-scroll" id="contentScroll">
+
+      <!-- 0. CAPA -->
+      <section class="chapter" data-chapter="capa">
+        <div class="cover">
+          <svg width="220" height="70" viewBox="0 0 220 70" fill="none" aria-hidden="true" focusable="false">
+            <g stroke="#8C5A2E" stroke-width="1.2" opacity="0.55">
+              <path d="M4 18h212M4 26h212M4 34h212M4 42h212M4 50h212"/>
+            </g>
+            <g fill="#4A3220">
+              <ellipse cx="30" cy="54" rx="6" ry="4.4" transform="rotate(-18 30 54)"/>
+              <ellipse cx="62" cy="46" rx="6" ry="4.4" transform="rotate(-18 62 46)"/>
+              <ellipse cx="94" cy="38" rx="6" ry="4.4" transform="rotate(-18 94 38)"/>
+              <ellipse cx="126" cy="30" rx="6" ry="4.4" transform="rotate(-18 126 30)"/>
+            </g>
+            <g stroke="#4A3220" stroke-width="1.6">
+              <path d="M35.5 52V24M67.5 44V16M99.5 36V8M131.5 28V2"/>
+              <path d="M22 54h16"/>
+            </g>
+            <g font-family="Work Sans, sans-serif" font-size="10" font-weight="700" fill="#2F5A3A" text-anchor="middle">
+              <text x="30" y="68">1</text><text x="62" y="68">3</text><text x="94" y="68">5</text><text x="126" y="68">7</text>
+            </g>
+            <rect x="146" y="20" width="66" height="26" fill="#F2E9D3"/>
+            <text x="152" y="41" font-family="Fraunces, serif" font-size="21" font-weight="600" fill="#9A6A1C">C7M</text>
+          </svg>
+          <div class="eyebrow">CARTILHA DO ALUNO · HARMONIA NA FLAUTA</div>
+          <h1 class="big">A flauta toca uma nota por vez. A harmonia, você leva na cabeça.</h1>
+          <p class="lead">Esta cartilha ensina, passo a passo, a enxergar <b>escalas, graus e acordes</b> dentro das melodias que você toca. Cada aula usa só o que você aprendeu nas anteriores — no fim, você vai ler uma cifra como <b>Dm7</b> e já saber quais notas tocar.</p>
+          <div class="tip"><b>Como usar:</b> siga as aulas na ordem. Só avance quando conseguir marcar todos os itens do <b>checklist</b> no fim de cada aula. É isso que torna o método à prova de falhas: nenhum passo fica para trás.</div>
+        </div>
+
+        <h3>Os 4 passos para estudar cada exercício</h3>
+        <ol class="steps">
+          <li><div class="n">1</div><h4>Ouça</h4><p>Aperte <b>▶ Ouvir</b> e acompanhe a partitura com os olhos.</p></li>
+          <li><div class="n">2</div><h4>Fale</h4><p>Sem a flauta, diga em voz alta a cifra e os graus: “Dó sete maior: um, três, cinco, sete”.</p></li>
+          <li><div class="n">3</div><h4>Toque</h4><p>Devagar (tempo 60), respirando na troca de acorde. Primeiro articulado, depois ligado.</p></li>
+          <li><div class="n">4</div><h4>Mude</h4><p>Toque de trás para frente, em outro tom ou com outro ritmo. Quem muda, entende.</p></li>
+        </ol>
+
+        <h3>Como ler as partituras desta cartilha</h3>
+        <div class="key-bar">
+          <span><span class="sw roman">IIm7</span> grau do acorde no campo harmônico</span>
+          <span><span class="sw cifra">Dm7</span> cifra (nome do acorde ou da nota)</span>
+          <span><span class="sw grau">1 ♭3 5 ♭7</span> função de cada nota</span>
+          <span><span class="sw hi">vermelho</span> a nota que muda ou que merece atenção</span>
+        </div>
+        <p style="font-size:0.92rem;">Para ficar na região mais confortável da flauta, os arpejos sempre começam entre o <b>Dó grave</b> e o <b>Si</b> logo acima. Por isso, em alguns campos harmônicos, um acorde “desce” uma oitava em relação ao anterior. É de propósito.</p>
+        <p class="credit">Base teórica inspirada em <i>Acordes Horizontais: formação de acordes para flauta transversal</i>, de Daniel Rebel e Carvalho (UFRJ, 2021), com conteúdo simplificado para iniciantes.</p>
+      </section>
+
+      <!-- 1. NOTAS E CIFRAS -->
+      <section class="chapter" data-chapter="notas">
+        <div class="eyebrow">AULA 1</div>
+        <h2>O nome das notas e as cifras</h2>
+        <p class="lead">Antes de falar de harmonia, precisamos de uma língua em comum. Na música popular, cada nota tem uma letra — e é com essas letras que se escrevem as cifras.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>A cifra começa no <b>Lá</b>: A, B, C, D, E, F, G. Decorando que <b>Dó = C</b>, o resto segue em ordem.</p></div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>As sete letras</h4>
+            <table class="simple">
+              <tbody>
+                <tr><th>Dó</th><td><b>C</b></td><th>Sol</th><td><b>G</b></td></tr>
+                <tr><th>Ré</th><td><b>D</b></td><th>Lá</th><td><b>A</b></td></tr>
+                <tr><th>Mi</th><td><b>E</b></td><th>Si</th><td><b>B</b></td></tr>
+                <tr><th>Fá</th><td><b>F</b></td><td></td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <h4>Os acidentes na cifra</h4>
+            <p style="font-size:0.92rem;"><b>#</b> (sustenido) sobe meio tom: <b>F#</b> = Fá sustenido.<br>
+            <b>b</b> (bemol) desce meio tom: <b>Bb</b> = Si bemol.</p>
+            <p style="font-size:0.92rem;">Tudo o que vem <b>depois</b> da letra fala do tipo de acorde: <b>m</b> = menor, <b>7</b> = sétima, <b>7M</b> = sétima maior. Isso vem na Aula 3.</p>
+          </div>
+        </div>
+
+        <figure class="pauta" data-play='{"n":[[60,1.0],[62,1.0],[64,1.0],[65,1.0],[67,1.0],[69,1.0],[71,1.0],[72,1.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 1.1</span><span class="ex-title">Letra em cima, nome embaixo</span><span class="ex-how">Toque devagar dizendo a letra de cada nota: “C, D, E…”. Depois repita dizendo o nome: “Dó, Ré, Mi…”.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex1_1.svg">
+            <img src="partituras/ex1_1.svg" width="238" height="58" style="width:89.3%" alt="Partitura — Letra em cima, nome embaixo">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[67,1.0],[76,1.0],[69,1.0],[72,1.0],[65,1.0],[74,1.0],[71,1.0],[64,1.0],[81,1.0],[62,1.0],[79,1.0],[77,1.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 1.2</span><span class="ex-title">Complete as cifras</span><span class="ex-how">Escreva a letra de cada nota no quadrinho (a lápis). Depois toque dizendo as letras. Respostas no capítulo “Respostas”.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex1_2.svg">
+            <img src="partituras/ex1_2.svg" width="337" height="51" style="width:100%" alt="Partitura — Complete as cifras">
+          </picture>
+        </figure>
+
+        <div class="game">
+          <h4>Jogo da aula: Letra-relâmpago</h4>
+          <p class="how">O professor (ou um colega) fala uma letra — “E!” — e você toca a nota o mais rápido que puder. Depois troquem de papel. Comece só com C, D, E, F e G; quando ficar fácil, inclua A e B.</p>
+        </div>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual é a letra do Sol? <details><summary>ver resposta</summary><span class="ans">G</span></details></li>
+          <li>A cifra <b>F</b> é qual nota? <details><summary>ver resposta</summary><span class="ans">Fá</span></details></li>
+          <li>Escreva em cifra: Lá, Si e Ré. <details><summary>ver resposta</summary><span class="ans">A, B e D</span></details></li>
+          <li>O que significa <b>Bb</b>? <details><summary>ver resposta</summary><span class="ans">Si bemol</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="notas">
+          <li><label><input type="checkbox"> Digo a letra de qualquer nota da 1ª oitava sem pensar.</label></li>
+          <li><label><input type="checkbox"> Sei o que é # e b numa cifra.</label></li>
+          <li><label><input type="checkbox"> Completei o Exercício 1.2 sem erros.</label></li>
+        </ul>
+      </section>
+
+      <!-- 2. ESCALA MAIOR E GRAUS -->
+      <section class="chapter" data-chapter="escala">
+        <div class="eyebrow">AULA 2</div>
+        <h2>A escala maior e os graus</h2>
+        <p class="lead">Uma escala é uma escada de sete notas. Cada degrau ganha um número — o <b>grau</b>. Pensar em números em vez de notas é o segredo para tocar em qualquer tom.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>Toda escala maior segue a mesma receita de distâncias: <b>tom, tom, semitom, tom, tom, tom, semitom</b>. Mudou a primeira nota, a receita continua igual.</p></div>
+
+        <div class="chips">
+          <div class="chip"><span class="c">1</span><span class="g">C</span></div>
+          <div class="chip"><span class="r">tom</span><span class="c">2</span><span class="g">D</span></div>
+          <div class="chip"><span class="r">tom</span><span class="c">3</span><span class="g">E</span></div>
+          <div class="chip changed"><span class="r">semitom</span><span class="c">4</span><span class="g">F</span></div>
+          <div class="chip"><span class="r">tom</span><span class="c">5</span><span class="g">G</span></div>
+          <div class="chip"><span class="r">tom</span><span class="c">6</span><span class="g">A</span></div>
+          <div class="chip"><span class="r">tom</span><span class="c">7</span><span class="g">B</span></div>
+          <div class="chip changed"><span class="r">semitom</span><span class="c">1</span><span class="g">C</span></div>
+        </div>
+        <p style="font-size:0.92rem;">Os semitons ficam sempre <b>entre o 3 e o 4</b> e <b>entre o 7 e o 1</b>. Depois do 7, a contagem volta para o 1 — o Dó agudo também é grau 1.</p>
+
+        <figure class="pauta" data-play='{"n":[[60,1.0],[62,1.0],[64,1.0],[65,1.0],[67,1.0],[69,1.0],[71,1.0],[72,1.0],[71,1.0],[69,1.0],[67,1.0],[65,1.0],[64,1.0],[62,1.0],[60,2.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 2.1</span><span class="ex-title">Escala de Dó maior com os graus</span><span class="ex-how">Suba dizendo os números, desça dizendo os números. Depois toque só pensando nos números, sem falar.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex2_1.svg">
+            <img src="partituras/ex2_1.svg" width="419" height="58" style="width:100%" alt="Partitura — Escala de Dó maior com os graus">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[60,1.0],[62,1.0],[64,1.0],[60,1.0],[62,1.0],[64,1.0],[65,1.0],[62,1.0],[64,1.0],[65,1.0],[67,1.0],[64,1.0],[65,1.0],[67,1.0],[69,1.0],[65,1.0],[67,1.0],[69,1.0],[71,1.0],[67,1.0],[69,1.0],[71,1.0],[72,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[71,1.0],[72,4.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 2.2</span><span class="ex-title">Grupos “1-2-3-1”</span><span class="ex-how">O mesmo desenho começa em cada grau da escala. Diga os números em voz alta na primeira vez.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex2_2.svg">
+            <img src="partituras/ex2_2.svg" width="477" height="113" style="width:100%" alt="Partitura — Grupos “1-2-3-1”">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[62,1.0],[65,1.0],[64,1.0],[67,1.0],[65,1.0],[69,1.0],[67,1.0],[71,1.0],[69,1.0],[72,1.0],[71,1.0],[74,1.0],[72,2.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 2.3</span><span class="ex-title">Pula-uma (terças)</span><span class="ex-how">Toque uma nota, pule a vizinha, toque a seguinte: 1-3, 2-4, 3-5… Guarde bem este movimento: é assim que nascem os acordes na próxima aula.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex2_3.svg">
+            <img src="partituras/ex2_3.svg" width="477" height="113" style="width:100%" alt="Partitura — Pula-uma (terças)">
+          </picture>
+        </figure>
+
+        <h3>A mesma receita em outros tons</h3>
+        <p style="font-size:0.92rem;">Em Sol maior, para o semitom cair entre o 7 e o 1, o Fá precisa subir: <b>F#</b>. Em Fá maior, para o semitom cair entre o 3 e o 4, o Si precisa descer: <b>Bb</b>. A armadura de clave já avisa isso no começo da pauta.</p>
+
+        <figure class="pauta" data-play='{"n":[[67,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[78,1.0],[79,1.0],[78,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,1.0],[67,2.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 2.4a</span><span class="ex-title">Sol maior (G) — um sustenido: F#</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex2_4g.svg">
+            <img src="partituras/ex2_4g.svg" width="424" height="57" style="width:100%" alt="Partitura — Sol maior (G) — um sustenido: F#">
+          </picture>
+        </figure>
+        <figure class="pauta" data-play='{"n":[[65,1.0],[67,1.0],[69,1.0],[70,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[76,1.0],[74,1.0],[72,1.0],[70,1.0],[69,1.0],[67,1.0],[65,2.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 2.4b</span><span class="ex-title">Fá maior (F) — um bemol: Bb</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex2_4f.svg">
+            <img src="partituras/ex2_4f.svg" width="423" height="56" style="width:100%" alt="Partitura — Fá maior (F) — um bemol: Bb">
+          </picture>
+        </figure>
+        <figure class="pauta" data-play='{"n":[[62,1.0],[64,1.0],[66,1.0],[67,1.0],[69,1.0],[71,1.0],[73,1.0],[74,1.0],[73,1.0],[71,1.0],[69,1.0],[67,1.0],[66,1.0],[64,1.0],[62,2.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 2.4c</span><span class="ex-title">Ré maior (D) — dois sustenidos: F# e C#</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex2_4d.svg">
+            <img src="partituras/ex2_4d.svg" width="431" height="57" style="width:100%" alt="Partitura — Ré maior (D) — dois sustenidos: F# e C#">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[74,1.0],[71,1.0],[67,1.0],[78,1.0],[72,1.0],[69,1.0],[76,1.0],[79,1.0],[62,1.0],[66,1.0],[71,1.0],[64,1.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 2.5</span><span class="ex-title">Descubra o grau em Sol maior</span><span class="ex-how">As notas estão fora de ordem. Escreva no quadrinho qual é o grau de cada uma na escala de Sol maior.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex2_5.svg">
+            <img src="partituras/ex2_5.svg" width="345" height="62" style="width:100%" alt="Partitura — Descubra o grau em Sol maior">
+          </picture>
+        </figure>
+
+        <div class="game">
+          <h4>Jogo da aula: Telefone musical</h4>
+          <p class="how">Um “número de telefone” é uma sequência de graus. O professor dita, você toca na escala do dia. Exemplo em Dó: <b>5-3-1</b> e <b>1-3-5-1</b>. No capítulo <a href="#jogos">Jogos</a> há um gerador de números para treinar sozinho.</p>
+        </div>
+        <figure class="pauta" data-play='{"n":[[67,1.0],[64,1.0],[60,1.0],[0,1.0],[60,1.0],[64,1.0],[67,1.0],[72,1.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exemplo</span><span class="ex-title">“5-3-1” e “1-3-5-1” em Dó maior</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex2_6.svg">
+            <img src="partituras/ex2_6.svg" width="236" height="56" style="width:65.5%" alt="Partitura — “5-3-1” e “1-3-5-1” em Dó maior">
+          </picture>
+        </figure>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual é a receita da escala maior? <details><summary>ver resposta</summary><span class="ans">T – T – St – T – T – T – St</span></details></li>
+          <li>Em Sol maior, qual nota é o grau 7? <details><summary>ver resposta</summary><span class="ans">F# (Fá sustenido)</span></details></li>
+          <li>Em Fá maior, qual é o grau do Bb? <details><summary>ver resposta</summary><span class="ans">Grau 4</span></details></li>
+          <li>Qual nota é o grau 5 de Ré maior? <details><summary>ver resposta</summary><span class="ans">A (Lá)</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="escala">
+          <li><label><input type="checkbox"> Toco as escalas de C, G, F e D dizendo os graus.</label></li>
+          <li><label><input type="checkbox"> Sei onde ficam os dois semitons da escala maior.</label></li>
+          <li><label><input type="checkbox"> Toco um “número de telefone” em Dó sem errar.</label></li>
+        </ul>
+      </section>
+
+      <!-- 3. COMO NASCE UM ACORDE -->
+      <section class="chapter" data-chapter="acordes">
+        <div class="eyebrow">AULA 3</div>
+        <h2>Como nasce um acorde</h2>
+        <p class="lead">Na flauta, um acorde é tocado nota por nota — um <b>arpejo</b>. Seu ouvido junta as notas e escuta a harmonia. Para montar um acorde, basta a regra do “pula-uma”.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>Pule uma nota, pegue a seguinte. Três notas = <b>tríade (1-3-5)</b>. Quatro notas = <b>tétrade (1-3-5-7)</b>.</p></div>
+
+        <h3>Os tipos de tríade</h3>
+        <div class="table-scroll" style="background:var(--sheet);">
+          <table class="simple">
+            <thead><tr><th>Cifra</th><th>Nome</th><th>Graus</th><th>Em Dó</th><th>Som</th></tr></thead>
+            <tbody>
+              <tr><td><b>C</b></td><td>maior</td><td>1 3 5</td><td>C E G</td><td>alegre, estável</td></tr>
+              <tr><td><b>Cm</b></td><td>menor</td><td>1 ♭3 5</td><td>C E♭ G</td><td>triste, suave</td></tr>
+              <tr><td><b>C°</b></td><td>diminuta</td><td>1 ♭3 ♭5</td><td>C E♭ G♭</td><td>tenso, instável</td></tr>
+              <tr><td><b>C(#5)</b></td><td>aumentada</td><td>1 3 #5</td><td>C E G#</td><td>misterioso</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[60,1.0],[63,1.0],[67,1.0],[60,1.0],[63,1.0],[66,1.0],[60,1.0],[64,1.0],[68,1.0]],"p":[[0.0,[48,52,55],3.0],[3.0,[48,51,55],3.0],[6.0,[48,51,54],3.0],[9.0,[48,52,56],3.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 3.1</span><span class="ex-title">As quatro tríades de Dó</span><span class="ex-how">Repare: só uma nota muda de um acorde para o outro. Ouça a diferença antes de tocar.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex3_1.svg">
+            <img src="partituras/ex3_1.svg" width="349" height="58" style="width:77.4%" alt="Partitura — As quatro tríades de Dó">
+          </picture>
+        </figure>
+
+        <h3>As tétrades que vamos usar</h3>
+        <div class="table-scroll" style="background:var(--sheet);">
+          <table class="simple">
+            <thead><tr><th>Cifra</th><th>Nome</th><th>Graus</th><th>Em Dó</th><th>Onde aparece</th></tr></thead>
+            <tbody>
+              <tr><td><b>C7M</b></td><td>maior com sétima maior</td><td>1 3 5 7</td><td>C E G B</td><td>campo maior e menores</td></tr>
+              <tr><td><b>C7</b></td><td>maior com sétima (dominante)</td><td>1 3 5 ♭7</td><td>C E G B♭</td><td>todos os campos</td></tr>
+              <tr><td><b>Cm7</b></td><td>menor com sétima</td><td>1 ♭3 5 ♭7</td><td>C E♭ G B♭</td><td>campo maior e menores</td></tr>
+              <tr><td><b>Cm7(b5)</b></td><td>meio-diminuto</td><td>1 ♭3 ♭5 ♭7</td><td>C E♭ G♭ B♭</td><td>todos os campos</td></tr>
+              <tr><td><b>C°</b></td><td>diminuto</td><td>1 ♭3 ♭5 𝄫7</td><td>C E♭ G♭ B𝄫</td><td>menor harmônica</td></tr>
+              <tr><td><b>Cm7M</b></td><td>menor com sétima maior</td><td>1 ♭3 5 7</td><td>C E♭ G B</td><td>menor harmônica e melódica</td></tr>
+              <tr><td><b>C7M(#5)</b></td><td>aumentado com sétima maior</td><td>1 3 #5 7</td><td>C E G# B</td><td>menor harmônica e melódica</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.9rem;">Não precisa decorar a tabela inteira agora. As quatro primeiras aparecem já na próxima aula; as outras três só nas aulas de escalas menores.</p>
+
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[60,1.0],[64,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[69,1.0],[60,1.0],[63,1.0],[67,1.0],[71,1.0],[60,1.0],[64,1.0],[68,1.0],[71,1.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[48,52,55,58],4.0],[8.0,[48,51,55,58],4.0],[12.0,[48,51,54,58],4.0],[16.0,[48,51,54,57],4.0],[20.0,[48,51,55,59],4.0],[24.0,[48,52,56,59],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 3.2</span><span class="ex-title">As sete tétrades a partir do Dó</span><span class="ex-how">Diga a cifra antes de cada compasso. Ouça como cada tipo tem uma “cor” própria.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex3_2.svg">
+            <img src="partituras/ex3_2.svg" width="477" height="113" style="width:100%" alt="Partitura — As sete tétrades a partir do Dó">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[60,1.0],[64,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[69,1.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[48,52,55,58],4.0],[8.0,[48,51,55,58],4.0],[12.0,[48,51,54,58],4.0],[16.0,[48,51,54,57],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 3.3</span><span class="ex-title">Troca-troca: uma nota por vez</span><span class="ex-how">De C7M até C°, a cada compasso só uma nota desce meio tom (em vermelho). Este é o exercício mais importante da aula: toque até conseguir sem olhar. (Bbb = Si dobrado bemol, soa como Lá.)</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex3_3.svg">
+            <img src="partituras/ex3_3.svg" width="477" height="109" style="width:100%" alt="Partitura — Troca-troca: uma nota por vez">
+          </picture>
+        </figure>
+
+        <div class="game">
+          <h4>Jogo da aula: Detetive do ouvido</h4>
+          <p class="how">Maior, menor, diminuto ou aumentado? No capítulo <a href="#jogos">Jogos</a> a cartilha toca uma tríade e você adivinha o tipo. Faça pelo menos 10 rodadas por dia nesta semana.</p>
+        </div>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Quais graus formam uma tríade maior? <details><summary>ver resposta</summary><span class="ans">1, 3 e 5</span></details></li>
+          <li>Qual a diferença entre C7M e C7? <details><summary>ver resposta</summary><span class="ans">A sétima: no C7M é Si (7), no C7 é Si bemol (♭7).</span></details></li>
+          <li>Quais são as notas do Dm7? <details><summary>ver resposta</summary><span class="ans">D, F, A e C (1 ♭3 5 ♭7)</span></details></li>
+          <li>Qual acorde tem os graus 1 ♭3 ♭5 ♭7? <details><summary>ver resposta</summary><span class="ans">O meio-diminuto: m7(b5)</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="acordes">
+          <li><label><input type="checkbox"> Monto qualquer tríade e tétrade de Dó pelo “pula-uma”.</label></li>
+          <li><label><input type="checkbox"> Toco o Troca-troca (Exercício 3.3) sem olhar.</label></li>
+          <li><label><input type="checkbox"> Distingo de ouvido um acorde maior de um menor.</label></li>
+        </ul>
+      </section>
+
+      <!-- 4. CAMPO HARMÔNICO MAIOR -->
+      <section class="chapter" data-chapter="campo-maior">
+        <div class="eyebrow">AULA 4</div>
+        <h2>O campo harmônico maior</h2>
+        <p class="lead">Agora juntamos as duas aulas anteriores: aplicamos o “pula-uma” em cada grau da escala maior, usando só as notas da escala. Os sete acordes que surgem formam o <b>campo harmônico</b> — a “família” de acordes daquele tom.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>Em qualquer tom maior, a sequência é sempre a mesma: <b>7M · m7 · m7 · 7M · 7 · m7 · m7(b5)</b>. Decore como um número de telefone.</p></div>
+
+        <div class="chips">
+        <div class="chip"><span class="r">I7M</span><span class="c">C7M</span><span class="g">C E G B</span></div>
+        <div class="chip"><span class="r">IIm7</span><span class="c">Dm7</span><span class="g">D F A C</span></div>
+        <div class="chip"><span class="r">IIIm7</span><span class="c">Em7</span><span class="g">E G B D</span></div>
+        <div class="chip"><span class="r">IV7M</span><span class="c">F7M</span><span class="g">F A C E</span></div>
+        <div class="chip"><span class="r">V7</span><span class="c">G7</span><span class="g">G B D F</span></div>
+        <div class="chip"><span class="r">VIm7</span><span class="c">Am7</span><span class="g">A C E G</span></div>
+        <div class="chip"><span class="r">VIIm7(b5)</span><span class="c">Bm7(b5)</span><span class="g">B D F A</span></div>
+        </div>
+        <p style="font-size:0.92rem;">Com tríades, a fórmula fica ainda mais curta: <b>maior · menor · menor · maior · maior · menor · diminuto</b>.</p>
+
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[62,1.0],[65,1.0],[69,1.0],[64,1.0],[67,1.0],[71,1.0],[65,1.0],[69,1.0],[72,1.0],[67,1.0],[71,1.0],[74,1.0],[69,1.0],[72,1.0],[76,1.0],[71,1.0],[74,1.0],[77,1.0],[60,1.0],[64,1.0],[67,1.0]],"p":[[0.0,[48,52,55],3.0],[3.0,[50,53,57],3.0],[6.0,[52,55,59],3.0],[9.0,[53,57,60],3.0],[12.0,[55,59,62],3.0],[15.0,[57,60,64],3.0],[18.0,[59,62,65],3.0],[21.0,[48,52,55],3.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 4.1</span><span class="ex-title">Tríades do campo de Dó maior</span><span class="ex-how">Diga o grau romano e a cifra antes de cada compasso: “um, Dó” — “dois menor, Ré menor”…</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex4_1.svg">
+            <img src="partituras/ex4_1.svg" width="477" height="133" style="width:100%" alt="Partitura — Tríades do campo de Dó maior">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[64,1.0],[67,1.0],[71,1.0],[74,1.0],[65,1.0],[69,1.0],[72,1.0],[76,1.0],[67,1.0],[71,1.0],[74,1.0],[77,1.0],[69,1.0],[72,1.0],[76,1.0],[79,1.0],[71,1.0],[74,1.0],[77,1.0],[81,1.0],[60,1.0],[64,1.0],[67,1.0],[71,1.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[50,53,57,60],4.0],[8.0,[52,55,59,62],4.0],[12.0,[53,57,60,64],4.0],[16.0,[55,59,62,65],4.0],[20.0,[57,60,64,67],4.0],[24.0,[59,62,65,69],4.0],[28.0,[48,52,55,59],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 4.2</span><span class="ex-title">Tétrades do campo de Dó maior</span><span class="ex-how">O coração do método. Toque todos os dias até sair de memória.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex4_2.svg">
+            <img src="partituras/ex4_2.svg" width="477" height="137" style="width:100%" alt="Partitura — Tétrades do campo de Dó maior">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[60,0.5],[64,0.5],[67,0.5],[71,0.5],[67,0.5],[64,0.5],[62,0.5],[65,0.5],[69,0.5],[72,0.5],[69,0.5],[65,0.5],[64,0.5],[67,0.5],[71,0.5],[74,0.5],[71,0.5],[67,0.5],[65,0.5],[69,0.5],[72,0.5],[76,0.5],[72,0.5],[69,0.5],[67,0.5],[71,0.5],[74,0.5],[77,0.5],[74,0.5],[71,0.5],[69,0.5],[72,0.5],[76,0.5],[79,0.5],[76,0.5],[72,0.5],[71,0.5],[74,0.5],[77,0.5],[81,0.5],[77,0.5],[74,0.5],[60,0.5],[64,0.5],[67,0.5],[71,0.5],[67,0.5],[64,0.5]],"p":[[0.0,[48,52,55,59],3.0],[3.0,[50,53,57,60],3.0],[6.0,[52,55,59,62],3.0],[9.0,[53,57,60,64],3.0],[12.0,[55,59,62,65],3.0],[15.0,[57,60,64,67],3.0],[18.0,[59,62,65,69],3.0],[21.0,[48,52,55,59],3.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 4.3</span><span class="ex-title">Sobe e desce (1-3-5-7-5-3)</span><span class="ex-how">Em colcheias. Comece bem devagar e respire a cada dois compassos.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex4_3.svg">
+            <img src="partituras/ex4_3.svg" width="477" height="150" style="width:100%" alt="Partitura — Sobe e desce (1-3-5-7-5-3)">
+          </picture>
+        </figure>
+
+        <h3>Mesma fórmula, outros tons</h3>
+        <figure class="pauta" data-play='{"n":[[78,1.0],[74,1.0],[71,1.0],[67,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[81,1.0],[78,1.0],[74,1.0],[71,1.0],[71,1.0],[67,1.0],[64,1.0],[60,1.0],[72,1.0],[69,1.0],[66,1.0],[62,1.0],[74,1.0],[71,1.0],[67,1.0],[64,1.0],[76,1.0],[72,1.0],[69,1.0],[66,1.0],[78,1.0],[74,1.0],[71,1.0],[67,1.0]],"p":[[0.0,[55,59,62,66],4.0],[4.0,[57,60,64,67],4.0],[8.0,[59,62,66,69],4.0],[12.0,[48,52,55,59],4.0],[16.0,[50,54,57,60],4.0],[20.0,[52,55,59,62],4.0],[24.0,[54,57,60,64],4.0],[28.0,[55,59,62,66],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 4.4</span><span class="ex-title">Sol maior, descendo (7-5-3-1)</span><span class="ex-how">Agora o arpejo começa pela sétima. Pense no grau antes de pensar na nota.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex4_4.svg">
+            <img src="partituras/ex4_4.svg" width="477" height="139" style="width:100%" alt="Partitura — Sol maior, descendo (7-5-3-1)">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[65,1.0],[72,1.0],[69,1.0],[76,1.0],[67,1.0],[74,1.0],[70,1.0],[77,1.0],[69,1.0],[76,1.0],[72,1.0],[79,1.0],[70,1.0],[77,1.0],[74,1.0],[81,1.0],[60,1.0],[67,1.0],[64,1.0],[70,1.0],[62,1.0],[69,1.0],[65,1.0],[72,1.0],[64,1.0],[70,1.0],[67,1.0],[74,1.0],[65,1.0],[72,1.0],[69,1.0],[76,1.0]],"p":[[0.0,[53,57,60,64],4.0],[4.0,[55,58,62,65],4.0],[8.0,[57,60,64,67],4.0],[12.0,[58,62,65,69],4.0],[16.0,[48,52,55,58],4.0],[20.0,[50,53,57,60],4.0],[24.0,[52,55,58,62],4.0],[28.0,[53,57,60,64],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 4.5</span><span class="ex-title">Fá maior, salteado (1-5-3-7)</span><span class="ex-how">O desenho muda, o acorde é o mesmo. Ouça como o campo continua reconhecível.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex4_5.svg">
+            <img src="partituras/ex4_5.svg" width="477" height="141" style="width:100%" alt="Partitura — Fá maior, salteado (1-5-3-7)">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0]],"p":[[0.0,[50,54,57,61],4.0],[4.0,[52,55,59,62],4.0],[8.0,[54,57,61,64],4.0],[12.0,[55,59,62,66],4.0],[16.0,[57,61,64,67],4.0],[20.0,[59,62,66,69],4.0],[24.0,[49,52,55,59],4.0],[28.0,[50,54,57,61],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 4.6</span><span class="ex-title">Escreva o campo de Ré maior</span><span class="ex-how">Só as cifras estão dadas. Escreva as quatro notas de cada acorde (1-3-5-7) com a armadura de Ré maior. Use ▶ Ouvir para escutar a base enquanto escreve.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex4_6.svg">
+            <img src="partituras/ex4_6.svg" width="477" height="108" style="width:100%" alt="Partitura — Escreva o campo de Ré maior">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[63,1.0],[67,1.0],[70,1.0],[74,1.0],[70,1.0],[74,1.0],[77,1.0],[81,1.0],[65,1.0],[69,1.0],[72,1.0],[75,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[67,1.0],[70,1.0],[74,1.0],[77,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[69,1.0],[72,1.0],[75,1.0],[79,1.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 4.7</span><span class="ex-title">Detetive de cifras em Si bemol maior</span><span class="ex-how">Os arpejos estão fora de ordem. Escreva o grau romano (quadrinho de cima) e a cifra (de baixo). Dica: comece encontrando o 7 (acorde dominante).</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex4_7.svg">
+            <img src="partituras/ex4_7.svg" width="477" height="160" style="width:100%" alt="Partitura — Detetive de cifras em Si bemol maior">
+          </picture>
+        </figure>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual é a fórmula das tétrades do campo maior? <details><summary>ver resposta</summary><span class="ans">I7M – IIm7 – IIIm7 – IV7M – V7 – VIm7 – VIIm7(b5)</span></details></li>
+          <li>Qual é o V7 de Sol maior? <details><summary>ver resposta</summary><span class="ans">D7</span></details></li>
+          <li>Em Fá maior, qual é o IIm7? <details><summary>ver resposta</summary><span class="ans">Gm7</span></details></li>
+          <li>Qual grau é o único acorde “7” (dominante) do campo maior? <details><summary>ver resposta</summary><span class="ans">O V (quinto grau)</span></details></li>
+          <li>Bm7(b5) é qual grau em Dó maior? <details><summary>ver resposta</summary><span class="ans">VIIm7(b5)</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="campo-maior">
+          <li><label><input type="checkbox"> Recito a fórmula do campo maior sem olhar.</label></li>
+          <li><label><input type="checkbox"> Toco o Exercício 4.2 de memória.</label></li>
+          <li><label><input type="checkbox"> Escrevi o campo de Ré maior (4.6) e conferi nas respostas.</label></li>
+          <li><label><input type="checkbox"> Digo os sete acordes de C, G e F em menos de 15 segundos cada.</label></li>
+        </ul>
+      </section>
+
+      <!-- 5. PROGRESSÕES -->
+      <section class="chapter" data-chapter="progressoes">
+        <div class="eyebrow">AULA 5</div>
+        <h2>Graus em ação: progressões e cadências</h2>
+        <p class="lead">As músicas não tocam o campo em ordem: escolhem alguns graus e fazem um caminho. Como você já pensa em números, uma progressão como <b>I – VI – II – V</b> serve para qualquer tom.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>A <b>7ª</b> de um acorde costuma descer meio tom ou um tom para a <b>3ª</b> do acorde seguinte. Essas são as <b>notas-guia</b>: tocando só elas, a harmonia já aparece.</p></div>
+
+        <div class="grid-3">
+          <div class="card"><h4>I – VIm – IIm – V7</h4><p style="font-size:0.9rem;">A “volta” clássica do samba, da bossa e do pop antigo.<br><b>Dó:</b> C7M – Am7 – Dm7 – G7</p></div>
+          <div class="card"><h4>I – IV – V7 – I</h4><p style="font-size:0.9rem;">A base de choro, forró e rock.<br><b>Sol:</b> G7M – C7M – D7 – G7M</p></div>
+          <div class="card"><h4>IIm7 – V7 – I7M</h4><p style="font-size:0.9rem;">O “dois-cinco-um”, a cadência mais usada do jazz e da MPB.<br><b>Dó:</b> Dm7 – G7 – C7M</p></div>
+        </div>
+
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[77,1.0],[74,1.0],[71,1.0],[67,1.0],[60,1.0],[64,1.0],[67,1.0],[71,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[77,1.0],[74,1.0],[71,1.0],[67,1.0],[60,4.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[57,60,64,67],4.0],[8.0,[50,53,57,60],4.0],[12.0,[55,59,62,65],4.0],[16.0,[48,52,55,59],4.0],[20.0,[57,60,64,67],4.0],[24.0,[50,53,57,60],4.0],[28.0,[55,59,62,65],4.0],[32.0,[48,52,55,59],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 5.1</span><span class="ex-title">I – VIm – IIm – V7 em Dó, em zigue-zague</span><span class="ex-how">Um acorde sobe, o seguinte desce. Assim as notas ficam perto umas das outras e a melodia fica mais bonita.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex5_1.svg">
+            <img src="partituras/ex5_1.svg" width="477" height="138" style="width:100%" alt="Partitura — I – VIm – IIm – V7 em Dó, em zigue-zague">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[67,1.0],[71,1.0],[74,1.0],[78,1.0],[71,1.0],[67,1.0],[64,1.0],[60,1.0],[62,1.0],[66,1.0],[69,1.0],[72,1.0],[78,1.0],[74,1.0],[71,1.0],[67,1.0],[67,4.0]],"p":[[0.0,[55,59,62,66],4.0],[4.0,[48,52,55,59],4.0],[8.0,[50,54,57,60],4.0],[12.0,[55,59,62,66],4.0],[16.0,[55,59,62,66],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 5.2</span><span class="ex-title">I – IV – V7 – I em Sol maior</span><span class="ex-how">Mesmo zigue-zague, outro tom e outra progressão.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex5_2.svg">
+            <img src="partituras/ex5_2.svg" width="477" height="124" style="width:100%" alt="Partitura — I – IV – V7 – I em Sol maior">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[62,1.0],[65,1.0],[69,1.0],[72,1.0],[71,1.0],[67,1.0],[62,1.0],[65,1.0],[64,1.0],[67,1.0],[71,2.0],[72,4.0]],"p":[[0.0,[50,53,57,60],4.0],[4.0,[55,59,62,65],4.0],[8.0,[48,52,55,59],8.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 5.3</span><span class="ex-title">Frase no II – V – I com notas-guia</span><span class="ex-how">As notas em vermelho mostram o caminho 7ª → 3ª: Dó (♭7 de Dm7) → Si (3 de G7) e Fá (♭7 de G7) → Mi (3 de C7M).</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex5_3.svg">
+            <img src="partituras/ex5_3.svg" width="370" height="63" style="width:89.3%" alt="Partitura — Frase no II – V – I com notas-guia">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[64,2.0],[67,2.0],[69,2.0],[72,2.0],[74,2.0],[69,2.0],[71,2.0],[74,2.0],[72,4.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[57,60,64,67],4.0],[8.0,[50,53,57,60],4.0],[12.0,[55,59,62,65],4.0],[16.0,[48,52,55,59],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 5.4</span><span class="ex-title">Improviso de duas notas (exemplo)</span><span class="ex-how">Em cada acorde, apenas duas notas longas do arpejo. Simples, mas já é um improviso que “conversa” com a harmonia.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex5_4.svg">
+            <img src="partituras/ex5_4.svg" width="347" height="68" style="width:100%" alt="Partitura — Improviso de duas notas (exemplo)">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[57,60,64,67],4.0],[8.0,[50,53,57,60],4.0],[12.0,[55,59,62,65],4.0],[16.0,[48,52,55,59],4.0],[20.0,[57,60,64,67],4.0],[24.0,[50,53,57,60],4.0],[28.0,[55,59,62,65],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 5.5</span><span class="ex-title">Agora é a sua vez</span><span class="ex-how">Aperte ▶ Ouvir para tocar a base em repetição e improvise usando só as notas 1, 3, 5 e 7 de cada acorde. Depois escreva a sua melhor versão na pauta.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex5_5.svg">
+            <img src="partituras/ex5_5.svg" width="477" height="100" style="width:100%" alt="Partitura — Agora é a sua vez">
+          </picture>
+        </figure>
+
+        <div class="game">
+          <h4>Jogo da aula: Dado harmônico</h4>
+          <p class="how">No capítulo <a href="#jogos">Jogos</a>, o dado sorteia quatro graus (por exemplo, <b>I – IIIm7 – IV7M – V7</b>). Descubra as cifras no tom escolhido e toque os arpejos em zigue-zague.</p>
+        </div>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual é o II – V – I de Fá maior? <details><summary>ver resposta</summary><span class="ans">Gm7 – C7 – F7M</span></details></li>
+          <li>No Dm7 → G7, a nota Dó (♭7 de Dm7) caminha para qual nota do G7? <details><summary>ver resposta</summary><span class="ans">Si — a 3ª do G7</span></details></li>
+          <li>Escreva I – VIm – IIm – V7 em Sol maior. <details><summary>ver resposta</summary><span class="ans">G7M – Em7 – Am7 – D7</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="progressoes">
+          <li><label><input type="checkbox"> Toco I – VIm – IIm – V7 em Dó e em Sol, em zigue-zague.</label></li>
+          <li><label><input type="checkbox"> Sei achar as notas-guia (7ª → 3ª) num II – V – I.</label></li>
+          <li><label><input type="checkbox"> Improvisei sobre a base do Exercício 5.5 por 2 minutos sem parar.</label></li>
+        </ul>
+      </section>
+
+      <!-- 6. MENOR NATURAL -->
+      <section class="chapter" data-chapter="menor-natural">
+        <div class="eyebrow">AULA 6</div>
+        <h2>O campo harmônico menor natural</h2>
+        <p class="lead">Toda escala maior tem uma “irmã” menor, chamada <b>relativa</b>. Ela usa exatamente as mesmas notas, só que começa no <b>6º grau</b>. Dó maior e Lá menor são relativas.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>O campo de Lá menor é o campo de Dó maior <b>começando pelo Am7</b>. Mesmos acordes, outra ordem, outra “casa”.</p></div>
+
+        <div class="table-scroll">
+          <table class="campo">
+            <thead><tr><th></th><th>I</th><th>II</th><th>III</th><th>IV</th><th>V</th><th>VI</th><th>VII</th></tr></thead>
+            <tbody>
+              <tr><th>Dó maior</th><td>C7M</td><td>Dm7</td><td>Em7</td><td>F7M</td><td>G7</td><td class="hl">Am7</td><td>Bm7(b5)</td></tr>
+              <tr><th>Lá menor</th><td class="hl">Am7</td><td>Bm7(b5)</td><td>C7M</td><td>Dm7</td><td>Em7</td><td>F7M</td><td>G7</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.92rem;">Comparada com a escala maior do mesmo tom, a menor natural tem três graus abaixados: <b>1 · 2 · ♭3 · 4 · 5 · ♭6 · ♭7</b>. Por isso os numerais romanos ganham bemol: ♭III, ♭VI, ♭VII.</p>
+
+        <div class="chips">
+        <div class="chip"><span class="r">Im7</span><span class="c">Am7</span><span class="g">A C E G</span></div>
+        <div class="chip"><span class="r">IIm7(b5)</span><span class="c">Bm7(b5)</span><span class="g">B D F A</span></div>
+        <div class="chip"><span class="r">♭III7M</span><span class="c">C7M</span><span class="g">C E G B</span></div>
+        <div class="chip"><span class="r">IVm7</span><span class="c">Dm7</span><span class="g">D F A C</span></div>
+        <div class="chip"><span class="r">Vm7</span><span class="c">Em7</span><span class="g">E G B D</span></div>
+        <div class="chip"><span class="r">♭VI7M</span><span class="c">F7M</span><span class="g">F A C E</span></div>
+        <div class="chip"><span class="r">♭VII7</span><span class="c">G7</span><span class="g">G B D F</span></div>
+        </div>
+
+        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[79,1.0],[81,1.0],[79,1.0],[77,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,2.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 6.1</span><span class="ex-title">Escala de Lá menor natural com os graus</span><span class="ex-how">Mesmas notas de Dó maior. Ouça como o “ponto de repouso” agora é o Lá.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex6_1.svg">
+            <img src="partituras/ex6_1.svg" width="417" height="59" style="width:100%" alt="Partitura — Escala de Lá menor natural com os graus">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[71,1.0],[74,1.0],[77,1.0],[60,1.0],[64,1.0],[67,1.0],[62,1.0],[65,1.0],[69,1.0],[64,1.0],[67,1.0],[71,1.0],[65,1.0],[69,1.0],[72,1.0],[67,1.0],[71,1.0],[74,1.0],[69,1.0],[72,1.0],[76,1.0]],"p":[[0.0,[57,60,64],3.0],[3.0,[59,62,65],3.0],[6.0,[48,52,55],3.0],[9.0,[50,53,57],3.0],[12.0,[52,55,59],3.0],[15.0,[53,57,60],3.0],[18.0,[55,59,62],3.0],[21.0,[57,60,64],3.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 6.2</span><span class="ex-title">Tríades do campo de Lá menor natural</span><span class="ex-how">Fórmula das tríades: menor · diminuto · maior · menor · menor · maior · maior.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex6_2.svg">
+            <img src="partituras/ex6_2.svg" width="477" height="139" style="width:100%" alt="Partitura — Tríades do campo de Lá menor natural">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[79,1.0],[71,1.0],[74,1.0],[77,1.0],[81,1.0],[60,1.0],[64,1.0],[67,1.0],[71,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[64,1.0],[67,1.0],[71,1.0],[74,1.0],[65,1.0],[69,1.0],[72,1.0],[76,1.0],[67,1.0],[71,1.0],[74,1.0],[77,1.0],[69,1.0],[72,1.0],[76,1.0],[79,1.0]],"p":[[0.0,[57,60,64,67],4.0],[4.0,[59,62,65,69],4.0],[8.0,[48,52,55,59],4.0],[12.0,[50,53,57,60],4.0],[16.0,[52,55,59,62],4.0],[20.0,[53,57,60,64],4.0],[24.0,[55,59,62,65],4.0],[28.0,[57,60,64,67],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 6.3</span><span class="ex-title">Tétrades do campo de Lá menor natural</span><span class="ex-how">Compare com o Exercício 4.2: são os mesmos acordes!</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex6_3.svg">
+            <img src="partituras/ex6_3.svg" width="477" height="141" style="width:100%" alt="Partitura — Tétrades do campo de Lá menor natural">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[64,0.5],[67,0.5],[71,0.5],[74,0.5],[71,0.5],[67,0.5],[66,0.5],[69,0.5],[72,0.5],[76,0.5],[72,0.5],[69,0.5],[67,0.5],[71,0.5],[74,0.5],[78,0.5],[74,0.5],[71,0.5],[69,0.5],[72,0.5],[76,0.5],[79,0.5],[76,0.5],[72,0.5],[71,0.5],[74,0.5],[78,0.5],[81,0.5],[78,0.5],[74,0.5],[60,0.5],[64,0.5],[67,0.5],[71,0.5],[67,0.5],[64,0.5],[62,0.5],[66,0.5],[69,0.5],[72,0.5],[69,0.5],[66,0.5],[64,0.5],[67,0.5],[71,0.5],[74,0.5],[71,0.5],[67,0.5]],"p":[[0.0,[52,55,59,62],3.0],[3.0,[54,57,60,64],3.0],[6.0,[55,59,62,66],3.0],[9.0,[57,60,64,67],3.0],[12.0,[59,62,66,69],3.0],[15.0,[48,52,55,59],3.0],[18.0,[50,54,57,60],3.0],[21.0,[52,55,59,62],3.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 6.4</span><span class="ex-title">Mi menor natural — sobe e desce</span><span class="ex-how">Relativa de Sol maior: mesma armadura, com um F#.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex6_4.svg">
+            <img src="partituras/ex6_4.svg" width="477" height="216" style="width:100%" alt="Partitura — Mi menor natural — sobe e desce">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[72,1.0],[69,1.0],[65,1.0],[62,1.0],[74,1.0],[70,1.0],[67,1.0],[64,1.0],[76,1.0],[72,1.0],[69,1.0],[65,1.0],[77,1.0],[74,1.0],[70,1.0],[67,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[81,1.0],[77,1.0],[74,1.0],[70,1.0],[70,1.0],[67,1.0],[64,1.0],[60,1.0],[72,1.0],[69,1.0],[65,1.0],[62,1.0]],"p":[[0.0,[50,53,57,60],4.0],[4.0,[52,55,58,62],4.0],[8.0,[53,57,60,64],4.0],[12.0,[55,58,62,65],4.0],[16.0,[57,60,64,67],4.0],[20.0,[58,62,65,69],4.0],[24.0,[48,52,55,58],4.0],[28.0,[50,53,57,60],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 6.5</span><span class="ex-title">Ré menor natural — descendo (7-5-3-1)</span><span class="ex-how">Relativa de Fá maior: mesma armadura, com um Bb.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex6_5.svg">
+            <img src="partituras/ex6_5.svg" width="477" height="144" style="width:100%" alt="Partitura — Ré menor natural — descendo (7-5-3-1)">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[72,1.0],[65,1.0],[69,1.0],[72,1.0],[69,1.0],[67,1.0],[71,1.0],[74,1.0],[71,1.0],[69,1.0],[72,1.0],[76,1.0],[72,1.0],[69,1.0],[72,1.0],[76,1.0],[72,1.0],[62,1.0],[65,1.0],[69,1.0],[65,1.0],[64,1.0],[67,1.0],[71,1.0],[67,1.0],[69,1.0],[72,1.0],[76,1.0],[72,1.0]],"p":[[0.0,[57,60,64],4.0],[4.0,[53,57,60],4.0],[8.0,[55,59,62],4.0],[12.0,[57,60,64],4.0],[16.0,[57,60,64],4.0],[20.0,[50,53,57],4.0],[24.0,[52,55,59],4.0],[28.0,[57,60,64],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 6.6</span><span class="ex-title">Duas progressões menores muito usadas</span><span class="ex-how">Im – ♭VI – ♭VII – Im (pop, rock, trilhas) e Im – IVm – Vm – Im (baladas, música nordestina).</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex6_6.svg">
+            <img src="partituras/ex6_6.svg" width="477" height="135" style="width:100%" alt="Partitura — Duas progressões menores muito usadas">
+          </picture>
+        </figure>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual é a relativa menor de Sol maior? <details><summary>ver resposta</summary><span class="ans">Mi menor (Em) — o 6º grau de Sol</span></details></li>
+          <li>Qual é a fórmula do campo menor natural? <details><summary>ver resposta</summary><span class="ans">Im7 – IIm7(b5) – ♭III7M – IVm7 – Vm7 – ♭VI7M – ♭VII7</span></details></li>
+          <li>Qual é o ♭VI7M de Mi menor? <details><summary>ver resposta</summary><span class="ans">C7M</span></details></li>
+          <li>Quais são os graus da escala menor natural? <details><summary>ver resposta</summary><span class="ans">1 – 2 – ♭3 – 4 – 5 – ♭6 – ♭7</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="menor-natural">
+          <li><label><input type="checkbox"> Encontro a relativa menor de C, G e F.</label></li>
+          <li><label><input type="checkbox"> Toco o campo de Lá menor natural de memória.</label></li>
+          <li><label><input type="checkbox"> Explico por que o ♭III, ♭VI e ♭VII têm bemol.</label></li>
+        </ul>
+      </section>
+
+      <!-- 7. MENOR HARMÔNICA -->
+      <section class="chapter" data-chapter="menor-harmonica">
+        <div class="eyebrow">AULA 7</div>
+        <h2>O campo harmônico menor harmônico</h2>
+        <p class="lead">Na menor natural, o V grau é menor (Em7) e soa “sem força” para voltar à tônica. A solução é simples: <b>subir o 7º grau meio tom</b>. Em Lá menor, o Sol vira <b>Sol#</b> — a nota <b>sensível</b>, que “pede” para resolver no Lá.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>Menor harmônica = menor natural com o <b>7º grau levantado</b>. Só mudam os acordes que têm essa nota: o <b>I, III, V e VII</b>.</p></div>
+
+        <div class="chips">
+        <div class="chip changed"><span class="r">Im7M</span><span class="c">Am7M</span><span class="g">A C E G#</span></div>
+        <div class="chip"><span class="r">IIm7(b5)</span><span class="c">Bm7(b5)</span><span class="g">B D F A</span></div>
+        <div class="chip changed"><span class="r">♭III7M(#5)</span><span class="c">C7M(#5)</span><span class="g">C E G# B</span></div>
+        <div class="chip"><span class="r">IVm7</span><span class="c">Dm7</span><span class="g">D F A C</span></div>
+        <div class="chip changed"><span class="r">V7</span><span class="c">E7</span><span class="g">E G# B D</span></div>
+        <div class="chip"><span class="r">♭VI7M</span><span class="c">F7M</span><span class="g">F A C E</span></div>
+        <div class="chip changed"><span class="r">VII°</span><span class="c">G#°</span><span class="g">G# B D F</span></div>
+        </div>
+
+        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[80,1.0],[81,1.0],[80,1.0],[77,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,2.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 7.1</span><span class="ex-title">Escala de Lá menor harmônica</span><span class="ex-how">O Sol# (em vermelho) cria um salto de tom e meio entre o Fá e o Sol#. Toque devagar até esse intervalo soar natural.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex7_1.svg">
+            <img src="partituras/ex7_1.svg" width="421" height="60" style="width:100%" alt="Partitura — Escala de Lá menor harmônica">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[80,1.0],[71,1.0],[74,1.0],[77,1.0],[81,1.0],[60,1.0],[64,1.0],[68,1.0],[71,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[64,1.0],[68,1.0],[71,1.0],[74,1.0],[65,1.0],[69,1.0],[72,1.0],[76,1.0],[68,1.0],[71,1.0],[74,1.0],[77,1.0],[69,1.0],[72,1.0],[76,1.0],[80,1.0]],"p":[[0.0,[57,60,64,68],4.0],[4.0,[59,62,65,69],4.0],[8.0,[48,52,56,59],4.0],[12.0,[50,53,57,60],4.0],[16.0,[52,56,59,62],4.0],[20.0,[53,57,60,64],4.0],[24.0,[56,59,62,65],4.0],[28.0,[57,60,64,68],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 7.2</span><span class="ex-title">Tétrades do campo de Lá menor harmônico</span><span class="ex-how">Em vermelho, todas as vezes que o Sol# aparece: exatamente nos acordes que mudaram.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex7_2.svg">
+            <img src="partituras/ex7_2.svg" width="477" height="145" style="width:100%" alt="Partitura — Tétrades do campo de Lá menor harmônico">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[64,1.0],[67,1.0],[71,1.0],[74,1.0],[64,1.0],[68,1.0],[71,1.0],[74,1.0],[69,1.0],[72,1.0],[76,2.0]],"p":[[0.0,[52,55,59,62],4.0],[4.0,[52,56,59,62],4.0],[8.0,[57,60,64],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 7.3</span><span class="ex-title">Antes e depois: Em7 → E7 → Am</span><span class="ex-how">Ouça a diferença: com o Sol#, o acorde de Mi “puxa” para o Lá.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex7_3.svg">
+            <img src="partituras/ex7_3.svg" width="321" height="70" style="width:89.3%" alt="Partitura — Antes e depois: Em7 → E7 → Am">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[71,1.0],[74,1.0],[77,1.0],[81,1.0],[80,1.0],[76,1.0],[71,1.0],[74,1.0],[72,1.0],[76,1.0],[69,2.0]],"p":[[0.0,[59,62,65,69],4.0],[4.0,[52,56,59,62],4.0],[8.0,[57,60,64],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 7.4</span><span class="ex-title">Cadência menor: IIm7(b5) – V7 – Im</span><span class="ex-how">A versão menor do dois-cinco-um. As notas-guia estão em vermelho: Lá → Sol# e Ré → Dó.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex7_4.svg">
+            <img src="partituras/ex7_4.svg" width="326" height="72" style="width:89.3%" alt="Partitura — Cadência menor: IIm7(b5) – V7 – Im">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[62,1.0],[65,1.0],[69,1.0],[73,1.0],[64,1.0],[67,1.0],[70,1.0],[74,1.0],[65,1.0],[69,1.0],[73,1.0],[76,1.0],[67,1.0],[70,1.0],[74,1.0],[77,1.0],[69,1.0],[73,1.0],[76,1.0],[79,1.0],[70,1.0],[74,1.0],[77,1.0],[81,1.0],[61,1.0],[64,1.0],[67,1.0],[70,1.0],[62,1.0],[65,1.0],[69,1.0],[73,1.0]],"p":[[0.0,[50,53,57,61],4.0],[4.0,[52,55,58,62],4.0],[8.0,[53,57,61,64],4.0],[12.0,[55,58,62,65],4.0],[16.0,[57,61,64,67],4.0],[20.0,[58,62,65,69],4.0],[24.0,[49,52,55,58],4.0],[28.0,[50,53,57,61],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 7.5</span><span class="ex-title">Ré menor harmônica (Dó# é a sensível)</span><span class="ex-how">Mesma fórmula em outro tom. A sensível aparece em vermelho.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex7_5.svg">
+            <img src="partituras/ex7_5.svg" width="477" height="146" style="width:100%" alt="Partitura — Ré menor harmônica (Dó# é a sensível)">
+          </picture>
+        </figure>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual grau muda da menor natural para a harmônica? <details><summary>ver resposta</summary><span class="ans">O 7º grau, que sobe meio tom (♭7 → 7).</span></details></li>
+          <li>Qual é o V7 de Ré menor harmônica? <details><summary>ver resposta</summary><span class="ans">A7</span></details></li>
+          <li>Qual é a nota sensível de Lá menor? <details><summary>ver resposta</summary><span class="ans">Sol# (G#)</span></details></li>
+          <li>Qual é o VII° de Lá menor harmônica? <details><summary>ver resposta</summary><span class="ans">G#° (Sol sustenido diminuto)</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="menor-harmonica">
+          <li><label><input type="checkbox"> Toco a escala de Lá menor harmônica afinada.</label></li>
+          <li><label><input type="checkbox"> Sei quais 4 acordes mudam e por quê.</label></li>
+          <li><label><input type="checkbox"> Toco o IIm7(b5) – V7 – Im em Lá menor de memória.</label></li>
+        </ul>
+      </section>
+
+      <!-- 8. MENOR MELÓDICA -->
+      <section class="chapter" data-chapter="menor-melodica">
+        <div class="eyebrow">AULA 8</div>
+        <h2>O campo harmônico menor melódico</h2>
+        <p class="lead">A menor harmônica tem aquele salto de tom e meio entre o 6º e o 7º grau. Para deixar a melodia mais lisa, sobe-se também o <b>6º grau</b>. Em Lá menor: <b>Fá#</b> e <b>Sol#</b>.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>Menor melódica = menor natural com o <b>6º e o 7º graus levantados</b>. É uma escala maior com a terça abaixada.</p></div>
+
+        <div class="warn"><b>Atenção a uma diferença de nomenclatura:</b> na teoria tradicional, a menor melódica sobe com 6º e 7º levantados e desce igual à natural. Na música popular e no jazz — e nesta cartilha — ela é igual subindo e descendo.</div>
+
+        <div class="chips">
+        <div class="chip changed"><span class="r">Im7M</span><span class="c">Am7M</span><span class="g">A C E G#</span></div>
+        <div class="chip changed"><span class="r">IIm7</span><span class="c">Bm7</span><span class="g">B D F# A</span></div>
+        <div class="chip changed"><span class="r">♭III7M(#5)</span><span class="c">C7M(#5)</span><span class="g">C E G# B</span></div>
+        <div class="chip changed"><span class="r">IV7</span><span class="c">D7</span><span class="g">D F# A C</span></div>
+        <div class="chip changed"><span class="r">V7</span><span class="c">E7</span><span class="g">E G# B D</span></div>
+        <div class="chip changed"><span class="r">VIm7(b5)</span><span class="c">F#m7(b5)</span><span class="g">F# A C E</span></div>
+        <div class="chip changed"><span class="r">VIIm7(b5)</span><span class="c">G#m7(b5)</span><span class="g">G# B D F#</span></div>
+        </div>
+
+        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[78,1.0],[80,1.0],[81,1.0],[80,1.0],[78,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,2.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 8.1</span><span class="ex-title">Escala de Lá menor melódica</span><span class="ex-how">Fá# e Sol# em vermelho, subindo e descendo.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex8_1.svg">
+            <img src="partituras/ex8_1.svg" width="421" height="60" style="width:100%" alt="Partitura — Escala de Lá menor melódica">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[80,1.0],[71,1.0],[74,1.0],[78,1.0],[81,1.0],[60,1.0],[64,1.0],[68,1.0],[71,1.0],[62,1.0],[66,1.0],[69,1.0],[72,1.0],[64,1.0],[68,1.0],[71,1.0],[74,1.0],[66,1.0],[69,1.0],[72,1.0],[76,1.0],[68,1.0],[71,1.0],[74,1.0],[78,1.0],[69,1.0],[72,1.0],[76,1.0],[80,1.0]],"p":[[0.0,[57,60,64,68],4.0],[4.0,[59,62,66,69],4.0],[8.0,[48,52,56,59],4.0],[12.0,[50,54,57,60],4.0],[16.0,[52,56,59,62],4.0],[20.0,[54,57,60,64],4.0],[24.0,[56,59,62,66],4.0],[28.0,[57,60,64,68],4.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 8.2</span><span class="ex-title">Tétrades do campo de Lá menor melódico</span><span class="ex-how">Repare no D7: um acorde dominante no IV grau, que só existe neste campo.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex8_2.svg">
+            <img src="partituras/ex8_2.svg" width="477" height="147" style="width:100%" alt="Partitura — Tétrades do campo de Lá menor melódico">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[79,1.0],[81,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[80,1.0],[81,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[78,1.0],[80,1.0],[81,1.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Exercício 8.3</span><span class="ex-title">As três menores lado a lado</span><span class="ex-how">Toque as três seguidas. A cada linha, uma nota a mais sobe: primeiro o 7, depois o 6.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex8_3.svg">
+            <img src="partituras/ex8_3.svg" width="477" height="209" style="width:100%" alt="Partitura — As três menores lado a lado">
+          </picture>
+        </figure>
+
+        <figure class="pauta" data-play='{"n":[[62,1.0],[66,1.0],[69,1.0],[72,1.0],[74,1.0],[71,1.0],[68,1.0],[64,1.0],[69,1.0],[72,1.0],[76,1.0],[80,1.0],[81,4.0]],"p":[[0.0,[50,54,57,60],4.0],[4.0,[52,56,59,62],4.0],[8.0,[57,60,64,68],8.0]]}'>
+          <figcaption><span class="ex-tag">Exercício 8.4</span><span class="ex-title">IV7 – V7 – Im7M</span><span class="ex-how">Dois dominantes seguidos resolvendo no Am7M. As notas levantadas estão em vermelho.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ex8_4.svg">
+            <img src="partituras/ex8_4.svg" width="384" height="68" style="width:100%" alt="Partitura — IV7 – V7 – Im7M">
+          </picture>
+        </figure>
+
+        <h3>O mapa dos quatro campos</h3>
+        <p style="font-size:0.92rem;">A mesma tônica (Lá) nos quatro campos. Em vermelho, o que muda em relação à linha de cima.</p>
+        <div class="table-scroll">
+          <table class="campo">
+            <thead><tr><th></th><th>I</th><th>II</th><th>III</th><th>IV</th><th>V</th><th>VI</th><th>VII</th></tr></thead>
+            <tbody><tr><th>Lá maior</th><td>A7M</td><td>Bm7</td><td>C#m7</td><td>D7M</td><td>E7</td><td>F#m7</td><td>G#m7(b5)</td></tr><tr><th>Lá menor natural</th><td class="hl">Am7</td><td class="hl">Bm7(b5)</td><td class="hl">C7M</td><td class="hl">Dm7</td><td class="hl">Em7</td><td class="hl">F7M</td><td class="hl">G7</td></tr><tr><th>Lá menor harmônica</th><td class="hl">Am7M</td><td>Bm7(b5)</td><td class="hl">C7M(#5)</td><td>Dm7</td><td class="hl">E7</td><td>F7M</td><td class="hl">G#°</td></tr><tr><th>Lá menor melódica</th><td>Am7M</td><td class="hl">Bm7</td><td>C7M(#5)</td><td class="hl">D7</td><td>E7</td><td class="hl">F#m7(b5)</td><td class="hl">G#m7(b5)</td></tr></tbody>
+          </table>
+        </div>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Quais graus sobem na menor melódica? <details><summary>ver resposta</summary><span class="ans">O 6º e o 7º (♭6 → 6 e ♭7 → 7).</span></details></li>
+          <li>Qual é o IV7 de Lá menor melódica? <details><summary>ver resposta</summary><span class="ans">D7</span></details></li>
+          <li>Quais acordes são iguais nos campos menor harmônico e menor melódico? <details><summary>ver resposta</summary><span class="ans">Im7M, ♭III7M(#5) e V7</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="menor-melodica">
+          <li><label><input type="checkbox"> Toco as três escalas menores de Lá, uma depois da outra.</label></li>
+          <li><label><input type="checkbox"> Sei dizer o que muda em cada uma sem olhar o mapa.</label></li>
+          <li><label><input type="checkbox"> Toco o campo de Lá menor melódico de memória.</label></li>
+        </ul>
+      </section>
+
+      <!-- 9. JOGOS -->
+      <section class="chapter" data-chapter="jogos">
+        <div class="eyebrow">AULA 9</div>
+        <h2>Jogos e desafios</h2>
+        <p class="lead">Dez minutos de jogo por dia fixam mais do que uma hora de leitura. Use os jogos abaixo sozinho ou em dupla — eles funcionam no celular ao lado da estante.</p>
+
+        <div class="game" id="gameTelefone">
+          <h4>1 · Telefone musical</h4>
+          <p class="how">Sorteie um “número” de graus e toque na escala escolhida. Só aperte “mostrar notas” depois de tocar.</p>
+          <div class="controls">
+            <select id="telTom" aria-label="Tom">
+              <option value="C|maior">Dó maior</option><option value="G|maior">Sol maior</option>
+              <option value="F|maior">Fá maior</option><option value="D|maior">Ré maior</option>
+              <option value="A|natural">Lá menor natural</option><option value="A|harmonica">Lá menor harmônica</option>
+            </select>
+            <select id="telTam" aria-label="Tamanho">
+              <option value="3">3 graus</option><option value="4" selected>4 graus</option><option value="5">5 graus</option>
+            </select>
+            <button class="play-btn" type="button" id="telNovo">Novo número</button>
+            <button class="play-btn ghost" type="button" id="telMostra">Mostrar notas</button>
+            <button class="play-btn ghost" type="button" id="telOuvir">▶ Ouvir</button>
+          </div>
+          <div class="out" id="telOut"><span class="small">Aperte “Novo número”.</span></div>
+        </div>
+
+        <div class="game" id="gameDado">
+          <h4>2 · Dado harmônico</h4>
+          <p class="how">O dado sorteia uma progressão de quatro graus (sempre começando no I). Diga as cifras, toque os arpejos, e só então confira.</p>
+          <div class="controls">
+            <select id="dadoTom" aria-label="Campo">
+              <option value="C|maior">Dó maior</option><option value="G|maior">Sol maior</option>
+              <option value="F|maior">Fá maior</option><option value="D|maior">Ré maior</option><option value="Bb|maior">Si bemol maior</option>
+              <option value="A|natural">Lá menor natural</option><option value="E|natural">Mi menor natural</option>
+              <option value="A|harmonica">Lá menor harmônica</option><option value="D|harmonica">Ré menor harmônica</option>
+              <option value="A|melodica">Lá menor melódica</option>
+            </select>
+            <button class="play-btn" type="button" id="dadoRolar">🎲 Rolar</button>
+            <button class="play-btn ghost" type="button" id="dadoMostra">Mostrar cifras</button>
+            <button class="play-btn ghost" type="button" id="dadoOuvir">▶ Ouvir</button>
+          </div>
+          <div class="out" id="dadoOut"><span class="small">Aperte “Rolar”.</span></div>
+        </div>
+
+        <div class="game" id="gameDetetive">
+          <h4>3 · Detetive do ouvido</h4>
+          <p class="how">A cartilha toca uma tríade em arpejo, a partir de uma nota sorteada. É maior, menor, diminuta ou aumentada?</p>
+          <div class="controls">
+            <select id="detNivel" aria-label="Nível">
+              <option value="2">Fácil: maior ou menor</option>
+              <option value="4">Difícil: os quatro tipos</option>
+            </select>
+            <button class="play-btn" type="button" id="detTocar">▶ Tocar acorde</button>
+            <button class="play-btn ghost" type="button" id="detRepetir">Repetir</button>
+          </div>
+          <div class="answer-btns" id="detBtns"></div>
+          <div class="out" id="detOut"><span class="small">Aperte “Tocar acorde”.</span></div>
+          <div class="score-line" id="detScore"></div>
+        </div>
+
+        <h3>Desafios sem tela</h3>
+        <ol class="ex-list">
+          <li><span class="n">4</span><div><h4>Troca-troca em outros tons</h4><p>Faça o Exercício 3.3 começando em Fá e em Sol: 7M → 7 → m7 → m7(b5). Diga o nome de cada nota que mudou.</p></div></li>
+          <li><span class="n">5</span><div><h4>Eco dos graus</h4><p>O professor toca um arpejo curto (ex.: 1-3-5 de um acorde do campo de Dó) e o aluno repete de ouvido, dizendo os graus. Depois troquem.</p></div></li>
+          <li><span class="n">6</span><div><h4>Corrida dos campos</h4><p>Cronometre quanto tempo você leva para dizer os sete acordes de um tom. Meta: menos de 10 segundos em C, G, F e Am.</p></div></li>
+          <li><span class="n">7</span><div><h4>Bingo de cifras (em grupo)</h4><p>Cada aluno escreve 6 acordes do campo de Dó numa cartela. O professor toca arpejos; quem reconhecer o acorde, marca. Vence quem completar a cartela.</p></div></li>
+          <li><span class="n">8</span><div><h4>Pergunta e resposta</h4><p>Sobre a base do Exercício 5.5, o professor toca 2 compassos e o aluno responde nos 2 seguintes, usando só notas dos arpejos.</p></div></li>
+        </ol>
+
+        <h3>Plano de estudo diário (15 minutos)</h3>
+        <div class="table-scroll">
+          <table class="simple">
+            <thead><tr><th>Tempo</th><th>O que fazer</th></tr></thead>
+            <tbody>
+              <tr><td class="nowrap"><b>3 min</b></td><td>Escala da semana dizendo os graus (Aula 2, 6, 7 ou 8).</td></tr>
+              <tr><td class="nowrap"><b>5 min</b></td><td>Campo harmônico da semana em tétrades, com ▶ Ouvir antes.</td></tr>
+              <tr><td class="nowrap"><b>4 min</b></td><td>Um jogo desta página (telefone, dado ou detetive).</td></tr>
+              <tr><td class="nowrap"><b>3 min</b></td><td>Criar: improvise sobre uma base usando só as notas dos arpejos.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 10. TABELAS -->
+      <section class="chapter" data-chapter="tabelas">
+        <div class="eyebrow">CONSULTA</div>
+        <h2>Tabelas dos campos harmônicos</h2>
+        <p class="lead">Os quatro campos nos 12 tons, para consultar quando for transpor um exercício. Os tons marcados com <span style="color:var(--sage)">●</span> são os mais indicados para quem está começando na flauta.</p>
+        <h3>Campo harmônico maior</h3>
+        <div class="table-scroll">
+          <table class="campo">
+            <thead><tr><th>Tom</th><th>I7M</th><th>IIm7</th><th>IIIm7</th><th>IV7M</th><th>V7</th><th>VIm7</th><th>VIIm7(b5)</th></tr></thead>
+            <tbody>
+              <tr class="easy"><th>C</th><td>C7M</td><td>Dm7</td><td>Em7</td><td>F7M</td><td>G7</td><td>Am7</td><td>Bm7(b5)</td></tr><tr class="easy"><th>G</th><td>G7M</td><td>Am7</td><td>Bm7</td><td>C7M</td><td>D7</td><td>Em7</td><td>F#m7(b5)</td></tr><tr class="easy"><th>D</th><td>D7M</td><td>Em7</td><td>F#m7</td><td>G7M</td><td>A7</td><td>Bm7</td><td>C#m7(b5)</td></tr><tr><th>A</th><td>A7M</td><td>Bm7</td><td>C#m7</td><td>D7M</td><td>E7</td><td>F#m7</td><td>G#m7(b5)</td></tr><tr><th>E</th><td>E7M</td><td>F#m7</td><td>G#m7</td><td>A7M</td><td>B7</td><td>C#m7</td><td>D#m7(b5)</td></tr><tr><th>B</th><td>B7M</td><td>C#m7</td><td>D#m7</td><td>E7M</td><td>F#7</td><td>G#m7</td><td>A#m7(b5)</td></tr><tr><th>F#</th><td>F#7M</td><td>G#m7</td><td>A#m7</td><td>B7M</td><td>C#7</td><td>D#m7</td><td>E#m7(b5)</td></tr><tr class="easy"><th>F</th><td>F7M</td><td>Gm7</td><td>Am7</td><td>Bb7M</td><td>C7</td><td>Dm7</td><td>Em7(b5)</td></tr><tr class="easy"><th>Bb</th><td>Bb7M</td><td>Cm7</td><td>Dm7</td><td>Eb7M</td><td>F7</td><td>Gm7</td><td>Am7(b5)</td></tr><tr><th>Eb</th><td>Eb7M</td><td>Fm7</td><td>Gm7</td><td>Ab7M</td><td>Bb7</td><td>Cm7</td><td>Dm7(b5)</td></tr><tr><th>Ab</th><td>Ab7M</td><td>Bbm7</td><td>Cm7</td><td>Db7M</td><td>Eb7</td><td>Fm7</td><td>Gm7(b5)</td></tr><tr><th>Db</th><td>Db7M</td><td>Ebm7</td><td>Fm7</td><td>Gb7M</td><td>Ab7</td><td>Bbm7</td><td>Cm7(b5)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Campo harmônico menor natural</h3>
+        <div class="table-scroll">
+          <table class="campo">
+            <thead><tr><th>Tom</th><th>Im7</th><th>IIm7(b5)</th><th>♭III7M</th><th>IVm7</th><th>Vm7</th><th>♭VI7M</th><th>♭VII7</th></tr></thead>
+            <tbody>
+              <tr class="easy"><th>Am</th><td>Am7</td><td>Bm7(b5)</td><td>C7M</td><td>Dm7</td><td>Em7</td><td>F7M</td><td>G7</td></tr><tr class="easy"><th>Em</th><td>Em7</td><td>F#m7(b5)</td><td>G7M</td><td>Am7</td><td>Bm7</td><td>C7M</td><td>D7</td></tr><tr class="easy"><th>Bm</th><td>Bm7</td><td>C#m7(b5)</td><td>D7M</td><td>Em7</td><td>F#m7</td><td>G7M</td><td>A7</td></tr><tr><th>F#m</th><td>F#m7</td><td>G#m7(b5)</td><td>A7M</td><td>Bm7</td><td>C#m7</td><td>D7M</td><td>E7</td></tr><tr><th>C#m</th><td>C#m7</td><td>D#m7(b5)</td><td>E7M</td><td>F#m7</td><td>G#m7</td><td>A7M</td><td>B7</td></tr><tr><th>G#m</th><td>G#m7</td><td>A#m7(b5)</td><td>B7M</td><td>C#m7</td><td>D#m7</td><td>E7M</td><td>F#7</td></tr><tr class="easy"><th>Dm</th><td>Dm7</td><td>Em7(b5)</td><td>F7M</td><td>Gm7</td><td>Am7</td><td>Bb7M</td><td>C7</td></tr><tr class="easy"><th>Gm</th><td>Gm7</td><td>Am7(b5)</td><td>Bb7M</td><td>Cm7</td><td>Dm7</td><td>Eb7M</td><td>F7</td></tr><tr><th>Cm</th><td>Cm7</td><td>Dm7(b5)</td><td>Eb7M</td><td>Fm7</td><td>Gm7</td><td>Ab7M</td><td>Bb7</td></tr><tr><th>Fm</th><td>Fm7</td><td>Gm7(b5)</td><td>Ab7M</td><td>Bbm7</td><td>Cm7</td><td>Db7M</td><td>Eb7</td></tr><tr><th>Bbm</th><td>Bbm7</td><td>Cm7(b5)</td><td>Db7M</td><td>Ebm7</td><td>Fm7</td><td>Gb7M</td><td>Ab7</td></tr><tr><th>Ebm</th><td>Ebm7</td><td>Fm7(b5)</td><td>Gb7M</td><td>Abm7</td><td>Bbm7</td><td>Cb7M</td><td>Db7</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Campo harmônico menor harmônico</h3>
+        <div class="table-scroll">
+          <table class="campo">
+            <thead><tr><th>Tom</th><th>Im7M</th><th>IIm7(b5)</th><th>♭III7M(#5)</th><th>IVm7</th><th>V7</th><th>♭VI7M</th><th>VII°</th></tr></thead>
+            <tbody>
+              <tr class="easy"><th>Am</th><td>Am7M</td><td>Bm7(b5)</td><td>C7M(#5)</td><td>Dm7</td><td>E7</td><td>F7M</td><td>G#°</td></tr><tr class="easy"><th>Em</th><td>Em7M</td><td>F#m7(b5)</td><td>G7M(#5)</td><td>Am7</td><td>B7</td><td>C7M</td><td>D#°</td></tr><tr class="easy"><th>Bm</th><td>Bm7M</td><td>C#m7(b5)</td><td>D7M(#5)</td><td>Em7</td><td>F#7</td><td>G7M</td><td>A#°</td></tr><tr><th>F#m</th><td>F#m7M</td><td>G#m7(b5)</td><td>A7M(#5)</td><td>Bm7</td><td>C#7</td><td>D7M</td><td>E#°</td></tr><tr><th>C#m</th><td>C#m7M</td><td>D#m7(b5)</td><td>E7M(#5)</td><td>F#m7</td><td>G#7</td><td>A7M</td><td>B#°</td></tr><tr><th>G#m</th><td>G#m7M</td><td>A#m7(b5)</td><td>B7M(#5)</td><td>C#m7</td><td>D#7</td><td>E7M</td><td>F##°</td></tr><tr class="easy"><th>Dm</th><td>Dm7M</td><td>Em7(b5)</td><td>F7M(#5)</td><td>Gm7</td><td>A7</td><td>Bb7M</td><td>C#°</td></tr><tr class="easy"><th>Gm</th><td>Gm7M</td><td>Am7(b5)</td><td>Bb7M(#5)</td><td>Cm7</td><td>D7</td><td>Eb7M</td><td>F#°</td></tr><tr><th>Cm</th><td>Cm7M</td><td>Dm7(b5)</td><td>Eb7M(#5)</td><td>Fm7</td><td>G7</td><td>Ab7M</td><td>B°</td></tr><tr><th>Fm</th><td>Fm7M</td><td>Gm7(b5)</td><td>Ab7M(#5)</td><td>Bbm7</td><td>C7</td><td>Db7M</td><td>E°</td></tr><tr><th>Bbm</th><td>Bbm7M</td><td>Cm7(b5)</td><td>Db7M(#5)</td><td>Ebm7</td><td>F7</td><td>Gb7M</td><td>A°</td></tr><tr><th>Ebm</th><td>Ebm7M</td><td>Fm7(b5)</td><td>Gb7M(#5)</td><td>Abm7</td><td>Bb7</td><td>Cb7M</td><td>D°</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Campo harmônico menor melódico</h3>
+        <div class="table-scroll">
+          <table class="campo">
+            <thead><tr><th>Tom</th><th>Im7M</th><th>IIm7</th><th>♭III7M(#5)</th><th>IV7</th><th>V7</th><th>VIm7(b5)</th><th>VIIm7(b5)</th></tr></thead>
+            <tbody>
+              <tr class="easy"><th>Am</th><td>Am7M</td><td>Bm7</td><td>C7M(#5)</td><td>D7</td><td>E7</td><td>F#m7(b5)</td><td>G#m7(b5)</td></tr><tr class="easy"><th>Em</th><td>Em7M</td><td>F#m7</td><td>G7M(#5)</td><td>A7</td><td>B7</td><td>C#m7(b5)</td><td>D#m7(b5)</td></tr><tr class="easy"><th>Bm</th><td>Bm7M</td><td>C#m7</td><td>D7M(#5)</td><td>E7</td><td>F#7</td><td>G#m7(b5)</td><td>A#m7(b5)</td></tr><tr><th>F#m</th><td>F#m7M</td><td>G#m7</td><td>A7M(#5)</td><td>B7</td><td>C#7</td><td>D#m7(b5)</td><td>E#m7(b5)</td></tr><tr><th>C#m</th><td>C#m7M</td><td>D#m7</td><td>E7M(#5)</td><td>F#7</td><td>G#7</td><td>A#m7(b5)</td><td>B#m7(b5)</td></tr><tr><th>G#m</th><td>G#m7M</td><td>A#m7</td><td>B7M(#5)</td><td>C#7</td><td>D#7</td><td>E#m7(b5)</td><td>F##m7(b5)</td></tr><tr class="easy"><th>Dm</th><td>Dm7M</td><td>Em7</td><td>F7M(#5)</td><td>G7</td><td>A7</td><td>Bm7(b5)</td><td>C#m7(b5)</td></tr><tr class="easy"><th>Gm</th><td>Gm7M</td><td>Am7</td><td>Bb7M(#5)</td><td>C7</td><td>D7</td><td>Em7(b5)</td><td>F#m7(b5)</td></tr><tr><th>Cm</th><td>Cm7M</td><td>Dm7</td><td>Eb7M(#5)</td><td>F7</td><td>G7</td><td>Am7(b5)</td><td>Bm7(b5)</td></tr><tr><th>Fm</th><td>Fm7M</td><td>Gm7</td><td>Ab7M(#5)</td><td>Bb7</td><td>C7</td><td>Dm7(b5)</td><td>Em7(b5)</td></tr><tr><th>Bbm</th><td>Bbm7M</td><td>Cm7</td><td>Db7M(#5)</td><td>Eb7</td><td>F7</td><td>Gm7(b5)</td><td>Am7(b5)</td></tr><tr><th>Ebm</th><td>Ebm7M</td><td>Fm7</td><td>Gb7M(#5)</td><td>Ab7</td><td>Bb7</td><td>Cm7(b5)</td><td>Dm7(b5)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 11. RESPOSTAS -->
+      <section class="chapter" data-chapter="respostas">
+        <div class="eyebrow">CONSULTA</div>
+        <h2>Respostas dos exercícios</h2>
+        <p class="lead">Confira só depois de tentar. Errar e corrigir ensina mais do que acertar de primeira.</p>
+
+        <figure class="pauta" data-play='{"n":[[67,1.0],[76,1.0],[69,1.0],[72,1.0],[65,1.0],[74,1.0],[71,1.0],[64,1.0],[81,1.0],[62,1.0],[79,1.0],[77,1.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Resposta 1.2</span><span class="ex-title">Complete as cifras</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ans1_2.svg">
+            <img src="partituras/ans1_2.svg" width="336" height="47" style="width:100%" alt="Partitura — Complete as cifras">
+          </picture>
+        </figure>
+        <figure class="pauta" data-play='{"n":[[74,1.0],[71,1.0],[67,1.0],[78,1.0],[72,1.0],[69,1.0],[76,1.0],[79,1.0],[62,1.0],[66,1.0],[71,1.0],[64,1.0]],"p":[]}'>
+          <figcaption><span class="ex-tag">Resposta 2.5</span><span class="ex-title">Descubra o grau em Sol maior</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ans2_5.svg">
+            <img src="partituras/ans2_5.svg" width="345" height="57" style="width:100%" alt="Partitura — Descubra o grau em Sol maior">
+          </picture>
+        </figure>
+        <figure class="pauta" data-play='{"n":[[62,1.0],[66,1.0],[69,1.0],[73,1.0],[64,1.0],[67,1.0],[71,1.0],[74,1.0],[66,1.0],[69,1.0],[73,1.0],[76,1.0],[67,1.0],[71,1.0],[74,1.0],[78,1.0],[69,1.0],[73,1.0],[76,1.0],[79,1.0],[71,1.0],[74,1.0],[78,1.0],[81,1.0],[61,1.0],[64,1.0],[67,1.0],[71,1.0],[62,1.0],[66,1.0],[69,1.0],[73,1.0]],"p":[[0.0,[50,54,57,61],4.0],[4.0,[52,55,59,62],4.0],[8.0,[54,57,61,64],4.0],[12.0,[55,59,62,66],4.0],[16.0,[57,61,64,67],4.0],[20.0,[59,62,66,69],4.0],[24.0,[49,52,55,59],4.0],[28.0,[50,54,57,61],4.0]]}'>
+          <figcaption><span class="ex-tag">Resposta 4.6</span><span class="ex-title">Campo de Ré maior</span><span class="ex-how">Se você escreveu as mesmas notas em outra oitava, também está certo.</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ans4_6.svg">
+            <img src="partituras/ans4_6.svg" width="477" height="137" style="width:100%" alt="Partitura — Campo de Ré maior">
+          </picture>
+        </figure>
+        <figure class="pauta" data-play='{"n":[[63,1.0],[67,1.0],[70,1.0],[74,1.0],[70,1.0],[74,1.0],[77,1.0],[81,1.0],[65,1.0],[69,1.0],[72,1.0],[75,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[67,1.0],[70,1.0],[74,1.0],[77,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[69,1.0],[72,1.0],[75,1.0],[79,1.0]],"p":[[0.0,[51,55,58,62],4.0],[4.0,[58,62,65,69],4.0],[8.0,[53,57,60,63],4.0],[12.0,[48,51,55,58],4.0],[16.0,[55,58,62,65],4.0],[20.0,[50,53,57,60],4.0],[24.0,[57,60,63,67],4.0]]}'>
+          <figcaption><span class="ex-tag">Resposta 4.7</span><span class="ex-title">Detetive de cifras em Si bemol maior</span></figcaption>
+          <picture>
+            <source media="(max-width:620px)" srcset="partituras/m/ans4_7.svg">
+            <img src="partituras/ans4_7.svg" width="477" height="139" style="width:100%" alt="Partitura — Detetive de cifras em Si bemol maior">
+          </picture>
+        </figure>
+
+        <h3>Respostas dos testes rápidos</h3>
+        <div class="table-scroll">
+          <table class="simple">
+            <thead><tr><th>Aula</th><th>Respostas</th></tr></thead>
+            <tbody>
+              <tr><td><b>1</b></td><td>1. G · 2. Fá · 3. A, B e D · 4. Si bemol</td></tr>
+              <tr><td><b>2</b></td><td>1. T–T–St–T–T–T–St · 2. F# · 3. grau 4 · 4. A (Lá)</td></tr>
+              <tr><td><b>3</b></td><td>1. 1, 3 e 5 · 2. a sétima (B no C7M, Bb no C7) · 3. D, F, A, C · 4. m7(b5)</td></tr>
+              <tr><td><b>4</b></td><td>1. I7M–IIm7–IIIm7–IV7M–V7–VIm7–VIIm7(b5) · 2. D7 · 3. Gm7 · 4. o V · 5. VIIm7(b5)</td></tr>
+              <tr><td><b>5</b></td><td>1. Gm7–C7–F7M · 2. Si (3ª do G7) · 3. G7M–Em7–Am7–D7</td></tr>
+              <tr><td><b>6</b></td><td>1. Em · 2. Im7–IIm7(b5)–♭III7M–IVm7–Vm7–♭VI7M–♭VII7 · 3. C7M · 4. 1–2–♭3–4–5–♭6–♭7</td></tr>
+              <tr><td><b>7</b></td><td>1. o 7º grau sobe · 2. A7 · 3. G# · 4. G#°</td></tr>
+              <tr><td><b>8</b></td><td>1. 6º e 7º · 2. D7 · 3. Im7M, ♭III7M(#5) e V7</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 12. DÚVIDAS -->
+      <section class="chapter" data-chapter="duvidas">
+        <div class="eyebrow">CONSULTA</div>
+        <h2>Dúvidas frequentes</h2>
+        <p class="lead">As perguntas que mais aparecem quando o flautista começa a estudar harmonia.</p>
+
+        <details class="faq">
+          <summary>Se a flauta não toca acordes, por que estudar harmonia?</summary>
+          <p>Porque quem improvisa, faz arranjo ou toca em grupo precisa saber “onde está” na música. Tocando as notas do acorde em sequência, o ouvido de quem escuta junta tudo e percebe a harmonia. Além disso, ler cifras deixa você tocar junto com violão e teclado sem precisar de partitura escrita.</p>
+        </details>
+        <details class="faq">
+          <summary>Preciso decorar os campos nos 12 tons?</summary>
+          <p>Não. Decore a fórmula (7M · m7 · m7 · 7M · 7 · m7 · m7(b5)) e as escalas dos tons que você mais usa. Com a fórmula e a escala, qualquer campo se monta em segundos. As tabelas existem para conferir, não para decorar.</p>
+        </details>
+        <details class="faq">
+          <summary>Por que alguns arpejos começam mais grave que o anterior?</summary>
+          <p>Para ficar na região confortável da flauta. Se todos os acordes do campo fossem subindo em sequência, os últimos ficariam agudos demais para quem está começando. Quando estiver seguro, experimente tocar tudo subindo, em outra oitava.</p>
+        </details>
+        <details class="faq">
+          <summary>Qual andamento devo usar?</summary>
+          <p>Comece em 60 (a opção “devagar” do botão Ouvir). Só aumente quando conseguir tocar três vezes seguidas sem errar e dizendo os graus de cabeça. Velocidade vem sozinha; entendimento, não.</p>
+        </details>
+        <details class="faq">
+          <summary>O que é aquele “b” e “#” nos graus, como ♭3 e #5?</summary>
+          <p>Eles comparam a nota com a escala maior da fundamental do acorde. “3” é a terça maior; “♭3” é a terça meio tom abaixo (menor). “5” é a quinta justa; “♭5” meio tom abaixo; “#5” meio tom acima.</p>
+        </details>
+        <details class="faq">
+          <summary>Onde respiro nos exercícios de arpejo?</summary>
+          <p>Na troca de acorde, de preferência a cada dois compassos. Assim a respiração vira parte da frase e reforça a ideia de que cada compasso é um acorde. Nos exercícios em colcheias, respire antes de ficar sem ar — não no último fôlego.</p>
+        </details>
+        <details class="faq">
+          <summary>O som do botão Ouvir não sai no celular.</summary>
+          <p>Confira se o celular não está no modo silencioso (no iPhone, a chavinha lateral). O áudio é gerado pela própria página e só começa depois de você tocar num botão.</p>
+        </details>
+      </section>
+
+    </div>
+
+    <!-- ============ FOOTER NAV ============ -->
+    <div class="page-footer">
+      <button class="nav-btn" id="btnPrev" type="button">← Anterior</button>
+      <span class="prog" id="progText">Capa</span>
+      <button class="nav-btn" id="btnNext" type="button">Próximo →</button>
+    </div>
+  </main>
+</div>
+
+<script>
+  /* ------------------------------------------------------------------
+     Cartilha do aluno (flauta) — navegação por aulas.
+
+     Este array é a única fonte da ordem: o índice 0 é a capa (sem número).
+     As aulas recebem o rótulo "AULA N" automaticamente; os capítulos de
+     consulta (group:'consulta') ficam sem número. Para acrescentar uma aula
+     nova, crie a <section data-chapter="..."> e inclua um item aqui.
+     ------------------------------------------------------------------ */
+  const chapters = [
+    {id:'capa',            label:'Bem-vindo'},
+    {id:'notas',           label:'Notas e cifras'},
+    {id:'escala',          label:'Escala maior e graus'},
+    {id:'acordes',         label:'Como nasce um acorde'},
+    {id:'campo-maior',     label:'Campo harmônico maior'},
+    {id:'progressoes',     label:'Progressões e cadências'},
+    {id:'menor-natural',   label:'Menor natural'},
+    {id:'menor-harmonica', label:'Menor harmônica'},
+    {id:'menor-melodica',  label:'Menor melódica'},
+    {id:'jogos',           label:'Jogos e desafios'},
+    {id:'tabelas',         label:'Tabelas dos campos', group:'consulta'},
+    {id:'respostas',       label:'Respostas',          group:'consulta'},
+    {id:'duvidas',         label:'Dúvidas frequentes', group:'consulta'},
+  ];
+
+  /* Chave própria: as cartilhas (violão, teclado, flauta) moram no mesmo
+     domínio do GitHub Pages e dividem o mesmo localStorage. */
+  const STORE_KEY = 'cartilha-flauta';
+
+  function loadState(){
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveState(){
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+    catch(e){ /* sem persistência, tudo bem */ }
+  }
+
+  const state = loadState();
+  if(!Array.isArray(state.seen)) state.seen = [];
+  if(!state.checks || typeof state.checks !== 'object') state.checks = {};
+  const seen = new Set(state.seen);
+  let currentIdx = 0;
+
+  const progText = document.getElementById('progText');
+  const btnPrev  = document.getElementById('btnPrev');
+  const btnNext  = document.getElementById('btnNext');
+
+  // ---------- barra lateral + numeração das aulas ----------
+  const nav = document.getElementById('chapterNav');
+  let aulaNum = 0, lastGroup = null;
+  chapters.forEach((c, i) => {
+    if(c.group && c.group !== lastGroup){
+      const g = document.createElement('div');
+      g.className = 'chap-group';
+      g.textContent = c.group === 'consulta' ? 'Consulta' : c.group;
+      nav.appendChild(g);
+    }
+    lastGroup = c.group || null;
+    if(i > 0 && !c.group) aulaNum++;
+    c.num = (i > 0 && !c.group) ? aulaNum : null;
+
+    const btn = document.createElement('button');
+    btn.className = 'chap-btn';
+    btn.type = 'button';
+    btn.dataset.id = c.id;
+    const mark = i === 0 ? '—' : (c.num ? c.num : '·');
+    btn.innerHTML = '<span class="num">' + mark + '</span><span>' + c.label + '</span>';
+    btn.addEventListener('click', () => showChapter(c.id));
+    nav.appendChild(btn);
+    c.btn = btn;
+
+    c.section = document.querySelector('.chapter[data-chapter="' + c.id + '"]');
+    if(c.section && c.num){
+      const eyebrow = c.section.querySelector('.eyebrow');
+      if(eyebrow) eyebrow.textContent = 'AULA ' + c.num;
+    }
+  });
+  const totalAulas = aulaNum;
+
+  function showChapter(id, opts){
+    opts = opts || {};
+    const idx = chapters.findIndex(c => c.id === id);
+    if(idx < 0) return;
+    stopAll();
+
+    seen.add(id);
+    chapters.forEach((c, i) => {
+      const on = (i === idx);
+      if(c.section) c.section.classList.toggle('active', on);
+      c.btn.classList.toggle('active', on);
+      c.btn.classList.toggle('seen', seen.has(c.id));
+      c.btn.setAttribute('aria-current', on ? 'true' : 'false');
+    });
+
+    currentIdx = idx;
+    const c = chapters[idx];
+    progText.textContent = idx === 0 ? 'Capa · ' + totalAulas + ' aulas'
+      : c.num ? 'Aula ' + c.num + ' de ' + totalAulas
+      : c.label;
+    btnPrev.disabled = (idx === 0);
+    btnNext.disabled = (idx === chapters.length - 1);
+
+    state.last = id; state.seen = Array.from(seen); saveState();
+
+    if(c.btn.scrollIntoView) c.btn.scrollIntoView({block:'nearest', inline:'center'});
+    window.scrollTo(0, 0);
+
+    const hash = '#' + id;
+    if(location.hash !== hash){
+      if(opts.replace) history.replaceState(null, '', hash);
+      else             history.pushState(null, '', hash);
+    }
+  }
+
+  function go(dir){
+    const next = currentIdx + dir;
+    if(next >= 0 && next < chapters.length) showChapter(chapters[next].id);
+  }
+  btnPrev.addEventListener('click', () => go(-1));
+  btnNext.addEventListener('click', () => go(1));
+
+  window.addEventListener('hashchange', () => {
+    const id = location.hash.replace('#', '');
+    if(id && id !== chapters[currentIdx].id) showChapter(id, {replace:true});
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const t = e.target;
+    if(t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    if(e.key === 'ArrowRight'){ e.preventDefault(); go(1); }
+    else if(e.key === 'ArrowLeft'){ e.preventDefault(); go(-1); }
+  });
+
+  // ---------- checklists (lembra o que o aluno já marcou) ----------
+  document.querySelectorAll('.checklist').forEach(list => {
+    const key = list.dataset.key;
+    const boxes = [].slice.call(list.querySelectorAll('input[type=checkbox]'));
+    const saved = Array.isArray(state.checks[key]) ? state.checks[key] : [];
+    const prog = document.createElement('div');
+    prog.className = 'check-progress no-print';
+    list.after(prog);
+    function update(){
+      const n = boxes.filter(b => b.checked).length;
+      prog.textContent = n === boxes.length
+        ? '✓ Tudo marcado — pode seguir para a próxima aula!'
+        : n + ' de ' + boxes.length + ' marcados';
+    }
+    boxes.forEach((b, i) => {
+      b.checked = !!saved[i];
+      b.addEventListener('change', () => {
+        state.checks[key] = boxes.map(x => x.checked);
+        saveState(); update();
+      });
+    });
+    update();
+  });
+
+  // ---------- impressão / PDF ----------
+  let impressaoAtiva = false;
+  let faqFechados = [];
+  function prepararImpressao(){
+    if(impressaoAtiva) return;
+    impressaoAtiva = true;
+    stopAll();
+    faqFechados = [].filter.call(document.querySelectorAll('details.faq'), d => !d.open);
+    faqFechados.forEach(d => { d.open = true; });
+    // imagens com loading="lazy" em aulas escondidas: força o carregamento
+    document.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+  }
+  function restaurarImpressao(){
+    if(!impressaoAtiva) return;
+    impressaoAtiva = false;
+    faqFechados.forEach(d => { d.open = false; });
+    faqFechados = [];
+  }
+  window.addEventListener('beforeprint', prepararImpressao);
+  window.addEventListener('afterprint', restaurarImpressao);
+  if(window.matchMedia){
+    const mq = window.matchMedia('print');
+    const onPrintChange = (e) => { e.matches ? prepararImpressao() : restaurarImpressao(); };
+    if(mq.addEventListener) mq.addEventListener('change', onPrintChange);
+    else if(mq.addListener)  mq.addListener(onPrintChange);
+  }
+  document.getElementById('btnPrint').addEventListener('click', () => {
+    prepararImpressao();
+    // dá tempo das partituras das outras aulas carregarem antes de abrir a impressão
+    const imgs = [].slice.call(document.querySelectorAll('figure.pauta img'));
+    Promise.all(imgs.map(img => img.complete ? null : new Promise(r => { img.onload = img.onerror = r; })))
+      .then(() => window.print());
+  });
+
+  /* ==================================================================
+     ÁUDIO — sintetizador simples (Web Audio), sem arquivos de som.
+     Cada partitura traz em data-play as notas [midi, tempos] e, quando
+     é um exercício de acordes, a base [início, [midis], duração].
+     ================================================================== */
+  let actx = null, master = null, playing = null;
+  function audio(){
+    if(!actx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      actx = new AC();
+      master = actx.createGain(); master.gain.value = 0.9;
+      master.connect(actx.destination);
+    }
+    if(actx.state === 'suspended') actx.resume();
+    return actx;
+  }
+  const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+
+  function flute(t, midi, dur, vol, nodes){
+    const o = actx.createOscillator(), o2 = actx.createOscillator(), g = actx.createGain();
+    const vib = actx.createOscillator(), vg = actx.createGain();
+    o.type = 'sine'; o2.type = 'triangle';
+    o.frequency.value = mtof(midi); o2.frequency.value = mtof(midi) * 2;
+    vib.frequency.value = 5; vg.gain.value = mtof(midi) * 0.004;
+    vib.connect(vg); vg.connect(o.frequency);
+    const g2 = actx.createGain(); g2.gain.value = 0.12;
+    o.connect(g); o2.connect(g2); g2.connect(g); g.connect(master);
+    const end = t + Math.max(0.08, dur * 0.92);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.04);
+    g.gain.setValueAtTime(vol * 0.85, Math.max(t + 0.05, end - 0.06));
+    g.gain.exponentialRampToValueAtTime(0.0001, end);
+    [o, o2, vib].forEach(x => { x.start(t); x.stop(end + 0.05); nodes.push(x); });
+  }
+  function pad(t, midis, dur, nodes){
+    midis.forEach(m => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'triangle'; o.frequency.value = mtof(m);
+      o.connect(g); g.connect(master);
+      const vol = 0.045, end = t + dur;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.08);
+      g.gain.setValueAtTime(vol, Math.max(t + 0.09, end - 0.12));
+      g.gain.exponentialRampToValueAtTime(0.0001, end);
+      o.start(t); o.stop(end + 0.05); nodes.push(o);
+    });
+  }
+
+  function stopAll(){
+    if(!playing) return;
+    playing.nodes.forEach(n => { try { n.stop(); } catch(e){} });
+    clearTimeout(playing.timer);
+    if(playing.onend) playing.onend();
+    playing = null;
+  }
+
+  /* toca uma sequência; loop=true repete até parar */
+  function playSeq(data, bpm, opts){
+    opts = opts || {};
+    if(!audio()) return;
+    stopAll();
+    const beat = 60 / bpm;
+    const nodes = [];
+    const total = Math.max(
+      (data.n || []).reduce((s, x) => s + x[1], 0),
+      (data.p || []).reduce((s, x) => Math.max(s, x[0] + x[2]), 0)
+    );
+    const reps = opts.loop ? 4 : 1;
+    const t0 = actx.currentTime + 0.12;
+    for(let r = 0; r < reps; r++){
+      const base = t0 + r * total * beat;
+      let t = base;
+      (data.n || []).forEach(([m, d]) => {
+        if(m > 0) flute(t, m, d * beat, opts.melVol || 0.22, nodes);
+        t += d * beat;
+      });
+      if(opts.pad !== false) (data.p || []).forEach(([s, ms, d]) => pad(base + s * beat, ms, d * beat, nodes));
+    }
+    playing = { nodes, onend: opts.onend || null };
+    playing.timer = setTimeout(() => { const p = playing; playing = null; if(p && p.onend) p.onend(); }, (reps * total * beat + 0.4) * 1000);
+  }
+
+  // botões "Ouvir" das partituras
+  document.querySelectorAll('figure.pauta[data-play]').forEach(fig => {
+    let data;
+    try { data = JSON.parse(fig.dataset.play); } catch(e){ return; }
+    const row = document.createElement('div');
+    row.className = 'play-row';
+    const hasMel = (data.n || []).some(x => x[0] > 0);
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'play-btn';
+    const label = hasMel ? '▶ Ouvir' : '▶ Ouvir a base (repete 4×)';
+    btn.textContent = label;
+    const sel = document.createElement('label');
+    sel.className = 'tempo';
+    sel.innerHTML = 'Andamento <select><option value="50">devagar (50)</option><option value="60" selected>60</option><option value="72">72</option><option value="88">88</option></select>';
+    row.appendChild(btn); row.appendChild(sel);
+    let padBtn = null;
+    if(hasMel && (data.p || []).length){
+      padBtn = document.createElement('label');
+      padBtn.className = 'tempo';
+      padBtn.innerHTML = '<input type="checkbox" checked> com acorde de fundo';
+      row.appendChild(padBtn);
+    }
+    fig.appendChild(row);
+    btn.addEventListener('click', () => {
+      if(btn.classList.contains('playing')){ stopAll(); return; }
+      const bpm = +sel.querySelector('select').value;
+      const withPad = padBtn ? padBtn.querySelector('input').checked : true;
+      btn.classList.add('playing'); btn.textContent = '■ Parar';
+      playSeq(data, bpm, { loop: !hasMel, pad: withPad, onend: () => { btn.classList.remove('playing'); btn.textContent = label; } });
+    });
+  });
+
+  /* ==================================================================
+     TEORIA mínima para os jogos (mesma lógica do gerador das partituras)
+     ================================================================== */
+  const LET = 'CDEFGAB', NAT = [0,2,4,5,7,9,11];
+  const ESCALAS = { maior:[0,2,4,5,7,9,11], natural:[0,2,3,5,7,8,10], harmonica:[0,2,3,5,7,8,11], melodica:[0,2,3,5,7,9,11] };
+  const Q4 = {'4,7,11':'7M','4,7,10':'7','3,7,10':'m7','3,6,10':'m7(b5)','3,6,9':'°','3,7,11':'m7M','4,8,11':'7M(#5)','4,8,10':'7(#5)'};
+  const ROM = ['I','II','III','IV','V','VI','VII'];
+  function nota(str){ // "Bb" -> {l, pc}
+    const l = LET.indexOf(str[0]); let acc = 0;
+    for(const ch of str.slice(1)) acc += ch === '#' ? 1 : (ch === 'b' ? -1 : 0);
+    return { l, acc, pc: (NAT[l] + acc + 12) % 12 };
+  }
+  function nomeNota(n){ return LET[n.l] + (n.acc > 0 ? '#'.repeat(n.acc) : 'b'.repeat(-n.acc)); }
+  function escala(tonica, tipo){
+    const t = nota(tonica);
+    return ESCALAS[tipo].map((iv, i) => {
+      const l = (t.l + i) % 7, alvo = (t.pc + iv) % 12;
+      let acc = (alvo - NAT[l] + 12) % 12; if(acc > 6) acc -= 12;
+      return { l, acc, pc: alvo };
+    });
+  }
+  function campo(tonica, tipo){
+    const sc = escala(tonica, tipo), mai = escala(tonica, 'maior');
+    return sc.map((n, d) => {
+      const notas = [0,2,4,6].map(k => sc[(d + k) % 7]);
+      const ints = notas.slice(1).map(x => (x.pc - n.pc + 12) % 12).join(',');
+      const q = Q4[ints] || '';
+      const dif = (n.pc - mai[d].pc + 12) % 12;
+      const pre = dif === 11 ? '♭' : (dif === 1 ? '#' : '');
+      // midi: raiz entre C4 (60) e B4 (71), demais notas empilhadas
+      let prev = 60 + n.pc; const midis = [prev];
+      notas.slice(1).forEach(x => { let m = 60 + x.pc; while(m <= prev) m += 12; midis.push(m); prev = m; });
+      return { roman: pre + ROM[d] + q, cifra: nomeNota(n) + q, notas: notas.map(nomeNota), midis };
+    });
+  }
+  const pretty = s => s.replace(/^b(?=[IV])/, '♭');
+  const rnd = n => Math.floor(Math.random() * n);
+
+  // ---------- Jogo 1: telefone musical ----------
+  (function(){
+    const out = document.getElementById('telOut');
+    let seq = null, sc = null, tonica = null;
+    function novo(){
+      const [t, tipo] = document.getElementById('telTom').value.split('|');
+      const tam = +document.getElementById('telTam').value;
+      tonica = t; sc = escala(t, tipo);
+      seq = [1];
+      while(seq.length < tam){ let g = 1 + rnd(7); if(g !== seq[seq.length - 1]) seq.push(g); }
+      if(tam > 3) seq[seq.length - 1] = Math.random() < 0.6 ? 1 : seq[seq.length - 1];
+      const graus = tipo === 'maior' ? ['1','2','3','4','5','6','7'] : ['1','2','♭3','4','5', tipo === 'melodica' ? '6' : '♭6', tipo === 'natural' ? '♭7' : '7'];
+      out.innerHTML = seq.map(g => '<span>' + graus[g - 1] + '</span>').join('<span class="small">–</span>');
+      out.dataset.revealed = '';
+    }
+    document.getElementById('telNovo').addEventListener('click', novo);
+    document.getElementById('telMostra').addEventListener('click', () => {
+      if(!seq){ novo(); return; }
+      if(out.dataset.revealed) return;
+      out.dataset.revealed = '1';
+      const span = document.createElement('span');
+      span.className = 'reveal';
+      span.textContent = '→ ' + seq.map(g => pretty(nomeNota(sc[g - 1]))).join(' – ');
+      out.appendChild(span);
+    });
+    document.getElementById('telOuvir').addEventListener('click', () => {
+      if(!seq) novo();
+      const base = 60 + sc[0].pc;
+      const n = seq.map(g => { let m = 60 + sc[g - 1].pc; while(m < base) m += 12; return [m, 1]; });
+      n[n.length - 1][1] = 2;
+      playSeq({ n }, 72);
+    });
+  })();
+
+  // ---------- Jogo 2: dado harmônico ----------
+  (function(){
+    const out = document.getElementById('dadoOut');
+    let prog = null;
+    function rolar(){
+      const [t, tipo] = document.getElementById('dadoTom').value.split('|');
+      const c = campo(t, tipo);
+      const graus = [0];
+      while(graus.length < 4){
+        let g = 1 + rnd(6);
+        if(g !== graus[graus.length - 1]) graus.push(g);
+      }
+      prog = graus.map(g => c[g]);
+      out.innerHTML = prog.map(x => '<span>' + pretty(x.roman) + '</span>').join('<span class="small">–</span>');
+      out.dataset.revealed = '';
+    }
+    document.getElementById('dadoRolar').addEventListener('click', rolar);
+    document.getElementById('dadoMostra').addEventListener('click', () => {
+      if(!prog){ rolar(); return; }
+      if(out.dataset.revealed) return;
+      out.dataset.revealed = '1';
+      const div = document.createElement('div');
+      div.className = 'reveal';
+      div.style.flexBasis = '100%';
+      div.innerHTML = prog.map(x => '<b>' + pretty(x.cifra) + '</b> <span class="small">(' + x.notas.map(pretty).join(' ') + ')</span>').join(' &nbsp;·&nbsp; ');
+      out.appendChild(div);
+    });
+    document.getElementById('dadoOuvir').addEventListener('click', () => {
+      if(!prog) rolar();
+      const n = [], p = [];
+      prog.forEach((x, i) => {
+        const up = i % 2 === 0 ? x.midis : x.midis.slice().reverse();
+        up.forEach(m => n.push([m, 1]));
+        p.push([i * 4, x.midis.map(m => m - 12), 4]);
+      });
+      playSeq({ n, p }, 72);
+    });
+  })();
+
+  // ---------- Jogo 3: detetive do ouvido ----------
+  (function(){
+    const TIPOS = [
+      { nome:'Maior', ints:[0,4,7] }, { nome:'Menor', ints:[0,3,7] },
+      { nome:'Diminuta', ints:[0,3,6] }, { nome:'Aumentada', ints:[0,4,8] }
+    ];
+    const btns = document.getElementById('detBtns');
+    const out = document.getElementById('detOut');
+    const scoreEl = document.getElementById('detScore');
+    let atual = null, acertos = 0, total = 0, respondido = true;
+    function montarBotoes(){
+      const n = +document.getElementById('detNivel').value;
+      btns.innerHTML = '';
+      TIPOS.slice(0, n).forEach((t, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.textContent = t.nome;
+        b.addEventListener('click', () => responder(i, b));
+        btns.appendChild(b);
+      });
+    }
+    function tocar(){
+      if(!atual) return;
+      const n = atual.ints.map(iv => [atual.raiz + iv, 0.9]);
+      n.push([atual.raiz + atual.ints[2], 0.1]);
+      playSeq({ n: n.slice(0, 3).concat([[0, 0.3]]), p: [[3.3, atual.ints.map(iv => atual.raiz + iv), 2.2]] }, 80, { melVol: 0.24 });
+    }
+    function novo(){
+      const n = +document.getElementById('detNivel').value;
+      const t = TIPOS[rnd(n)];
+      atual = { ints: t.ints, nome: t.nome, idx: TIPOS.indexOf(t), raiz: 62 + rnd(8) };
+      respondido = false;
+      [].forEach.call(btns.children, b => b.className = '');
+      out.innerHTML = '<span class="small">Ouça e escolha o tipo…</span>';
+      tocar();
+    }
+    function responder(i, b){
+      if(!atual || respondido) return;
+      respondido = true; total++;
+      const certo = i === atual.idx;
+      if(certo) acertos++;
+      b.className = certo ? 'ok' : 'no';
+      if(!certo) btns.children[atual.idx].className = 'ok';
+      out.innerHTML = certo ? '<span>Isso! ' + atual.nome + '.</span>' : '<span class="small">Era <b>' + atual.nome + '</b>. Aperte “Repetir” e compare.</span>';
+      scoreEl.textContent = 'Acertos: ' + acertos + ' de ' + total;
+    }
+    document.getElementById('detNivel').addEventListener('change', () => { montarBotoes(); atual = null; out.innerHTML = '<span class="small">Aperte “Tocar acorde”.</span>'; });
+    document.getElementById('detTocar').addEventListener('click', novo);
+    document.getElementById('detRepetir').addEventListener('click', tocar);
+    montarBotoes();
+  })();
+
+  // ---------- abertura ----------
+  const inicial = location.hash.replace('#', '');
+  const abrir = chapters.some(c => c.id === inicial) ? inicial
+              : (chapters.some(c => c.id === state.last) ? state.last : 'capa');
+  showChapter(abrir, {replace:true});
+</script>
+</body>
+</html>

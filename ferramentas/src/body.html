@@ -1,0 +1,641 @@
+<body>
+
+<div class="shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="20" cy="20" r="19" stroke="#D8B24C" stroke-width="1.4"/>
+        <g transform="rotate(-35 20 20)">
+          <rect x="4" y="17.6" width="32" height="4.8" rx="2.4" fill="none" stroke="#D8B24C" stroke-width="1.3"/>
+          <circle cx="10" cy="20" r="1.1" fill="#D8B24C"/>
+          <circle cx="19" cy="20" r="1.1" fill="#D8B24C"/>
+          <circle cx="23.5" cy="20" r="1.1" fill="#D8B24C"/>
+          <circle cx="28" cy="20" r="1.1" fill="#D8B24C"/>
+          <circle cx="32" cy="20" r="1.1" fill="#D8B24C"/>
+        </g>
+      </svg>
+      <div class="t">Graus e Campos<small>CARTILHA DO ALUNO · FLAUTA</small></div>
+    </div>
+    <nav class="chapters" id="chapterNav" aria-label="Aulas da cartilha"></nav>
+
+    <div class="side-actions">
+      <button class="side-btn" id="btnPrint" type="button">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+          <path d="M4 6V2h8v4M4 12H2V7h12v5h-2M4 10h8v4H4z" stroke="currentColor" stroke-width="1.4"
+                stroke-linejoin="round" stroke-linecap="round"/>
+        </svg>
+        Imprimir / salvar em PDF
+      </button>
+      <p class="side-hint">
+        Imprime a cartilha <b>inteira</b>, uma aula por página.<br>
+        Navegue com <kbd>&larr;</kbd> <kbd>&rarr;</kbd>
+      </p>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main>
+    <div class="content-scroll" id="contentScroll">
+
+      <!-- 0. CAPA -->
+      <section class="chapter" data-chapter="capa">
+        <div class="cover">
+          <svg width="220" height="70" viewBox="0 0 220 70" fill="none" aria-hidden="true" focusable="false">
+            <g stroke="#8C5A2E" stroke-width="1.2" opacity="0.55">
+              <path d="M4 18h212M4 26h212M4 34h212M4 42h212M4 50h212"/>
+            </g>
+            <g fill="#4A3220">
+              <ellipse cx="30" cy="54" rx="6" ry="4.4" transform="rotate(-18 30 54)"/>
+              <ellipse cx="62" cy="46" rx="6" ry="4.4" transform="rotate(-18 62 46)"/>
+              <ellipse cx="94" cy="38" rx="6" ry="4.4" transform="rotate(-18 94 38)"/>
+              <ellipse cx="126" cy="30" rx="6" ry="4.4" transform="rotate(-18 126 30)"/>
+            </g>
+            <g stroke="#4A3220" stroke-width="1.6">
+              <path d="M35.5 52V24M67.5 44V16M99.5 36V8M131.5 28V2"/>
+              <path d="M22 54h16"/>
+            </g>
+            <g font-family="Work Sans, sans-serif" font-size="10" font-weight="700" fill="#2F5A3A" text-anchor="middle">
+              <text x="30" y="68">1</text><text x="62" y="68">3</text><text x="94" y="68">5</text><text x="126" y="68">7</text>
+            </g>
+            <rect x="146" y="20" width="66" height="26" fill="#F2E9D3"/>
+            <text x="152" y="41" font-family="Fraunces, serif" font-size="21" font-weight="600" fill="#9A6A1C">C7M</text>
+          </svg>
+          <div class="eyebrow">CARTILHA DO ALUNO · HARMONIA NA FLAUTA</div>
+          <h1 class="big">A flauta toca uma nota por vez. A harmonia, você leva na cabeça.</h1>
+          <p class="lead">Esta cartilha ensina, passo a passo, a enxergar <b>escalas, graus e acordes</b> dentro das melodias que você toca. Cada aula usa só o que você aprendeu nas anteriores — no fim, você vai ler uma cifra como <b>Dm7</b> e já saber quais notas tocar.</p>
+          <div class="tip"><b>Como usar:</b> siga as aulas na ordem. Só avance quando conseguir marcar todos os itens do <b>checklist</b> no fim de cada aula. É isso que torna o método à prova de falhas: nenhum passo fica para trás.</div>
+        </div>
+
+        <h3>Os 4 passos para estudar cada exercício</h3>
+        <ol class="steps">
+          <li><div class="n">1</div><h4>Ouça</h4><p>Aperte <b>▶ Ouvir</b> e acompanhe a partitura com os olhos.</p></li>
+          <li><div class="n">2</div><h4>Fale</h4><p>Sem a flauta, diga em voz alta a cifra e os graus: “Dó sete maior: um, três, cinco, sete”.</p></li>
+          <li><div class="n">3</div><h4>Toque</h4><p>Devagar (tempo 60), respirando na troca de acorde. Primeiro articulado, depois ligado.</p></li>
+          <li><div class="n">4</div><h4>Mude</h4><p>Toque de trás para frente, em outro tom ou com outro ritmo. Quem muda, entende.</p></li>
+        </ol>
+
+        <h3>Como ler as partituras desta cartilha</h3>
+        <div class="key-bar">
+          <span><span class="sw roman">IIm7</span> grau do acorde no campo harmônico</span>
+          <span><span class="sw cifra">Dm7</span> cifra (nome do acorde ou da nota)</span>
+          <span><span class="sw grau">1 ♭3 5 ♭7</span> função de cada nota</span>
+          <span><span class="sw hi">vermelho</span> a nota que muda ou que merece atenção</span>
+        </div>
+        <p style="font-size:0.92rem;">Para ficar na região mais confortável da flauta, os arpejos sempre começam entre o <b>Dó grave</b> e o <b>Si</b> logo acima. Por isso, em alguns campos harmônicos, um acorde “desce” uma oitava em relação ao anterior. É de propósito.</p>
+        <p class="credit">Base teórica inspirada em <i>Acordes Horizontais: formação de acordes para flauta transversal</i>, de Daniel Rebel e Carvalho (UFRJ, 2021), com conteúdo simplificado para iniciantes.</p>
+      </section>
+
+      <!-- 1. NOTAS E CIFRAS -->
+      <section class="chapter" data-chapter="notas">
+        <div class="eyebrow">AULA 1</div>
+        <h2>O nome das notas e as cifras</h2>
+        <p class="lead">Antes de falar de harmonia, precisamos de uma língua em comum. Na música popular, cada nota tem uma letra — e é com essas letras que se escrevem as cifras.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>A cifra começa no <b>Lá</b>: A, B, C, D, E, F, G. Decorando que <b>Dó = C</b>, o resto segue em ordem.</p></div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>As sete letras</h4>
+            <table class="simple">
+              <tbody>
+                <tr><th>Dó</th><td><b>C</b></td><th>Sol</th><td><b>G</b></td></tr>
+                <tr><th>Ré</th><td><b>D</b></td><th>Lá</th><td><b>A</b></td></tr>
+                <tr><th>Mi</th><td><b>E</b></td><th>Si</th><td><b>B</b></td></tr>
+                <tr><th>Fá</th><td><b>F</b></td><td></td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <h4>Os acidentes na cifra</h4>
+            <p style="font-size:0.92rem;"><b>#</b> (sustenido) sobe meio tom: <b>F#</b> = Fá sustenido.<br>
+            <b>b</b> (bemol) desce meio tom: <b>Bb</b> = Si bemol.</p>
+            <p style="font-size:0.92rem;">Tudo o que vem <b>depois</b> da letra fala do tipo de acorde: <b>m</b> = menor, <b>7</b> = sétima, <b>7M</b> = sétima maior. Isso vem na Aula 3.</p>
+          </div>
+        </div>
+
+        {{FIG ex1_1|Exercício 1.1|Letra em cima, nome embaixo|Toque devagar dizendo a letra de cada nota: “C, D, E…”. Depois repita dizendo o nome: “Dó, Ré, Mi…”.}}
+
+        {{FIG ex1_2|Exercício 1.2|Complete as cifras|Escreva a letra de cada nota no quadrinho (a lápis). Depois toque dizendo as letras. Respostas no capítulo “Respostas”.}}
+
+        <div class="game">
+          <h4>Jogo da aula: Letra-relâmpago</h4>
+          <p class="how">O professor (ou um colega) fala uma letra — “E!” — e você toca a nota o mais rápido que puder. Depois troquem de papel. Comece só com C, D, E, F e G; quando ficar fácil, inclua A e B.</p>
+        </div>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual é a letra do Sol? <details><summary>ver resposta</summary><span class="ans">G</span></details></li>
+          <li>A cifra <b>F</b> é qual nota? <details><summary>ver resposta</summary><span class="ans">Fá</span></details></li>
+          <li>Escreva em cifra: Lá, Si e Ré. <details><summary>ver resposta</summary><span class="ans">A, B e D</span></details></li>
+          <li>O que significa <b>Bb</b>? <details><summary>ver resposta</summary><span class="ans">Si bemol</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="notas">
+          <li><label><input type="checkbox"> Digo a letra de qualquer nota da 1ª oitava sem pensar.</label></li>
+          <li><label><input type="checkbox"> Sei o que é # e b numa cifra.</label></li>
+          <li><label><input type="checkbox"> Completei o Exercício 1.2 sem erros.</label></li>
+        </ul>
+      </section>
+
+      <!-- 2. ESCALA MAIOR E GRAUS -->
+      <section class="chapter" data-chapter="escala">
+        <div class="eyebrow">AULA 2</div>
+        <h2>A escala maior e os graus</h2>
+        <p class="lead">Uma escala é uma escada de sete notas. Cada degrau ganha um número — o <b>grau</b>. Pensar em números em vez de notas é o segredo para tocar em qualquer tom.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>Toda escala maior segue a mesma receita de distâncias: <b>tom, tom, semitom, tom, tom, tom, semitom</b>. Mudou a primeira nota, a receita continua igual.</p></div>
+
+        <div class="chips">
+          <div class="chip"><span class="c">1</span><span class="g">C</span></div>
+          <div class="chip"><span class="r">tom</span><span class="c">2</span><span class="g">D</span></div>
+          <div class="chip"><span class="r">tom</span><span class="c">3</span><span class="g">E</span></div>
+          <div class="chip changed"><span class="r">semitom</span><span class="c">4</span><span class="g">F</span></div>
+          <div class="chip"><span class="r">tom</span><span class="c">5</span><span class="g">G</span></div>
+          <div class="chip"><span class="r">tom</span><span class="c">6</span><span class="g">A</span></div>
+          <div class="chip"><span class="r">tom</span><span class="c">7</span><span class="g">B</span></div>
+          <div class="chip changed"><span class="r">semitom</span><span class="c">1</span><span class="g">C</span></div>
+        </div>
+        <p style="font-size:0.92rem;">Os semitons ficam sempre <b>entre o 3 e o 4</b> e <b>entre o 7 e o 1</b>. Depois do 7, a contagem volta para o 1 — o Dó agudo também é grau 1.</p>
+
+        {{FIG ex2_1|Exercício 2.1|Escala de Dó maior com os graus|Suba dizendo os números, desça dizendo os números. Depois toque só pensando nos números, sem falar.}}
+
+        {{FIG ex2_2|Exercício 2.2|Grupos “1-2-3-1”|O mesmo desenho começa em cada grau da escala. Diga os números em voz alta na primeira vez.}}
+
+        {{FIG ex2_3|Exercício 2.3|Pula-uma (terças)|Toque uma nota, pule a vizinha, toque a seguinte: 1-3, 2-4, 3-5… Guarde bem este movimento: é assim que nascem os acordes na próxima aula.}}
+
+        <h3>A mesma receita em outros tons</h3>
+        <p style="font-size:0.92rem;">Em Sol maior, para o semitom cair entre o 7 e o 1, o Fá precisa subir: <b>F#</b>. Em Fá maior, para o semitom cair entre o 3 e o 4, o Si precisa descer: <b>Bb</b>. A armadura de clave já avisa isso no começo da pauta.</p>
+
+        {{FIG ex2_4g|Exercício 2.4a|Sol maior (G) — um sustenido: F#|}}
+        {{FIG ex2_4f|Exercício 2.4b|Fá maior (F) — um bemol: Bb|}}
+        {{FIG ex2_4d|Exercício 2.4c|Ré maior (D) — dois sustenidos: F# e C#|}}
+
+        {{FIG ex2_5|Exercício 2.5|Descubra o grau em Sol maior|As notas estão fora de ordem. Escreva no quadrinho qual é o grau de cada uma na escala de Sol maior.}}
+
+        <div class="game">
+          <h4>Jogo da aula: Telefone musical</h4>
+          <p class="how">Um “número de telefone” é uma sequência de graus. O professor dita, você toca na escala do dia. Exemplo em Dó: <b>5-3-1</b> e <b>1-3-5-1</b>. No capítulo <a href="#jogos">Jogos</a> há um gerador de números para treinar sozinho.</p>
+        </div>
+        {{FIG ex2_6|Exemplo|“5-3-1” e “1-3-5-1” em Dó maior|}}
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual é a receita da escala maior? <details><summary>ver resposta</summary><span class="ans">T – T – St – T – T – T – St</span></details></li>
+          <li>Em Sol maior, qual nota é o grau 7? <details><summary>ver resposta</summary><span class="ans">F# (Fá sustenido)</span></details></li>
+          <li>Em Fá maior, qual é o grau do Bb? <details><summary>ver resposta</summary><span class="ans">Grau 4</span></details></li>
+          <li>Qual nota é o grau 5 de Ré maior? <details><summary>ver resposta</summary><span class="ans">A (Lá)</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="escala">
+          <li><label><input type="checkbox"> Toco as escalas de C, G, F e D dizendo os graus.</label></li>
+          <li><label><input type="checkbox"> Sei onde ficam os dois semitons da escala maior.</label></li>
+          <li><label><input type="checkbox"> Toco um “número de telefone” em Dó sem errar.</label></li>
+        </ul>
+      </section>
+
+      <!-- 3. COMO NASCE UM ACORDE -->
+      <section class="chapter" data-chapter="acordes">
+        <div class="eyebrow">AULA 3</div>
+        <h2>Como nasce um acorde</h2>
+        <p class="lead">Na flauta, um acorde é tocado nota por nota — um <b>arpejo</b>. Seu ouvido junta as notas e escuta a harmonia. Para montar um acorde, basta a regra do “pula-uma”.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>Pule uma nota, pegue a seguinte. Três notas = <b>tríade (1-3-5)</b>. Quatro notas = <b>tétrade (1-3-5-7)</b>.</p></div>
+
+        <h3>Os tipos de tríade</h3>
+        <div class="table-scroll" style="background:var(--sheet);">
+          <table class="simple">
+            <thead><tr><th>Cifra</th><th>Nome</th><th>Graus</th><th>Em Dó</th><th>Som</th></tr></thead>
+            <tbody>
+              <tr><td><b>C</b></td><td>maior</td><td>1 3 5</td><td>C E G</td><td>alegre, estável</td></tr>
+              <tr><td><b>Cm</b></td><td>menor</td><td>1 ♭3 5</td><td>C E♭ G</td><td>triste, suave</td></tr>
+              <tr><td><b>C°</b></td><td>diminuta</td><td>1 ♭3 ♭5</td><td>C E♭ G♭</td><td>tenso, instável</td></tr>
+              <tr><td><b>C(#5)</b></td><td>aumentada</td><td>1 3 #5</td><td>C E G#</td><td>misterioso</td></tr>
+            </tbody>
+          </table>
+        </div>
+        {{FIG ex3_1|Exercício 3.1|As quatro tríades de Dó|Repare: só uma nota muda de um acorde para o outro. Ouça a diferença antes de tocar.}}
+
+        <h3>As tétrades que vamos usar</h3>
+        <div class="table-scroll" style="background:var(--sheet);">
+          <table class="simple">
+            <thead><tr><th>Cifra</th><th>Nome</th><th>Graus</th><th>Em Dó</th><th>Onde aparece</th></tr></thead>
+            <tbody>
+              <tr><td><b>C7M</b></td><td>maior com sétima maior</td><td>1 3 5 7</td><td>C E G B</td><td>campo maior e menores</td></tr>
+              <tr><td><b>C7</b></td><td>maior com sétima (dominante)</td><td>1 3 5 ♭7</td><td>C E G B♭</td><td>todos os campos</td></tr>
+              <tr><td><b>Cm7</b></td><td>menor com sétima</td><td>1 ♭3 5 ♭7</td><td>C E♭ G B♭</td><td>campo maior e menores</td></tr>
+              <tr><td><b>Cm7(b5)</b></td><td>meio-diminuto</td><td>1 ♭3 ♭5 ♭7</td><td>C E♭ G♭ B♭</td><td>todos os campos</td></tr>
+              <tr><td><b>C°</b></td><td>diminuto</td><td>1 ♭3 ♭5 𝄫7</td><td>C E♭ G♭ B𝄫</td><td>menor harmônica</td></tr>
+              <tr><td><b>Cm7M</b></td><td>menor com sétima maior</td><td>1 ♭3 5 7</td><td>C E♭ G B</td><td>menor harmônica e melódica</td></tr>
+              <tr><td><b>C7M(#5)</b></td><td>aumentado com sétima maior</td><td>1 3 #5 7</td><td>C E G# B</td><td>menor harmônica e melódica</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.9rem;">Não precisa decorar a tabela inteira agora. As quatro primeiras aparecem já na próxima aula; as outras três só nas aulas de escalas menores.</p>
+
+        {{FIG ex3_2|Exercício 3.2|As sete tétrades a partir do Dó|Diga a cifra antes de cada compasso. Ouça como cada tipo tem uma “cor” própria.}}
+
+        {{FIG ex3_3|Exercício 3.3|Troca-troca: uma nota por vez|De C7M até C°, a cada compasso só uma nota desce meio tom (em vermelho). Este é o exercício mais importante da aula: toque até conseguir sem olhar. (Bbb = Si dobrado bemol, soa como Lá.)}}
+
+        <div class="game">
+          <h4>Jogo da aula: Detetive do ouvido</h4>
+          <p class="how">Maior, menor, diminuto ou aumentado? No capítulo <a href="#jogos">Jogos</a> a cartilha toca uma tríade e você adivinha o tipo. Faça pelo menos 10 rodadas por dia nesta semana.</p>
+        </div>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Quais graus formam uma tríade maior? <details><summary>ver resposta</summary><span class="ans">1, 3 e 5</span></details></li>
+          <li>Qual a diferença entre C7M e C7? <details><summary>ver resposta</summary><span class="ans">A sétima: no C7M é Si (7), no C7 é Si bemol (♭7).</span></details></li>
+          <li>Quais são as notas do Dm7? <details><summary>ver resposta</summary><span class="ans">D, F, A e C (1 ♭3 5 ♭7)</span></details></li>
+          <li>Qual acorde tem os graus 1 ♭3 ♭5 ♭7? <details><summary>ver resposta</summary><span class="ans">O meio-diminuto: m7(b5)</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="acordes">
+          <li><label><input type="checkbox"> Monto qualquer tríade e tétrade de Dó pelo “pula-uma”.</label></li>
+          <li><label><input type="checkbox"> Toco o Troca-troca (Exercício 3.3) sem olhar.</label></li>
+          <li><label><input type="checkbox"> Distingo de ouvido um acorde maior de um menor.</label></li>
+        </ul>
+      </section>
+
+      <!-- 4. CAMPO HARMÔNICO MAIOR -->
+      <section class="chapter" data-chapter="campo-maior">
+        <div class="eyebrow">AULA 4</div>
+        <h2>O campo harmônico maior</h2>
+        <p class="lead">Agora juntamos as duas aulas anteriores: aplicamos o “pula-uma” em cada grau da escala maior, usando só as notas da escala. Os sete acordes que surgem formam o <b>campo harmônico</b> — a “família” de acordes daquele tom.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>Em qualquer tom maior, a sequência é sempre a mesma: <b>7M · m7 · m7 · 7M · 7 · m7 · m7(b5)</b>. Decore como um número de telefone.</p></div>
+
+        {{CHIPS C maior}}
+        <p style="font-size:0.92rem;">Com tríades, a fórmula fica ainda mais curta: <b>maior · menor · menor · maior · maior · menor · diminuto</b>.</p>
+
+        {{FIG ex4_1|Exercício 4.1|Tríades do campo de Dó maior|Diga o grau romano e a cifra antes de cada compasso: “um, Dó” — “dois menor, Ré menor”…}}
+
+        {{FIG ex4_2|Exercício 4.2|Tétrades do campo de Dó maior|O coração do método. Toque todos os dias até sair de memória.}}
+
+        {{FIG ex4_3|Exercício 4.3|Sobe e desce (1-3-5-7-5-3)|Em colcheias. Comece bem devagar e respire a cada dois compassos.}}
+
+        <h3>Mesma fórmula, outros tons</h3>
+        {{FIG ex4_4|Exercício 4.4|Sol maior, descendo (7-5-3-1)|Agora o arpejo começa pela sétima. Pense no grau antes de pensar na nota.}}
+
+        {{FIG ex4_5|Exercício 4.5|Fá maior, salteado (1-5-3-7)|O desenho muda, o acorde é o mesmo. Ouça como o campo continua reconhecível.}}
+
+        {{FIG ex4_6|Exercício 4.6|Escreva o campo de Ré maior|Só as cifras estão dadas. Escreva as quatro notas de cada acorde (1-3-5-7) com a armadura de Ré maior. Use ▶ Ouvir para escutar a base enquanto escreve.}}
+
+        {{FIG ex4_7|Exercício 4.7|Detetive de cifras em Si bemol maior|Os arpejos estão fora de ordem. Escreva o grau romano (quadrinho de cima) e a cifra (de baixo). Dica: comece encontrando o 7 (acorde dominante).}}
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual é a fórmula das tétrades do campo maior? <details><summary>ver resposta</summary><span class="ans">I7M – IIm7 – IIIm7 – IV7M – V7 – VIm7 – VIIm7(b5)</span></details></li>
+          <li>Qual é o V7 de Sol maior? <details><summary>ver resposta</summary><span class="ans">D7</span></details></li>
+          <li>Em Fá maior, qual é o IIm7? <details><summary>ver resposta</summary><span class="ans">Gm7</span></details></li>
+          <li>Qual grau é o único acorde “7” (dominante) do campo maior? <details><summary>ver resposta</summary><span class="ans">O V (quinto grau)</span></details></li>
+          <li>Bm7(b5) é qual grau em Dó maior? <details><summary>ver resposta</summary><span class="ans">VIIm7(b5)</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="campo-maior">
+          <li><label><input type="checkbox"> Recito a fórmula do campo maior sem olhar.</label></li>
+          <li><label><input type="checkbox"> Toco o Exercício 4.2 de memória.</label></li>
+          <li><label><input type="checkbox"> Escrevi o campo de Ré maior (4.6) e conferi nas respostas.</label></li>
+          <li><label><input type="checkbox"> Digo os sete acordes de C, G e F em menos de 15 segundos cada.</label></li>
+        </ul>
+      </section>
+
+      <!-- 5. PROGRESSÕES -->
+      <section class="chapter" data-chapter="progressoes">
+        <div class="eyebrow">AULA 5</div>
+        <h2>Graus em ação: progressões e cadências</h2>
+        <p class="lead">As músicas não tocam o campo em ordem: escolhem alguns graus e fazem um caminho. Como você já pensa em números, uma progressão como <b>I – VI – II – V</b> serve para qualquer tom.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>A <b>7ª</b> de um acorde costuma descer meio tom ou um tom para a <b>3ª</b> do acorde seguinte. Essas são as <b>notas-guia</b>: tocando só elas, a harmonia já aparece.</p></div>
+
+        <div class="grid-3">
+          <div class="card"><h4>I – VIm – IIm – V7</h4><p style="font-size:0.9rem;">A “volta” clássica do samba, da bossa e do pop antigo.<br><b>Dó:</b> C7M – Am7 – Dm7 – G7</p></div>
+          <div class="card"><h4>I – IV – V7 – I</h4><p style="font-size:0.9rem;">A base de choro, forró e rock.<br><b>Sol:</b> G7M – C7M – D7 – G7M</p></div>
+          <div class="card"><h4>IIm7 – V7 – I7M</h4><p style="font-size:0.9rem;">O “dois-cinco-um”, a cadência mais usada do jazz e da MPB.<br><b>Dó:</b> Dm7 – G7 – C7M</p></div>
+        </div>
+
+        {{FIG ex5_1|Exercício 5.1|I – VIm – IIm – V7 em Dó, em zigue-zague|Um acorde sobe, o seguinte desce. Assim as notas ficam perto umas das outras e a melodia fica mais bonita.}}
+
+        {{FIG ex5_2|Exercício 5.2|I – IV – V7 – I em Sol maior|Mesmo zigue-zague, outro tom e outra progressão.}}
+
+        {{FIG ex5_3|Exercício 5.3|Frase no II – V – I com notas-guia|As notas em vermelho mostram o caminho 7ª → 3ª: Dó (♭7 de Dm7) → Si (3 de G7) e Fá (♭7 de G7) → Mi (3 de C7M).}}
+
+        {{FIG ex5_4|Exercício 5.4|Improviso de duas notas (exemplo)|Em cada acorde, apenas duas notas longas do arpejo. Simples, mas já é um improviso que “conversa” com a harmonia.}}
+
+        {{FIG ex5_5|Exercício 5.5|Agora é a sua vez|Aperte ▶ Ouvir para tocar a base em repetição e improvise usando só as notas 1, 3, 5 e 7 de cada acorde. Depois escreva a sua melhor versão na pauta.}}
+
+        <div class="game">
+          <h4>Jogo da aula: Dado harmônico</h4>
+          <p class="how">No capítulo <a href="#jogos">Jogos</a>, o dado sorteia quatro graus (por exemplo, <b>I – IIIm7 – IV7M – V7</b>). Descubra as cifras no tom escolhido e toque os arpejos em zigue-zague.</p>
+        </div>
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual é o II – V – I de Fá maior? <details><summary>ver resposta</summary><span class="ans">Gm7 – C7 – F7M</span></details></li>
+          <li>No Dm7 → G7, a nota Dó (♭7 de Dm7) caminha para qual nota do G7? <details><summary>ver resposta</summary><span class="ans">Si — a 3ª do G7</span></details></li>
+          <li>Escreva I – VIm – IIm – V7 em Sol maior. <details><summary>ver resposta</summary><span class="ans">G7M – Em7 – Am7 – D7</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="progressoes">
+          <li><label><input type="checkbox"> Toco I – VIm – IIm – V7 em Dó e em Sol, em zigue-zague.</label></li>
+          <li><label><input type="checkbox"> Sei achar as notas-guia (7ª → 3ª) num II – V – I.</label></li>
+          <li><label><input type="checkbox"> Improvisei sobre a base do Exercício 5.5 por 2 minutos sem parar.</label></li>
+        </ul>
+      </section>
+
+      <!-- 6. MENOR NATURAL -->
+      <section class="chapter" data-chapter="menor-natural">
+        <div class="eyebrow">AULA 6</div>
+        <h2>O campo harmônico menor natural</h2>
+        <p class="lead">Toda escala maior tem uma “irmã” menor, chamada <b>relativa</b>. Ela usa exatamente as mesmas notas, só que começa no <b>6º grau</b>. Dó maior e Lá menor são relativas.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>O campo de Lá menor é o campo de Dó maior <b>começando pelo Am7</b>. Mesmos acordes, outra ordem, outra “casa”.</p></div>
+
+        <div class="table-scroll">
+          <table class="campo">
+            <thead><tr><th></th><th>I</th><th>II</th><th>III</th><th>IV</th><th>V</th><th>VI</th><th>VII</th></tr></thead>
+            <tbody>
+              <tr><th>Dó maior</th><td>C7M</td><td>Dm7</td><td>Em7</td><td>F7M</td><td>G7</td><td class="hl">Am7</td><td>Bm7(b5)</td></tr>
+              <tr><th>Lá menor</th><td class="hl">Am7</td><td>Bm7(b5)</td><td>C7M</td><td>Dm7</td><td>Em7</td><td>F7M</td><td>G7</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size:0.92rem;">Comparada com a escala maior do mesmo tom, a menor natural tem três graus abaixados: <b>1 · 2 · ♭3 · 4 · 5 · ♭6 · ♭7</b>. Por isso os numerais romanos ganham bemol: ♭III, ♭VI, ♭VII.</p>
+
+        {{CHIPS A natural}}
+
+        {{FIG ex6_1|Exercício 6.1|Escala de Lá menor natural com os graus|Mesmas notas de Dó maior. Ouça como o “ponto de repouso” agora é o Lá.}}
+
+        {{FIG ex6_2|Exercício 6.2|Tríades do campo de Lá menor natural|Fórmula das tríades: menor · diminuto · maior · menor · menor · maior · maior.}}
+
+        {{FIG ex6_3|Exercício 6.3|Tétrades do campo de Lá menor natural|Compare com o Exercício 4.2: são os mesmos acordes!}}
+
+        {{FIG ex6_4|Exercício 6.4|Mi menor natural — sobe e desce|Relativa de Sol maior: mesma armadura, com um F#.}}
+
+        {{FIG ex6_5|Exercício 6.5|Ré menor natural — descendo (7-5-3-1)|Relativa de Fá maior: mesma armadura, com um Bb.}}
+
+        {{FIG ex6_6|Exercício 6.6|Duas progressões menores muito usadas|Im – ♭VI – ♭VII – Im (pop, rock, trilhas) e Im – IVm – Vm – Im (baladas, música nordestina).}}
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual é a relativa menor de Sol maior? <details><summary>ver resposta</summary><span class="ans">Mi menor (Em) — o 6º grau de Sol</span></details></li>
+          <li>Qual é a fórmula do campo menor natural? <details><summary>ver resposta</summary><span class="ans">Im7 – IIm7(b5) – ♭III7M – IVm7 – Vm7 – ♭VI7M – ♭VII7</span></details></li>
+          <li>Qual é o ♭VI7M de Mi menor? <details><summary>ver resposta</summary><span class="ans">C7M</span></details></li>
+          <li>Quais são os graus da escala menor natural? <details><summary>ver resposta</summary><span class="ans">1 – 2 – ♭3 – 4 – 5 – ♭6 – ♭7</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="menor-natural">
+          <li><label><input type="checkbox"> Encontro a relativa menor de C, G e F.</label></li>
+          <li><label><input type="checkbox"> Toco o campo de Lá menor natural de memória.</label></li>
+          <li><label><input type="checkbox"> Explico por que o ♭III, ♭VI e ♭VII têm bemol.</label></li>
+        </ul>
+      </section>
+
+      <!-- 7. MENOR HARMÔNICA -->
+      <section class="chapter" data-chapter="menor-harmonica">
+        <div class="eyebrow">AULA 7</div>
+        <h2>O campo harmônico menor harmônico</h2>
+        <p class="lead">Na menor natural, o V grau é menor (Em7) e soa “sem força” para voltar à tônica. A solução é simples: <b>subir o 7º grau meio tom</b>. Em Lá menor, o Sol vira <b>Sol#</b> — a nota <b>sensível</b>, que “pede” para resolver no Lá.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>Menor harmônica = menor natural com o <b>7º grau levantado</b>. Só mudam os acordes que têm essa nota: o <b>I, III, V e VII</b>.</p></div>
+
+        {{CHIPS A harmonica}}
+
+        {{FIG ex7_1|Exercício 7.1|Escala de Lá menor harmônica|O Sol# (em vermelho) cria um salto de tom e meio entre o Fá e o Sol#. Toque devagar até esse intervalo soar natural.}}
+
+        {{FIG ex7_2|Exercício 7.2|Tétrades do campo de Lá menor harmônico|Em vermelho, todas as vezes que o Sol# aparece: exatamente nos acordes que mudaram.}}
+
+        {{FIG ex7_3|Exercício 7.3|Antes e depois: Em7 → E7 → Am|Ouça a diferença: com o Sol#, o acorde de Mi “puxa” para o Lá.}}
+
+        {{FIG ex7_4|Exercício 7.4|Cadência menor: IIm7(b5) – V7 – Im|A versão menor do dois-cinco-um. As notas-guia estão em vermelho: Lá → Sol# e Ré → Dó.}}
+
+        {{FIG ex7_5|Exercício 7.5|Ré menor harmônica (Dó# é a sensível)|Mesma fórmula em outro tom. A sensível aparece em vermelho.}}
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Qual grau muda da menor natural para a harmônica? <details><summary>ver resposta</summary><span class="ans">O 7º grau, que sobe meio tom (♭7 → 7).</span></details></li>
+          <li>Qual é o V7 de Ré menor harmônica? <details><summary>ver resposta</summary><span class="ans">A7</span></details></li>
+          <li>Qual é a nota sensível de Lá menor? <details><summary>ver resposta</summary><span class="ans">Sol# (G#)</span></details></li>
+          <li>Qual é o VII° de Lá menor harmônica? <details><summary>ver resposta</summary><span class="ans">G#° (Sol sustenido diminuto)</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="menor-harmonica">
+          <li><label><input type="checkbox"> Toco a escala de Lá menor harmônica afinada.</label></li>
+          <li><label><input type="checkbox"> Sei quais 4 acordes mudam e por quê.</label></li>
+          <li><label><input type="checkbox"> Toco o IIm7(b5) – V7 – Im em Lá menor de memória.</label></li>
+        </ul>
+      </section>
+
+      <!-- 8. MENOR MELÓDICA -->
+      <section class="chapter" data-chapter="menor-melodica">
+        <div class="eyebrow">AULA 8</div>
+        <h2>O campo harmônico menor melódico</h2>
+        <p class="lead">A menor harmônica tem aquele salto de tom e meio entre o 6º e o 7º grau. Para deixar a melodia mais lisa, sobe-se também o <b>6º grau</b>. Em Lá menor: <b>Fá#</b> e <b>Sol#</b>.</p>
+
+        <div class="key-idea"><div class="lbl">Ideia-chave</div><p>Menor melódica = menor natural com o <b>6º e o 7º graus levantados</b>. É uma escala maior com a terça abaixada.</p></div>
+
+        <div class="warn"><b>Atenção a uma diferença de nomenclatura:</b> na teoria tradicional, a menor melódica sobe com 6º e 7º levantados e desce igual à natural. Na música popular e no jazz — e nesta cartilha — ela é igual subindo e descendo.</div>
+
+        {{CHIPS A melodica}}
+
+        {{FIG ex8_1|Exercício 8.1|Escala de Lá menor melódica|Fá# e Sol# em vermelho, subindo e descendo.}}
+
+        {{FIG ex8_2|Exercício 8.2|Tétrades do campo de Lá menor melódico|Repare no D7: um acorde dominante no IV grau, que só existe neste campo.}}
+
+        {{FIG ex8_3|Exercício 8.3|As três menores lado a lado|Toque as três seguidas. A cada linha, uma nota a mais sobe: primeiro o 7, depois o 6.}}
+
+        {{FIG ex8_4|Exercício 8.4|IV7 – V7 – Im7M|Dois dominantes seguidos resolvendo no Am7M. As notas levantadas estão em vermelho.}}
+
+        <h3>O mapa dos quatro campos</h3>
+        <p style="font-size:0.92rem;">A mesma tônica (Lá) nos quatro campos. Em vermelho, o que muda em relação à linha de cima.</p>
+        {{MAPA A}}
+
+        <h3>Teste rápido</h3>
+        <ol class="quiz">
+          <li>Quais graus sobem na menor melódica? <details><summary>ver resposta</summary><span class="ans">O 6º e o 7º (♭6 → 6 e ♭7 → 7).</span></details></li>
+          <li>Qual é o IV7 de Lá menor melódica? <details><summary>ver resposta</summary><span class="ans">D7</span></details></li>
+          <li>Quais acordes são iguais nos campos menor harmônico e menor melódico? <details><summary>ver resposta</summary><span class="ans">Im7M, ♭III7M(#5) e V7</span></details></li>
+        </ol>
+
+        <h3>Checklist para avançar</h3>
+        <ul class="checklist" data-key="menor-melodica">
+          <li><label><input type="checkbox"> Toco as três escalas menores de Lá, uma depois da outra.</label></li>
+          <li><label><input type="checkbox"> Sei dizer o que muda em cada uma sem olhar o mapa.</label></li>
+          <li><label><input type="checkbox"> Toco o campo de Lá menor melódico de memória.</label></li>
+        </ul>
+      </section>
+
+      <!-- 9. JOGOS -->
+      <section class="chapter" data-chapter="jogos">
+        <div class="eyebrow">AULA 9</div>
+        <h2>Jogos e desafios</h2>
+        <p class="lead">Dez minutos de jogo por dia fixam mais do que uma hora de leitura. Use os jogos abaixo sozinho ou em dupla — eles funcionam no celular ao lado da estante.</p>
+
+        <div class="game" id="gameTelefone">
+          <h4>1 · Telefone musical</h4>
+          <p class="how">Sorteie um “número” de graus e toque na escala escolhida. Só aperte “mostrar notas” depois de tocar.</p>
+          <div class="controls">
+            <select id="telTom" aria-label="Tom">
+              <option value="C|maior">Dó maior</option><option value="G|maior">Sol maior</option>
+              <option value="F|maior">Fá maior</option><option value="D|maior">Ré maior</option>
+              <option value="A|natural">Lá menor natural</option><option value="A|harmonica">Lá menor harmônica</option>
+            </select>
+            <select id="telTam" aria-label="Tamanho">
+              <option value="3">3 graus</option><option value="4" selected>4 graus</option><option value="5">5 graus</option>
+            </select>
+            <button class="play-btn" type="button" id="telNovo">Novo número</button>
+            <button class="play-btn ghost" type="button" id="telMostra">Mostrar notas</button>
+            <button class="play-btn ghost" type="button" id="telOuvir">▶ Ouvir</button>
+          </div>
+          <div class="out" id="telOut"><span class="small">Aperte “Novo número”.</span></div>
+        </div>
+
+        <div class="game" id="gameDado">
+          <h4>2 · Dado harmônico</h4>
+          <p class="how">O dado sorteia uma progressão de quatro graus (sempre começando no I). Diga as cifras, toque os arpejos, e só então confira.</p>
+          <div class="controls">
+            <select id="dadoTom" aria-label="Campo">
+              <option value="C|maior">Dó maior</option><option value="G|maior">Sol maior</option>
+              <option value="F|maior">Fá maior</option><option value="D|maior">Ré maior</option><option value="Bb|maior">Si bemol maior</option>
+              <option value="A|natural">Lá menor natural</option><option value="E|natural">Mi menor natural</option>
+              <option value="A|harmonica">Lá menor harmônica</option><option value="D|harmonica">Ré menor harmônica</option>
+              <option value="A|melodica">Lá menor melódica</option>
+            </select>
+            <button class="play-btn" type="button" id="dadoRolar">🎲 Rolar</button>
+            <button class="play-btn ghost" type="button" id="dadoMostra">Mostrar cifras</button>
+            <button class="play-btn ghost" type="button" id="dadoOuvir">▶ Ouvir</button>
+          </div>
+          <div class="out" id="dadoOut"><span class="small">Aperte “Rolar”.</span></div>
+        </div>
+
+        <div class="game" id="gameDetetive">
+          <h4>3 · Detetive do ouvido</h4>
+          <p class="how">A cartilha toca uma tríade em arpejo, a partir de uma nota sorteada. É maior, menor, diminuta ou aumentada?</p>
+          <div class="controls">
+            <select id="detNivel" aria-label="Nível">
+              <option value="2">Fácil: maior ou menor</option>
+              <option value="4">Difícil: os quatro tipos</option>
+            </select>
+            <button class="play-btn" type="button" id="detTocar">▶ Tocar acorde</button>
+            <button class="play-btn ghost" type="button" id="detRepetir">Repetir</button>
+          </div>
+          <div class="answer-btns" id="detBtns"></div>
+          <div class="out" id="detOut"><span class="small">Aperte “Tocar acorde”.</span></div>
+          <div class="score-line" id="detScore"></div>
+        </div>
+
+        <h3>Desafios sem tela</h3>
+        <ol class="ex-list">
+          <li><span class="n">4</span><div><h4>Troca-troca em outros tons</h4><p>Faça o Exercício 3.3 começando em Fá e em Sol: 7M → 7 → m7 → m7(b5). Diga o nome de cada nota que mudou.</p></div></li>
+          <li><span class="n">5</span><div><h4>Eco dos graus</h4><p>O professor toca um arpejo curto (ex.: 1-3-5 de um acorde do campo de Dó) e o aluno repete de ouvido, dizendo os graus. Depois troquem.</p></div></li>
+          <li><span class="n">6</span><div><h4>Corrida dos campos</h4><p>Cronometre quanto tempo você leva para dizer os sete acordes de um tom. Meta: menos de 10 segundos em C, G, F e Am.</p></div></li>
+          <li><span class="n">7</span><div><h4>Bingo de cifras (em grupo)</h4><p>Cada aluno escreve 6 acordes do campo de Dó numa cartela. O professor toca arpejos; quem reconhecer o acorde, marca. Vence quem completar a cartela.</p></div></li>
+          <li><span class="n">8</span><div><h4>Pergunta e resposta</h4><p>Sobre a base do Exercício 5.5, o professor toca 2 compassos e o aluno responde nos 2 seguintes, usando só notas dos arpejos.</p></div></li>
+        </ol>
+
+        <h3>Plano de estudo diário (15 minutos)</h3>
+        <div class="table-scroll">
+          <table class="simple">
+            <thead><tr><th>Tempo</th><th>O que fazer</th></tr></thead>
+            <tbody>
+              <tr><td class="nowrap"><b>3 min</b></td><td>Escala da semana dizendo os graus (Aula 2, 6, 7 ou 8).</td></tr>
+              <tr><td class="nowrap"><b>5 min</b></td><td>Campo harmônico da semana em tétrades, com ▶ Ouvir antes.</td></tr>
+              <tr><td class="nowrap"><b>4 min</b></td><td>Um jogo desta página (telefone, dado ou detetive).</td></tr>
+              <tr><td class="nowrap"><b>3 min</b></td><td>Criar: improvise sobre uma base usando só as notas dos arpejos.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 10. TABELAS -->
+      <section class="chapter" data-chapter="tabelas">
+        <div class="eyebrow">CONSULTA</div>
+        <h2>Tabelas dos campos harmônicos</h2>
+        <p class="lead">Os quatro campos nos 12 tons, para consultar quando for transpor um exercício. Os tons marcados com <span style="color:var(--sage)">●</span> são os mais indicados para quem está começando na flauta.</p>
+        {{TABELAS}}
+      </section>
+
+      <!-- 11. RESPOSTAS -->
+      <section class="chapter" data-chapter="respostas">
+        <div class="eyebrow">CONSULTA</div>
+        <h2>Respostas dos exercícios</h2>
+        <p class="lead">Confira só depois de tentar. Errar e corrigir ensina mais do que acertar de primeira.</p>
+
+        {{FIG ans1_2|Resposta 1.2|Complete as cifras|}}
+        {{FIG ans2_5|Resposta 2.5|Descubra o grau em Sol maior|}}
+        {{FIG ans4_6|Resposta 4.6|Campo de Ré maior|Se você escreveu as mesmas notas em outra oitava, também está certo.}}
+        {{FIG ans4_7|Resposta 4.7|Detetive de cifras em Si bemol maior|}}
+
+        <h3>Respostas dos testes rápidos</h3>
+        <div class="table-scroll">
+          <table class="simple">
+            <thead><tr><th>Aula</th><th>Respostas</th></tr></thead>
+            <tbody>
+              <tr><td><b>1</b></td><td>1. G · 2. Fá · 3. A, B e D · 4. Si bemol</td></tr>
+              <tr><td><b>2</b></td><td>1. T–T–St–T–T–T–St · 2. F# · 3. grau 4 · 4. A (Lá)</td></tr>
+              <tr><td><b>3</b></td><td>1. 1, 3 e 5 · 2. a sétima (B no C7M, Bb no C7) · 3. D, F, A, C · 4. m7(b5)</td></tr>
+              <tr><td><b>4</b></td><td>1. I7M–IIm7–IIIm7–IV7M–V7–VIm7–VIIm7(b5) · 2. D7 · 3. Gm7 · 4. o V · 5. VIIm7(b5)</td></tr>
+              <tr><td><b>5</b></td><td>1. Gm7–C7–F7M · 2. Si (3ª do G7) · 3. G7M–Em7–Am7–D7</td></tr>
+              <tr><td><b>6</b></td><td>1. Em · 2. Im7–IIm7(b5)–♭III7M–IVm7–Vm7–♭VI7M–♭VII7 · 3. C7M · 4. 1–2–♭3–4–5–♭6–♭7</td></tr>
+              <tr><td><b>7</b></td><td>1. o 7º grau sobe · 2. A7 · 3. G# · 4. G#°</td></tr>
+              <tr><td><b>8</b></td><td>1. 6º e 7º · 2. D7 · 3. Im7M, ♭III7M(#5) e V7</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 12. DÚVIDAS -->
+      <section class="chapter" data-chapter="duvidas">
+        <div class="eyebrow">CONSULTA</div>
+        <h2>Dúvidas frequentes</h2>
+        <p class="lead">As perguntas que mais aparecem quando o flautista começa a estudar harmonia.</p>
+
+        <details class="faq">
+          <summary>Se a flauta não toca acordes, por que estudar harmonia?</summary>
+          <p>Porque quem improvisa, faz arranjo ou toca em grupo precisa saber “onde está” na música. Tocando as notas do acorde em sequência, o ouvido de quem escuta junta tudo e percebe a harmonia. Além disso, ler cifras deixa você tocar junto com violão e teclado sem precisar de partitura escrita.</p>
+        </details>
+        <details class="faq">
+          <summary>Preciso decorar os campos nos 12 tons?</summary>
+          <p>Não. Decore a fórmula (7M · m7 · m7 · 7M · 7 · m7 · m7(b5)) e as escalas dos tons que você mais usa. Com a fórmula e a escala, qualquer campo se monta em segundos. As tabelas existem para conferir, não para decorar.</p>
+        </details>
+        <details class="faq">
+          <summary>Por que alguns arpejos começam mais grave que o anterior?</summary>
+          <p>Para ficar na região confortável da flauta. Se todos os acordes do campo fossem subindo em sequência, os últimos ficariam agudos demais para quem está começando. Quando estiver seguro, experimente tocar tudo subindo, em outra oitava.</p>
+        </details>
+        <details class="faq">
+          <summary>Qual andamento devo usar?</summary>
+          <p>Comece em 60 (a opção “devagar” do botão Ouvir). Só aumente quando conseguir tocar três vezes seguidas sem errar e dizendo os graus de cabeça. Velocidade vem sozinha; entendimento, não.</p>
+        </details>
+        <details class="faq">
+          <summary>O que é aquele “b” e “#” nos graus, como ♭3 e #5?</summary>
+          <p>Eles comparam a nota com a escala maior da fundamental do acorde. “3” é a terça maior; “♭3” é a terça meio tom abaixo (menor). “5” é a quinta justa; “♭5” meio tom abaixo; “#5” meio tom acima.</p>
+        </details>
+        <details class="faq">
+          <summary>Onde respiro nos exercícios de arpejo?</summary>
+          <p>Na troca de acorde, de preferência a cada dois compassos. Assim a respiração vira parte da frase e reforça a ideia de que cada compasso é um acorde. Nos exercícios em colcheias, respire antes de ficar sem ar — não no último fôlego.</p>
+        </details>
+        <details class="faq">
+          <summary>O som do botão Ouvir não sai no celular.</summary>
+          <p>Confira se o celular não está no modo silencioso (no iPhone, a chavinha lateral). O áudio é gerado pela própria página e só começa depois de você tocar num botão.</p>
+        </details>
+      </section>
+
+    </div>
+
+    <!-- ============ FOOTER NAV ============ -->
+    <div class="page-footer">
+      <button class="nav-btn" id="btnPrev" type="button">← Anterior</button>
+      <span class="prog" id="progText">Capa</span>
+      <button class="nav-btn" id="btnNext" type="button">Próximo →</button>
+    </div>
+  </main>
+</div>
