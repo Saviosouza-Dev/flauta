@@ -100,7 +100,9 @@
       : c.num ? 'Aula ' + c.num + ' de ' + totalAulas
       : c.label;
     btnPrev.disabled = (idx === 0);
-    btnNext.disabled = (idx === chapters.length - 1);
+    const isLast = (idx === chapters.length - 1);
+    btnNext.disabled = false;
+    btnNext.textContent = isLast ? '↺ Voltar ao início' : 'Próximo →';
 
     state.last = id; state.seen = Array.from(seen); saveState();
 
@@ -119,7 +121,10 @@
     if(next >= 0 && next < chapters.length) showChapter(chapters[next].id);
   }
   btnPrev.addEventListener('click', () => go(-1));
-  btnNext.addEventListener('click', () => go(1));
+  btnNext.addEventListener('click', () => {
+    if(currentIdx === chapters.length - 1) showChapter(chapters[0].id);
+    else go(1);
+  });
 
   window.addEventListener('hashchange', () => {
     const id = location.hash.replace('#', '');
@@ -184,13 +189,9 @@
     if(mq.addEventListener) mq.addEventListener('change', onPrintChange);
     else if(mq.addListener)  mq.addListener(onPrintChange);
   }
-  document.getElementById('btnPrint').addEventListener('click', () => {
-    prepararImpressao();
-    // dá tempo das partituras das outras aulas carregarem antes de abrir a impressão
-    const imgs = [].slice.call(document.querySelectorAll('figure.pauta img'));
-    Promise.all(imgs.map(img => img.complete ? null : new Promise(r => { img.onload = img.onerror = r; })))
-      .then(() => window.print());
-  });
+  // "Baixar PDF" agora é um link direto pro PDF pré-gerado (gerar_pdf.py),
+  // sem cabeçalho/rodapé do navegador. prepararImpressao/restaurarImpressao
+  // continuam de pé pra quem ainda assim apertar Ctrl+P na página ao vivo.
 
   /* ==================================================================
      ÁUDIO — sintetizador simples (Web Audio), sem arquivos de som.
@@ -275,10 +276,256 @@
     playing.timer = setTimeout(() => { const p = playing; playing = null; if(p && p.onend) p.onend(); }, (reps * total * beat + 0.4) * 1000);
   }
 
-  // botões "Ouvir" das partituras
+  /* ==================================================================
+     TOM — troca de tonalidade ao vivo (pauta + áudio), sem depender do
+     LilyPond. TRANSPOSE_DATA vem de partituras/transpose_data.js (gerado
+     por ferramentas/montar.py a partir de ferramentas/transpose.py); a
+     pauta é desenhada na hora com VexFlow (vexflow.min.js, vendorizado).
+     ================================================================== */
+  // mesmas cores do LilyPond original (lyb.py): romano em latão, cifra em
+  // tinta, grau em sálvia — e vermelho quando a nota está em destaque
+  const COL_ROMAN = '#9A6A1C', COL_CIFRA = '#161B26', COL_GRAU = '#1F6A4A';  // = tokens pauta-romano, pauta-cifra, pauta-grau
+
+  function vfMeasures(events, beatsPerMeasure){
+    const out = [];
+    let cur = [], acc = 0;
+    events.forEach(e => {
+      cur.push(e);
+      acc += e.beats;
+      if(acc >= beatsPerMeasure - 1e-6){ out.push(cur); cur = []; acc = 0; }
+    });
+    if(cur.length) out.push(cur);
+    return out;
+  }
+
+  function vfSystems(measures, breaks){
+    const starts = []; let idx = 0;
+    measures.forEach(m => { starts.push(idx); idx += m.length; });
+    const breakSet = new Set(breaks);
+    const out = []; let cur = [];
+    measures.forEach((m, i) => {
+      if(breakSet.has(starts[i]) && cur.length){ out.push(cur); cur = []; }
+      cur.push(m);
+    });
+    if(cur.length) out.push(cur);
+    return out;
+  }
+
+  function vfTickable(ev){
+    if(ev.t === 'r'){
+      const n = new VexFlow.StaveNote({ keys: ['b/4'], duration: ev.dur + 'r' });
+      if(ev.dots) VexFlow.Dot.buildAndAttach([n], { all: true });
+      return n;
+    }
+    if(ev.t === 's') return new VexFlow.GhostNote({ duration: ev.dur });
+    const n = new VexFlow.StaveNote({ keys: [ev.key], duration: ev.dur });
+    if(ev.dots) VexFlow.Dot.buildAndAttach([n], { all: true });
+    if(ev.color) n.setStyle({ fillStyle: ev.color, strokeStyle: ev.color });
+    return n;
+  }
+
+  /* largura mínima que o compasso precisa pra encaixar suas notas/acidentes
+     sem sobrar vão — o VexFlow não estica sozinho pra preencher o espaço
+     que a gente dá a ele (diferente do LilyPond), então em vez de chutar
+     uma largura e deixar sobrar espaço em branco no fim do compasso, mede
+     primeiro quanto cada compasso precisa de verdade. Também garante um
+     mínimo por nota — a largura "natural" da cabeça da nota é mais estreita
+     do que o texto de cifra/grau que fica em cima/embaixo dela (ex.: "C#"),
+     e o VexFlow não sabe desses rótulos (eles não são modifiers dele), então
+     sem esse piso os rótulos colam uns nos outros quando o compasso tem
+     várias notas. */
+  function vfMeasureWidth(measure, keySpec, measureCtx){
+    const notes = measure.map(vfTickable);
+    const voice = new VexFlow.Voice({ numBeats: measure.reduce((s, e) => s + e.beats, 0) || 4, beatValue: 4 });
+    voice.setStrict(false);
+    voice.addTickables(notes);
+    VexFlow.Accidental.applyAccidentals([voice], keySpec);
+    const natural = new VexFlow.Formatter().preCalculateMinTotalWidth([voice]);
+    // conta todo evento (nota, pausa ou espaço fantasma) — todos podem levar
+    // um rótulo em cima/embaixo, não só as notas de verdade
+    const MIN_PER_NOTE = 34;
+    let labelW = 0;
+    measureCtx.setFont('Work Sans', 11, '700');
+    measure.forEach(e => {
+      [e.roman, e.cifra, e.grau].forEach(t => {
+        if(!t) return;
+        const shown = t === '_' ? '——' : t;
+        const m = measureCtx.measureText(shown);
+        if(m && m.width) labelW += m.width + 10;
+      });
+    });
+    return Math.max(natural, measure.length * MIN_PER_NOTE, labelW);
+  }
+
+  /* texto em linha reta (como a Lyrics do LilyPond): não acompanha a altura
+     da nota, fica sempre na mesma linha de base, centralizado sobre `cx`.
+     Sempre em negrito. Quando é a caixa em branco do quiz ("_"), desenha um
+     quadrinho vazio (o aluno escreve a resposta a lápis) em vez de texto —
+     `boxW` é a largura desse quadrinho. */
+  function vfRowText(ctx, text, cx, baseY, boxW, color){
+    if(!text) return;
+    if(text === '_'){
+      const w = boxW || 30, h = 15;
+      ctx.rect(cx - w / 2, baseY - 11, w, h, { fill: 'none', stroke: '#4A5670', 'stroke-width': 1.1 });
+      return;
+    }
+    ctx.save();
+    ctx.setFont('Work Sans', 11, '700');
+    if(color) ctx.setFillStyle(color);
+    let tx = cx;
+    const m = ctx.measureText(text);
+    if(m && m.width) tx = cx - m.width / 2;
+    ctx.fillText(text, tx, baseY);
+    ctx.restore();
+  }
+
+  /* desenha um sistema (uma linha de compassos) em `y` dentro de `ctx` e
+     devolve o y mais alto/mais baixo realmente usado (fileira de cima,
+     fileira de baixo) — a fileira acompanha a nota mais aguda/grave de
+     verdade do sistema (getNoteHeadBounds, a posição real da cabeça da
+     nota; o getBoundingBox() do VexFlow NÃO serve pra isso, devolve uma
+     caixa interna de formatação bem maior que o desenho visível), não um
+     deslocamento fixo a partir da pauta. */
+  function buildSystem(ctx, sys, y, measureWidths, keyEntry, data, hasRoman, hasCifra, hasGrau, isLastSystem){
+    const ROW_H = 13;
+    let x = 20;
+    const sysData = [];
+    sys.forEach((measure, mi) => {
+      const isFirst = mi === 0;
+      const w = measureWidths[mi];
+      const stave = new VexFlow.Stave(x, y, w);
+      if(isFirst){
+        stave.addClef('treble');
+        stave.addKeySignature(keyEntry.keySpec);
+        stave.addTimeSignature(data.time);
+      }
+      // barra dupla de final de música só no último compasso do último
+      // sistema — igual ao "\bar "|."" do LilyPond original
+      if(isLastSystem && mi === sys.length - 1) stave.setEndBarType(VexFlow.BarlineType.END);
+      stave.setContext(ctx).draw();
+
+      const notes = measure.map(vfTickable);
+      const voice = new VexFlow.Voice({ numBeats: data.beatsPerMeasure, beatValue: 4 });
+      voice.setStrict(false);
+      voice.addTickables(notes);
+      // applyAccidentals tem que vir ANTES do format() — depois disso o
+      // VexFlow 5 trata a nota como "já formatada" e quebra ao desenhar
+      // o acidente (RuntimeError: UnformattedNote).
+      VexFlow.Accidental.applyAccidentals([voice], keyEntry.keySpec);
+      new VexFlow.Formatter().joinVoices([voice]).formatToStave([voice], stave);
+      VexFlow.Beam.generateBeams(notes).forEach(b => b.setContext(ctx).draw());
+      voice.draw(ctx, stave);
+
+      sysData.push({ measure, notes, stave });
+      x += w;
+    });
+
+    let minNoteY = Infinity, maxNoteY = -Infinity;
+    sysData.forEach(({ measure, notes }) => {
+      measure.forEach((ev, i) => {
+        if(ev.t !== 'n') return;
+        const b = notes[i].getNoteHeadBounds();
+        minNoteY = Math.min(minNoteY, b.yTop);
+        maxNoteY = Math.max(maxNoteY, b.yBottom);
+      });
+    });
+    const noteTopY = Math.min(sysData[0].stave.getYForLine(0), minNoteY);
+    const noteBotY = Math.max(sysData[0].stave.getYForLine(4), maxNoteY);
+    const cifraY = noteTopY - 8;
+    const romanY = cifraY - ROW_H;
+    const grauY = noteBotY + 13;
+
+    sysData.forEach(({ measure, notes }) => {
+      measure.forEach((ev, i) => {
+        if(ev.t === 'r') return;
+        const nx = notes[i].getAbsoluteX();
+        vfRowText(ctx, ev.roman, nx, romanY, 50, COL_ROMAN);
+        vfRowText(ctx, ev.cifra, nx, cifraY, 42, COL_CIFRA);
+        vfRowText(ctx, ev.grau, nx, grauY, 26, ev.color || COL_GRAU);
+      });
+    });
+
+    // só reserva espaço de verdade pelas fileiras que o exercício usa — sem
+    // isso sobraria uma faixa em branco pra um rótulo que nunca é desenhado
+    // (ex.: nem todo exercício tem romano)
+    return {
+      top: (hasRoman ? romanY : (hasCifra ? cifraY : noteTopY)) - 8,
+      bottom: (hasGrau ? grauY : noteBotY) + 4,
+    };
+  }
+
+  /* desenha a pauta de um exercício no tom escolhido dentro de `container`.
+     Desenha duas vezes: a primeira (descartável, numa div fora da tela) só
+     pra medir quanto espaço cada sistema precisa de verdade acima/abaixo da
+     pauta; a segunda empilha os sistemas sem sobrar vão entre eles — sem
+     isso, o espaço reservado por sistema teria que ser um chute genérico
+     (ou grande demais, sobrando vão em branco, ou pequeno demais, cortando
+     rótulo de nota aguda). */
+  function drawStave(container, data, keyEntry){
+    container.innerHTML = '';
+    const beatsPerMeasure = data.beatsPerMeasure;
+    const measures = vfMeasures(keyEntry.events, beatsPerMeasure);
+    const systems = vfSystems(measures, data.breaks);
+    const hasRoman = keyEntry.events.some(e => e.roman);
+    const hasCifra = keyEntry.events.some(e => e.cifra);
+    const hasGrau = keyEntry.events.some(e => e.grau);
+
+    const SCRATCH_Y = 1000;
+    const scratchDiv = document.createElement('div');
+    scratchDiv.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none;top:0;left:0;';
+    document.body.appendChild(scratchDiv);
+    const scratchCtx = new VexFlow.Renderer(scratchDiv, VexFlow.Renderer.Backends.SVG).getContext();
+
+    const FIRST_EXTRA = 95, PAD_FACTOR = 1.12;
+    // mede quanto cada compasso precisa de verdade (ver vfMeasureWidth) e
+    // depois estica cada sistema pra preencher a MESMA largura total — do
+    // jeito que o LilyPond também justifica todo sistema pra margem a
+    // margem, em vez de cada linha acabar numa largura diferente.
+    const systemWidths = systems.map(sys => sys.map((measure, mi) =>
+      vfMeasureWidth(measure, keyEntry.keySpec, scratchCtx) * PAD_FACTOR + (mi === 0 ? FIRST_EXTRA : 0)));
+    const systemTotalW = systemWidths.map(ws => ws.reduce((a, b) => a + b, 0));
+    const totalW = Math.max.apply(null, systemTotalW);
+    const finalWidths = systemWidths.map((ws, i) => {
+      const scale = totalW / systemTotalW[i];
+      return ws.map(w => w * scale);
+    });
+
+    const offsets = systems.map((sys, si) => {
+      const r = buildSystem(scratchCtx, sys, SCRATCH_Y, finalWidths[si], keyEntry, data, hasRoman, hasCifra, hasGrau, si === systems.length - 1);
+      return { topOffset: SCRATCH_Y - r.top, bottomOffset: r.bottom - SCRATCH_Y };
+    });
+    document.body.removeChild(scratchDiv);
+
+    const renderer = new VexFlow.Renderer(container, VexFlow.Renderer.Backends.SVG);
+    renderer.resize(totalW + 40, 4000);
+    const ctx = renderer.getContext();
+
+    const GAP = 14;
+    let cursorY = 20, globalMinY = Infinity, globalMaxY = -Infinity;
+    systems.forEach((sys, si) => {
+      const y = cursorY + offsets[si].topOffset;
+      const r = buildSystem(ctx, sys, y, finalWidths[si], keyEntry, data, hasRoman, hasCifra, hasGrau, si === systems.length - 1);
+      globalMinY = Math.min(globalMinY, r.top);
+      globalMaxY = Math.max(globalMaxY, r.bottom);
+      cursorY = r.bottom + GAP;
+    });
+
+    const svg = container.querySelector('svg');
+    const pad = 8;
+    const vy = globalMinY - pad, vh = (globalMaxY - globalMinY) + pad * 2;
+    svg.setAttribute('viewBox', '0 ' + vy + ' ' + (totalW + 40) + ' ' + vh);
+    svg.setAttribute('width', totalW + 40);
+    svg.setAttribute('height', vh);
+  }
+
+  // botões "Ouvir" + seletor de tom das partituras
   document.querySelectorAll('figure.pauta[data-play]').forEach(fig => {
-    let data;
-    try { data = JSON.parse(fig.dataset.play); } catch(e){ return; }
+    let originalData;
+    try { originalData = JSON.parse(fig.dataset.play); } catch(e){ return; }
+    let data = originalData;
+    const exName = fig.dataset.ex;
+    const exData = exName && window.TRANSPOSE_DATA ? TRANSPOSE_DATA[exName] : null;
+
     const row = document.createElement('div');
     row.className = 'play-row';
     const hasMel = (data.n || []).some(x => x[0] > 0);
@@ -297,6 +544,41 @@
       padBtn.innerHTML = '<input type="checkbox" checked> com acorde de fundo';
       row.appendChild(padBtn);
     }
+
+    let vfWrap = null;
+    if(exData && typeof VexFlow !== 'undefined'){
+      const tomSel = document.createElement('label');
+      tomSel.className = 'tempo';
+      const opts = exData.keys.map((k, i) => `<option value="${i}"${k.isOriginal ? ' selected' : ''}>${k.label}</option>`).join('');
+      tomSel.innerHTML = 'Tom <select>' + opts + '</select>';
+      row.appendChild(tomSel);
+
+      const picture = fig.querySelector('picture');
+      const img = picture.querySelector('img');
+      vfWrap = document.createElement('div');
+      vfWrap.className = 'vf-wrap';
+      vfWrap.style.display = 'none';
+      // mesma largura da imagem original — não deixa o tamanho/proporção da
+      // pauta mudar de um tom para o outro
+      if(img && img.style.width) vfWrap.style.width = img.style.width;
+      picture.after(vfWrap);
+
+      tomSel.querySelector('select').addEventListener('change', (e) => {
+        stopAll();
+        const keyEntry = exData.keys[+e.target.value];
+        if(keyEntry.isOriginal){
+          data = originalData;
+          vfWrap.style.display = 'none';
+          picture.style.display = '';
+        } else {
+          data = keyEntry.play;
+          picture.style.display = 'none';
+          vfWrap.style.display = '';
+          try { drawStave(vfWrap, exData, keyEntry); } catch(err){ console.error('pauta:', exName, err); }
+        }
+      });
+    }
+
     fig.appendChild(row);
     btn.addEventListener('click', () => {
       if(btn.classList.contains('playing')){ stopAll(); return; }
@@ -474,6 +756,19 @@
   const abrir = chapters.some(c => c.id === inicial) ? inicial
               : (chapters.some(c => c.id === state.last) ? state.last : 'capa');
   showChapter(abrir, {replace:true});
+
+  // ---------- seletor de paleta (Nanquim · Grafite · Sálvia) ----------
+  (function(){
+    const KEY = 'gc-paleta', html = document.documentElement;
+    const btns = Array.from(document.querySelectorAll('.paleta[data-paleta]'));
+    function aplicar(p, guardar){
+      html.dataset.paleta = p;
+      btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.paleta === p)));
+      if(guardar){ try { localStorage.setItem(KEY, p); } catch(e){} }
+    }
+    btns.forEach(b => b.addEventListener('click', () => aplicar(b.dataset.paleta, true)));
+    aplicar(html.dataset.paleta || 'nanquim', false);
+  })();
 </script>
 </body>
 </html>

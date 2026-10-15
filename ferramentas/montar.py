@@ -9,6 +9,7 @@ from fractions import Fraction
 
 from theory import *
 from ex import EX
+from transpose import export_all, ORIGIN
 
 ROOT = os.path.dirname(os.path.abspath(__file__))   # ferramentas/
 SITE = os.path.dirname(ROOT)                          # raiz do repositório
@@ -54,7 +55,7 @@ def play_data(s):
 
 
 def svg_size(path):
-    with open(path) as f:
+    with open(path, encoding="utf-8") as f:
         head = f.read(600)
     m = re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', head)
     if not m:
@@ -72,7 +73,8 @@ def fig(match):
     data = json.dumps(play_data(s), separators=(",", ":"))
     how_html = f'<span class="ex-how">{how}</span>' if how else ""
     alt = html.escape(f"Partitura — {title}")
-    return f'''<figure class="pauta" data-play='{data}'>
+    ex_attr = f' data-ex="{name}"' if name in ORIGIN else ""
+    return f'''<figure class="pauta" data-play='{data}'{ex_attr}>
           <figcaption><span class="ex-tag">{tag}</span><span class="ex-title">{title}</span>{how_html}</figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/{name}.svg">
@@ -164,10 +166,36 @@ def tabelas(_):
     return "\n        ".join(out)
 
 
+def write_transpose_data():
+    """Dados dos 12 tons (pauta em formato VexFlow + áudio já transposto),
+    calculados em cima da teoria (transpose.py) — não depende do LilyPond."""
+    data = export_all(EX)
+    js = "window.TRANSPOSE_DATA = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
+    path = os.path.join(PART, "transpose_data.js")
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(js)
+    print("transpose_data.js", len(js))
+
+
+def tema():
+    """Folha de estilo do método: tokens.css (gerado de tokens.json) + metodo.css.
+    A pasta src/tema/ é igual em todas as cartilhas; o instrumento é escolhido
+    em src/head.html, no atributo data-instrumento do <html>."""
+    d = os.path.join(ROOT, "src", "tema")
+    tokens_css = subprocess.run([sys.executable, os.path.join(d, "gerar_tokens_css.py"), os.path.join(d, "tokens.json")],
+                                check=True, capture_output=True, text=True, encoding="utf-8").stdout
+    with open(os.path.join(d, "tokens.css"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(tokens_css)
+    metodo = open(os.path.join(d, "metodo.css"), encoding="utf-8").read()
+    return "<style>\n" + tokens_css + "\n" + metodo + "</style>"
+
+
 def build():
-    head = open(os.path.join(ROOT, "src", "head.html")).read()
-    body = open(os.path.join(ROOT, "src", "body.html")).read()
-    script = open(os.path.join(ROOT, "src", "script.html")).read()
+    write_transpose_data()
+    head = open(os.path.join(ROOT, "src", "head.html"), encoding="utf-8").read()
+    head = head.replace("{{TEMA}}", tema())
+    body = open(os.path.join(ROOT, "src", "body.html"), encoding="utf-8").read()
+    script = open(os.path.join(ROOT, "src", "script.html"), encoding="utf-8").read()
     body = re.sub(r"\{\{FIG ([^}]*)\}\}", fig, body)
     body = re.sub(r"\{\{CHIPS (\S+) (\S+)\}\}", chips, body)
     body = re.sub(r"\{\{MAPA (\S+)\}\}", mapa, body)
@@ -176,21 +204,21 @@ def build():
     if left:
         raise SystemExit(f"placeholders não resolvidos: {left}")
     out = head + body + script
-    with open(os.path.join(SITE, "index.html"), "w") as f:
+    with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(out)
     print("index.html", len(out))
 
 
 def optimize_svgs():
-    ink = "rgb(16.470588%, 11.764706%, 7.843137%)"  # #2A1E14
+    ink = "rgb(8.627451%, 10.588235%, 14.901961%)"  # #161B26 (token pauta-tinta)
     files = []
     for d in [PART, os.path.join(PART, "m")]:
         for fn in os.listdir(d):
             if fn.endswith(".svg"):
                 p = os.path.join(d, fn)
-                s = open(p).read()
+                s = open(p, encoding="utf-8").read()
                 s = s.replace('fill="rgb(0%, 0%, 0%)"', f'fill="{ink}"').replace('stroke="rgb(0%, 0%, 0%)"', f'stroke="{ink}"')
-                open(p, "w").write(s)
+                open(p, "w", encoding="utf-8", newline="\n").write(s)
                 files.append(p)
     for d in [PART, os.path.join(PART, "m")]:
         subprocess.run(["npx", "svgo", "--multipass", "-p", "2", "-q", "-f", d], cwd=ROOT, check=True)

@@ -19,12 +19,12 @@ def _rgb(h):
     return f"#(rgb-color {r:.3f} {g:.3f} {b:.3f})"
 
 
-COL_ROMAN = _rgb("#9A6A1C")   # latão escuro  -> grau do campo (I, IIm7...)
-COL_CIFRA = _rgb("#3B2A1B")   # tinta         -> cifra
-COL_GRAU = _rgb("#2F5A3A")    # sálvia escuro -> graus (1, 3, 5, b7)
-COL_HI = _rgb("#B0362A")      # rosa/vermelho -> nota em destaque
-COL_BLANK = _rgb("#8A7A66")
-COL_INK = _rgb("#2A1E14")
+COL_ROMAN = _rgb("#9A6A1C")   # latão  (token pauta-romano)   -> grau do campo (I, IIm7...)
+COL_CIFRA = _rgb("#161B26")   # tinta  (token pauta-cifra)    -> cifra
+COL_GRAU = _rgb("#1F6A4A")    # verde  (token pauta-grau)     -> graus (1, 3, 5, b7)
+COL_HI = _rgb("#B3261E")      # vermelho (token pauta-destaque) -> nota em destaque
+COL_BLANK = _rgb("#4A5670")    # token pauta-tinta-suave
+COL_INK = _rgb("#161B26")      # token pauta-tinta
 
 
 def esc(s):

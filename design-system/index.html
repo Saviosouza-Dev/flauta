@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-instrumento="flauta">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graus e Campos — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- mesma fonte de verdade da cartilha: nada de cores copiadas aqui -->
+<link rel="stylesheet" href="../ferramentas/src/tema/tokens.css">
+<link rel="stylesheet" href="../ferramentas/src/tema/metodo.css">
+<script>try{var p=localStorage.getItem('gc-paleta');if(p)document.documentElement.dataset.paleta=p}catch(e){}</script>
+<style>
+
+  
+  .capa{ position:relative; width:960px; height:300px; overflow:hidden; background:var(--papel); }
+  .capa svg{ position:absolute; inset:0; }
+  .acento{ fill:var(--acento); }
+  .tinta{ fill:var(--tinta); }
+  .romano{ fill:var(--musica-romano); }
+  .grau{ fill:var(--musica-grau); }
+  .destaque{ fill:var(--musica-destaque); }
+  .bloco{ rx:var(--radius-md); }
+  .pauta{ stroke:var(--papel); stroke-width:1.5; }
+  .nota{ fill:var(--papel); }
+  .texto{ position:absolute; left:48px; bottom:40px; width:420px; }
+  .nome{ font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; font-size:92px; line-height:.95; letter-spacing:-0.02em; color:var(--tinta); margin:0; }
+  .linha{ font-family:var(--font-texto); font-size:14px; line-height:1.4; color:var(--tinta-suave); margin:16px 0 0; }
+
+.ds{ max-width:1180px; margin:0 auto; padding:32px 24px 80px; }
+.ds-top{ position:sticky; top:0; z-index:5; background:var(--papel); border-bottom:1px solid var(--linha); }
+.ds-top .in{ max-width:1180px; margin:0 auto; padding:10px 24px; display:flex; flex-wrap:wrap; gap:8px 20px; align-items:center; }
+.ds-top b{ font-family:var(--font-display); font-size:18px; }
+.ds-top nav{ display:flex; flex-wrap:wrap; gap:4px 14px; font-size:14px; }
+.ds-top nav a{ color:var(--tinta-suave); text-decoration:none; } .ds-top nav a:hover{ color:var(--acento); }
+.ds-top .controles{ margin-left:auto; display:flex; gap:8px; align-items:center; }
+.ds-top select{ font-family:var(--font-texto); font-size:13px; color:var(--tinta); background:var(--folha); border:1px solid var(--linha-forte); border-radius:999px; padding:5px 12px; }
+.capa-wrap{ max-width:960px; overflow:hidden; border-radius:var(--radius-lg); border:1px solid var(--linha); margin-bottom:32px; }
+.capa-wrap .capa{ transform-origin:0 0; }
+.guia-geral{ max-width:72ch; }
+.guia-geral h2{ margin-top:40px; }
+.guia-geral code, .guia code{ font-size:.88em; background:var(--papel-fundo); padding:1px 5px; border-radius:4px; }
+.guia-geral pre, .guia pre{ background:var(--papel-fundo); padding:12px; border-radius:var(--radius-sm); overflow:auto; font-size:12px; }
+.guia-geral pre code, .guia pre code{ background:none; padding:0; }
+.g-titulo{ margin-top:64px; padding-top:16px; border-top:2px solid var(--tinta); }
+.comp{ margin:32px 0; }
+.comp h3{ margin:0 0 12px; }
+.comp-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); gap:24px; align-items:start; }
+@media (max-width:900px){ .comp-grid{ grid-template-columns:1fr; } }
+.guia{ font-size:14px; color:var(--tinta-suave); } .guia p:first-child{ color:var(--tinta); font-size:15px; }
+.guia ul{ padding-left:18px; }
+.vitrine{ background:var(--papel); border:1px dashed var(--linha-forte); border-radius:var(--radius-md); overflow:auto; }
+.vitrine .sidebar{ border-radius:var(--radius-md); }
+.tokens{ display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px; margin-top:16px; }
+.tok{ display:grid; grid-template-columns:36px 1fr; gap:2px 10px; align-items:center; font-size:12px; padding:8px; border:1px solid var(--linha); border-radius:var(--radius-sm); background:var(--folha); }
+.tok .sw-c{ grid-row:span 2; width:36px; height:36px; border-radius:8px; box-shadow:inset 0 0 0 1px var(--linha-forte); }
+.tok code{ font-weight:600; color:var(--tinta); } .tok small{ color:var(--tinta-suave); line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+</style>
+</head>
+<body>
+<header class="ds-top"><div class="in"><b>Graus e Campos</b>
+<nav><a href="#guia">Guia</a><a href="#paleta">Cores</a><a href="#Fundamentos">Fundamentos</a><a href="#Estrutura">Estrutura</a><a href="#Conteúdo">Conteúdo</a><a href="#Música">Música</a><a href="#Ações">Ações</a><a href="#Fixação">Fixação</a></nav>
+<div class="controles">
+<select id="selPaleta" aria-label="Paleta"><option value="nanquim">Nanquim</option><option value="grafite">Grafite</option><option value="salvia">Sálvia</option></select>
+<select id="selTema" aria-label="Tema"><option value="">Tema do sistema</option><option value="claro">Claro</option><option value="escuro">Escuro</option></select>
+<select id="selInst" aria-label="Instrumento"><option value="flauta">Flauta</option><option value="violao">Violão</option><option value="teclado">Teclado</option><option value="canto">Canto</option><option value="percussao">Percussão</option></select>
+</div></div></header>
+<main class="ds">
+<div class="capa-wrap" id="capaWrap">
+<div class="capa">
+<svg width="960" height="300" viewBox="0 0 960 300" aria-hidden="true">
+  <!-- blocos: acento (laje alta 176×300), tinta (208×148, sangra no topo e à direita), musica-romano (96×120), musica-grau (108×96), musica-destaque pequeno (48×84) — estado, por isso o menor; cantos radius-md
+       arranjo: uma laje alta com satélites, sangrando nas bordas como folhas sobre a estante
+       padrão: "editorial, serifada, linhas finas" + o motivo literal do método — uma pauta de 5 linhas finas (cor papel, recortada nos blocos) com 4 cabeças de nota subindo 1-3-5-7, o arpejo de toda aula
+       escalas: espaçamento da pauta 8px (space-2), vãos de 16px (space-4), cantos radius-md -->
+  <rect class="acento bloco" x="560" y="-12" width="176" height="324"/>
+  <rect class="tinta bloco" x="752" y="-12" width="220" height="160"/>
+  <rect class="romano bloco" x="752" y="164" width="96" height="148"/>
+  <rect class="grau bloco" x="864" y="164" width="108" height="96"/>
+  <rect class="destaque bloco" x="496" y="228" width="48" height="84"/>
+  <g class="pauta">
+    <path d="M480 92H960M480 100H960M480 108H960M480 116H960M480 124H960"/>
+  </g>
+  <g class="nota">
+    <ellipse cx="600" cy="128" rx="7" ry="5" transform="rotate(-20 600 128)"/>
+    <ellipse cx="648" cy="120" rx="7" ry="5" transform="rotate(-20 648 120)"/>
+    <ellipse cx="696" cy="112" rx="7" ry="5" transform="rotate(-20 696 112)"/>
+    <ellipse cx="800" cy="104" rx="7" ry="5" transform="rotate(-20 800 104)"/>
+  </g>
+</svg>
+<div class="texto"><p class="nome">Graus e Campos</p><p class="linha">O sistema visual das cartilhas de harmonia — flauta, violão, teclado e as que vierem.</p></div>
+</div>
+</div>
+<div class="guia-geral" id="guia"><p>Graus e Campos é o sistema visual das cartilhas de harmonia do professor Sávio Souza — uma por instrumento (flauta, violão, teclado e as que vierem), todas com o mesmo método: escalas, graus e campos harmônicos, com partitura, áudio, teste rápido e checklist. A ideia visual é <strong>papel e tinta de partitura</strong>: fundo de papel limpo, tinta escura, latão para os graus romanos e verde para os graus das notas. O aluno escolhe entre <strong>três paletas</strong> — Nanquim, Grafite e Sálvia —, cada uma com versão clara e escura. Cada instrumento tem <strong>uma</strong> cor de identidade; o resto é igual em todas as cartilhas.</p>
+<h2>A regra das três camadas</h2>
+<ol>
+<li><strong>Camada do instrumento — muda.</strong> Só o token <code>acento</code> muda de uma cartilha para outra. Escolha com <code>data-instrumento</code> no <code>&lt;html&gt;</code>:
+   <code>flauta</code> → <code>inst-flauta</code> (cobalto no Nanquim, verde-azulado no Grafite, anil na Sálvia) · <code>violao</code> → <code>inst-violao</code> (jacarandá) · <code>teclado</code> → <code>inst-teclado</code> (ameixa) · <code>canto</code> → <code>inst-canto</code> (petróleo) · <code>percussao</code> → <code>inst-percussao</code> (grafite).
+   Componentes nunca usam <code>inst-*</code> direto; usam <code>acento</code> e <code>sobre-acento</code>.</li>
+<li><strong>Camada da paleta — o aluno escolhe.</strong> Nanquim (azul-marinho, padrão), Grafite (neutro) e Sálvia (verde calmo) trocam o papel, a tinta, o bloco da Ideia-chave e o tom do instrumento. No site, <code>data-paleta="nanquim|grafite|salvia"</code> no <code>&lt;html&gt;</code>; no design system, os temas <code>&lt;paleta&gt;</code> e <code>&lt;paleta&gt;-escuro</code>. O seletor “Cores” fica na barra lateral e a escolha vale para todas as cartilhas do site.</li>
+<li><strong>Camada da música — nunca muda.</strong> <code>musica-romano</code>, <code>musica-cifra</code>, <code>musica-grau</code> e <code>musica-destaque</code> significam a mesma coisa em todos os instrumentos e em todas as aulas. O aluno que muda da flauta para o violão, ou de paleta, lê as cores do mesmo jeito.</li>
+</ol>
+<p>Não invente uma terceira cor de destaque. Se algo precisa chamar atenção e não é música, use <code>acento</code>.</p>
+<h2>Conteúdo e voz</h2>
+<ul>
+<li>Fale com o aluno por <strong>você</strong>, no presente, em frases curtas e imperativas: “Toque devagar”, “Diga a cifra em voz alta”, “Só avance quando marcar todos os itens”.</li>
+<li>Português do Brasil, nomes de nota em português (Dó, Ré, Mi) e cifras em letra (C, Dm7, Bm7(♭5)). Use os símbolos reais ♭ e ♯ em texto corrido.</li>
+<li>Títulos de aula são frases simples em caixa de frase: “O campo harmônico maior”, “Como nasce um acorde”. Nada de CAIXA ALTA em títulos — caixa alta só no estilo <code>rotulo</code> (AULA 4, IDEIA-CHAVE, CONSULTA).</li>
+<li>Cada aula segue a mesma ordem: sobrancelha (<code>AULA N</code>) → título → lead → Ideia-chave → fichas/legenda → exercícios em partitura → Teste rápido → Checklist para avançar.</li>
+<li>Exemplo de lead: “Agora juntamos as duas aulas anteriores: aplicamos o ‘pula-uma’ em cada grau da escala maior, usando só as notas da escala.”</li>
+<li>Exemplo de Ideia-chave: “Em qualquer tom maior, a sequência é sempre a mesma: <strong>7M · m7 · m7 · 7M · 7 · m7 · m7(b5)</strong>. Decore como um número de telefone.”</li>
+<li>Sem emoji como enfeite. Os únicos glifos de interface são ▶ (ouvir), ■ (parar), ← → (navegar) e o “+ / –” das dúvidas. <em>Observação:</em> o botão “Rolar” do Dado harmônico ainda usa 🎲 — troque por texto quando mexer nele.</li>
+</ul>
+<h2>Cor</h2>
+<ul>
+<li>Fundo da página: <code>papel</code>. Barra lateral, rodapé e cabeçalhos de tabela: <code>papel-fundo</code>. Tudo que “pousa” sobre o papel (cartão, ficha, partitura, jogo): <code>folha</code> com borda <code>linha</code> e sombra <code>sombra-folha</code>.</li>
+<li>Texto: <code>tinta</code> para corpo e títulos; <code>tinta-suave</code> para lead, instruções e descrições; <code>tinta-fraca</code> só para metadados curtos sobre <code>papel</code> ou <code>folha</code>.</li>
+<li>Bordas de controles (botão contornado, select, número da aula): <code>linha-forte</code>. Divisórias: <code>linha</code>.</li>
+<li><strong>Ideia-chave</strong> é o único bloco invertido: <code>bloco</code> com texto <code>bloco-tinta</code> e negritos em <code>bloco-realce</code>. Um por aula, no máximo.</li>
+<li><strong>Dica</strong> usa <code>musica-grau</code> e <strong>Atenção</strong> usa <code>musica-destaque</code> — sempre com o ícone (i / !) e a palavra em negrito no começo (“<strong>Como usar:</strong>”, “<strong>Atenção a uma diferença de nomenclatura:</strong>”). Nunca só a cor.</li>
+<li><code>musica-destaque</code> marca <em>o que mudou</em> (nota alterada, acorde que difere entre campos, resposta errada) e vem sempre com sublinhado ou riscado, para quem não distingue vermelho e verde.</li>
+<li>Todas as combinações de texto passam 4,5:1 nos dois temas; <code>musica-romano</code> é o mais justo (4,6:1 sobre <code>papel-fundo</code> no claro).</li>
+</ul>
+<h2>Partituras</h2>
+<p>As partituras são SVG gerados pelo LilyPond (e desenhadas pelo VexFlow quando o aluno troca de tom), com tinta fixa. Por isso:</p>
+<ul>
+<li>O <strong>cartão</strong> da partitura segue a paleta e o tema (<code>folha</code>), mas a <strong>folha da partitura</strong> dentro dele é sempre <code>pauta-papel</code> (branco), com tinta <code>pauta-tinta</code> azul-quase-preto — igual nas três paletas, porque a partitura é uma imagem fixa.</li>
+<li>Dentro da partitura use só os tokens <code>pauta-*</code>: <code>pauta-tinta</code> (notas), <code>pauta-romano</code> (I, IIm7…), <code>pauta-cifra</code> (C7M), <code>pauta-grau</code> (1, 3, 5, 7), <code>pauta-destaque</code> (nota em destaque). São os mesmos valores do gerador (<code>lyb.py</code>) e do VexFlow (<code>COL_ROMAN</code>, <code>COL_CIFRA</code>, <code>COL_GRAU</code>).</li>
+<li>Ordem de leitura de cima para baixo, igual em todo o material: <strong>romano → cifra → pauta → graus</strong>.</li>
+</ul>
+<h2>Tipografia</h2>
+<ul>
+<li>Duas famílias: <code>display</code> (Fraunces, com eixo óptico) para títulos, cifras e a frase da Ideia-chave; <code>texto</code> (Work Sans) para todo o resto. Work Sans também é a fonte das letras dentro das partituras — não troque.</li>
+<li>Estilos: <code>capa</code> só no título da capa; <code>titulo-aula</code> no h2 de cada aula; <code>secao</code> nos h3; <code>subtitulo</code> em títulos de exercício, cartão, jogo e dúvida; <code>ideia</code> na Ideia-chave; <code>cifra</code> nas fichas; <code>lead</code>, <code>corpo</code>, <code>pequeno</code>, <code>botao</code>, <code>rotulo</code> e <code>grau</code> no texto.</li>
+<li>Algarismos tabulares (<code>font-variant-numeric: tabular-nums</code>) em graus, contadores e tabelas.</li>
+<li>Linhas de texto com no máximo 64 caracteres (<code>--largura-texto</code>).</li>
+</ul>
+<h2>Espaço, cantos e sombra</h2>
+<ul>
+<li>Escala de 4 em 4 até 24 e depois 32/48/64: <code>space-1</code> … <code>space-8</code>. Cartões e partituras usam <code>space-5</code> de respiro; seções (h3) abrem com <code>space-6</code>.</li>
+<li>Cantos: <code>radius-sm</code> em fichas e selects, <code>radius-md</code> em cartões, partituras, avisos e itens da navegação, <code>radius-lg</code> na Ideia-chave e nos jogos, <code>radius-pill</code> em todos os botões e etiquetas.</li>
+<li>Uma única sombra, <code>sombra-folha</code>, macia e baixa. Sem sombras duras deslocadas.</li>
+</ul>
+<h2>Layout</h2>
+<ul>
+<li>Computador: barra lateral fixa de 272px + conteúdo com no máximo 944px e 64px de margem lateral.</li>
+<li>Celular (até 860px): a navegação vira uma fileira rolável no topo, a margem lateral cai para <code>space-4</code> (16px) e o rodapé com Anterior/Próximo fica grudado embaixo.</li>
+<li>Impressão: a cartilha inteira, uma aula por página, fundos viram branco com borda, controles somem.</li>
+</ul>
+<h2>Temas e acessibilidade</h2>
+<ul>
+<li>Claro e escuro seguem o sistema do aluno (<code>prefers-color-scheme</code>), em qualquer paleta; dá para forçar com <code>data-tema="claro"</code> ou <code>"escuro"</code> no <code>&lt;html&gt;</code>.</li>
+<li>As três paletas passam no mesmo contraste: <code>tinta</code> ≥12:1, <code>tinta-suave</code> ≥6:1, cores da música ≥4,5:1, nos claros e nos escuros.</li>
+<li>No escuro, os acentos clareiam e o texto sobre eles fica escuro: use sempre <code>sobre-acento</code>, nunca branco fixo.</li>
+<li>Anel de foco: 2px sólido em <code>foco</code>, afastado 2px.</li>
+<li>Animação só na troca de aula (fade de 0,35s), desligada com <code>prefers-reduced-motion</code>.</li>
+</ul>
+<h2>Iconografia</h2>
+<ul>
+<li>A marca de cada cartilha é um disco <code>acento</code> com o desenho do instrumento em traço <code>sobre-acento</code> (veja <strong>Marcas</strong>). Hoje só existe a flauta; violão e teclado devem seguir o mesmo traço de 1,6px num círculo de 44px.</li>
+<li>Ícones de interface são traços simples de 1,4px em <code>currentColor</code> (como o da impressora). Nada de bibliotecas de ícones ou emoji.</li>
+</ul>
+<h2>Como começar a cartilha de outro instrumento</h2>
+<ol>
+<li>Copie a pasta <code>ferramentas/src/tema/</code> da flauta (tokens.json, metodo.css, gerar_tokens_css.py) sem mudar nada.</li>
+<li>Em <code>src/head.html</code>, troque <code>data-instrumento="flauta"</code> pelo instrumento (<code>violao</code>, <code>teclado</code>…).</li>
+<li>Troque o desenho dentro de <code>.brand .marca</code> em <code>src/body.html</code> e o texto “Cartilha do aluno · Flauta”.</li>
+<li>Rode <code>python3 montar.py</code>. Para mudar uma cor do método inteiro, edite <code>tokens.json</code> uma vez e copie para todas as cartilhas.</li>
+</ol></div>
+<h2 id="paleta" class="g-titulo">Cores</h2>
+<p class="lead">Os tokens da paleta escolhida no topo. Os valores vêm de <code>ferramentas/src/tema/tokens.json</code>.</p>
+<div class="tokens"><div class="tok"><span class="sw-c" style="background:var(--papel)"></span><code>papel</code><small>Fundo da página. Muda com a paleta (Nanquim, Grafite, Sálvia).</small></div><div class="tok"><span class="sw-c" style="background:var(--papel-fundo)"></span><code>papel-fundo</code><small>Barra lateral, rodapé, legenda da pauta, cabeçalho de tabela, passos.</small></div><div class="tok"><span class="sw-c" style="background:var(--folha)"></span><code>folha</code><small>Superfícies elevadas: cartões, fichas, jogos, tabelas, campos de formulário.</small></div><div class="tok"><span class="sw-c" style="background:var(--tinta)"></span><code>tinta</code><small>Texto principal e títulos sobre papel, papel-fundo e folha (≥12:1 em todas as paletas e temas).</small></div><div class="tok"><span class="sw-c" style="background:var(--tinta-suave)"></span><code>tinta-suave</code><small>Texto de apoio: lead, instruções do exercício, descrições (≥6:1 sobre papel, papel-fundo e folha).</small></div><div class="tok"><span class="sw-c" style="background:var(--tinta-fraca)"></span><code>tinta-fraca</code><small>Só metadados curtos: contador do checklist, dicas de teclado. ≥4.5:1 sobre papel e folha; evite sobre papel-fundo no tema claro (4.0:1).</small></div><div class="tok"><span class="sw-c" style="background:var(--linha)"></span><code>linha</code><small>Divisórias e bordas de cartão (decorativas, não carregam significado).</small></div><div class="tok"><span class="sw-c" style="background:var(--linha-forte)"></span><code>linha-forte</code><small>Bordas de controles: botões contornados, selects, número do item de navegação.</small></div><div class="tok"><span class="sw-c" style="background:var(--bloco)"></span><code>bloco</code><small>Fundo invertido da Ideia-chave — no máximo um por aula.</small></div><div class="tok"><span class="sw-c" style="background:var(--bloco-tinta)"></span><code>bloco-tinta</code><small>Texto sobre bloco.</small></div><div class="tok"><span class="sw-c" style="background:var(--bloco-realce)"></span><code>bloco-realce</code><small>Rótulo e negritos dentro da Ideia-chave (≥7:1 sobre bloco). Âmbar no Nanquim e na Sálvia, verde-água no Grafite.</small></div><div class="tok"><span class="sw-c" style="background:var(--musica-romano)"></span><code>musica-romano</code><small>Grau em algarismo romano (I, IIm, V7) na interface: fichas, legendas, tabelas. ≥4.6:1 sobre papel, papel-fundo e folha.</small></div><div class="tok"><span class="sw-c" style="background:var(--musica-cifra)"></span><code>musica-cifra</code><small>Cifra (C7M, Dm7) na interface — a mesma tinta do texto.</small></div><div class="tok"><span class="sw-c" style="background:var(--musica-grau)"></span><code>musica-grau</code><small>Grau da nota no acorde (1, 3, 5, 7) e respostas certas. ≥6:1 nos dois temas.</small></div><div class="tok"><span class="sw-c" style="background:var(--musica-destaque)"></span><code>musica-destaque</code><small>O que mudou: nota alterada, acorde diferente entre campos, resposta errada. Sempre acompanhado de sublinhado ou palavra, nunca só a cor.</small></div><div class="tok"><span class="sw-c" style="background:var(--pauta-papel)"></span><code>pauta-papel</code><small>Fundo do cartão de partitura — FIXO nos dois temas: as partituras são SVG com tinta fixa.</small></div><div class="tok"><span class="sw-c" style="background:var(--pauta-tinta)"></span><code>pauta-tinta</code><small>Tinta das partituras (LilyPond e VexFlow): azul-quase-preto neutro, igual nas três paletas, porque as partituras são imagens fixas.</small></div><div class="tok"><span class="sw-c" style="background:var(--pauta-tinta-suave)"></span><code>pauta-tinta-suave</code><small>Instrução do exercício dentro do cartão de partitura. Fixa.</small></div><div class="tok"><span class="sw-c" style="background:var(--pauta-romano)"></span><code>pauta-romano</code><small>Romano dentro da partitura (LilyPond e VexFlow). 4.6:1 sobre pauta-papel. Fixo.</small></div><div class="tok"><span class="sw-c" style="background:var(--pauta-cifra)"></span><code>pauta-cifra</code><small>Cifra dentro da partitura. Fixa.</small></div><div class="tok"><span class="sw-c" style="background:var(--pauta-grau)"></span><code>pauta-grau</code><small>Grau dentro da partitura. Fixo.</small></div><div class="tok"><span class="sw-c" style="background:var(--pauta-destaque)"></span><code>pauta-destaque</code><small>Nota em destaque dentro da partitura. Fixo.</small></div><div class="tok"><span class="sw-c" style="background:var(--inst-flauta)"></span><code>inst-flauta</code><small>Identidade da flauta. Cada paleta afina o tom: cobalto (Nanquim), verde-azulado (Grafite), anil (Sálvia).</small></div><div class="tok"><span class="sw-c" style="background:var(--inst-violao)"></span><code>inst-violao</code><small>Jacarandá — identidade da cartilha de violão.</small></div><div class="tok"><span class="sw-c" style="background:var(--inst-teclado)"></span><code>inst-teclado</code><small>Ameixa — identidade da cartilha de teclado.</small></div><div class="tok"><span class="sw-c" style="background:var(--inst-canto)"></span><code>inst-canto</code><small>Azul-petróleo — reservado para canto/voz.</small></div><div class="tok"><span class="sw-c" style="background:var(--inst-percussao)"></span><code>inst-percussao</code><small>Grafite — reservado para percussão/bateria.</small></div><div class="tok"><span class="sw-c" style="background:var(--acento)"></span><code>acento</code><small>A cor do instrumento ATUAL. Nunca use inst-* direto nos componentes: troque o instrumento com data-instrumento no &lt;html&gt;. Item ativo da navegação, botão Ouvir, etiqueta do exercício, sobrancelha da aula.</small></div><div class="tok"><span class="sw-c" style="background:var(--sobre-acento)"></span><code>sobre-acento</code><small>Texto e ícones sobre fundo acento (≥7:1 com todos os inst-* nos dois temas).</small></div><div class="tok"><span class="sw-c" style="background:var(--foco)"></span><code>foco</code><small>Anel de foco do teclado, 2px sólido com 2px de afastamento (≥4.5:1 sobre papel e folha).</small></div></div>
+<h2 id="Fundamentos" class="g-titulo">Fundamentos</h2><section class="comp" id="Instrumentos"><h3>Instrumentos</h3><div class="comp-grid"><div class="guia"><p>A mesma cartilha em cada instrumento: só o <code>acento</code> muda.</p>
+<p><strong>O que você fornece:</strong> <code>data-instrumento</code> no <code>&lt;html&gt;</code> (<code>flauta</code>, <code>violao</code>, <code>teclado</code>, <code>canto</code>, <code>percussao</code>). Também funciona num trecho da página.</p>
+<ul>
+<li>Canto e percussão estão reservados; para um instrumento novo, adicione um token <code>inst-&lt;nome&gt;</code> com valor claro e escuro (≥7:1 com <code>sobre-acento</code>) e uma linha no topo de <code>metodo.css</code>.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px"><div data-instrumento="flauta" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:16px;background:var(--folha);border:1px solid var(--linha);border-radius:var(--radius-md)">
+<div class="eyebrow" style="margin:0">Flauta</div><span style="font-size:13px;color:var(--tinta-suave);margin-top:-6px">anil</span><button class="play-btn">▶ Ouvir</button><button class="chap-btn active seen" style="width:auto"><span class="num">4</span>Aula ativa</button></div><div data-instrumento="violao" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:16px;background:var(--folha);border:1px solid var(--linha);border-radius:var(--radius-md)">
+<div class="eyebrow" style="margin:0">Violão</div><span style="font-size:13px;color:var(--tinta-suave);margin-top:-6px">jacarandá</span><button class="play-btn">▶ Ouvir</button><button class="chap-btn active seen" style="width:auto"><span class="num">4</span>Aula ativa</button></div><div data-instrumento="teclado" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:16px;background:var(--folha);border:1px solid var(--linha);border-radius:var(--radius-md)">
+<div class="eyebrow" style="margin:0">Teclado</div><span style="font-size:13px;color:var(--tinta-suave);margin-top:-6px">ameixa</span><button class="play-btn">▶ Ouvir</button><button class="chap-btn active seen" style="width:auto"><span class="num">4</span>Aula ativa</button></div><div data-instrumento="canto" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:16px;background:var(--folha);border:1px solid var(--linha);border-radius:var(--radius-md)">
+<div class="eyebrow" style="margin:0">Canto</div><span style="font-size:13px;color:var(--tinta-suave);margin-top:-6px">petróleo</span><button class="play-btn">▶ Ouvir</button><button class="chap-btn active seen" style="width:auto"><span class="num">4</span>Aula ativa</button></div><div data-instrumento="percussao" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:16px;background:var(--folha);border:1px solid var(--linha);border-radius:var(--radius-md)">
+<div class="eyebrow" style="margin:0">Percussão</div><span style="font-size:13px;color:var(--tinta-suave);margin-top:-6px">grafite</span><button class="play-btn">▶ Ouvir</button><button class="chap-btn active seen" style="width:auto"><span class="num">4</span>Aula ativa</button></div></div>
+</div></div></section><section class="comp" id="SeletorPaleta"><h3>Seletor de paleta</h3><div class="comp-grid"><div class="guia"><p>O seletor “Cores” da barra lateral: o aluno escolhe a paleta da cartilha (Nanquim, Grafite ou Sálvia).</p>
+<p><strong>O que você fornece:</strong> a marcação abaixo dentro de <code>.side-actions</code>; o script da cartilha liga os botões, troca <code>data-paleta</code> no <code>&lt;html&gt;</code> e guarda a escolha em <code>localStorage</code> (chave <code>gc-paleta</code>, a mesma em todas as cartilhas do site). Um script curto no <code>&lt;head&gt;</code> aplica a paleta salva antes de desenhar a página.</p>
+<pre><code class="language-html">&lt;div class=&quot;paletas&quot; role=&quot;group&quot; aria-label=&quot;Cores da cartilha&quot;&gt;
+  &lt;span class=&quot;paletas-lbl&quot;&gt;Cores&lt;/span&gt;
+  &lt;div class=&quot;paletas-opcoes&quot;&gt;
+    &lt;button class=&quot;paleta&quot; type=&quot;button&quot; data-paleta=&quot;nanquim&quot; aria-pressed=&quot;true&quot;&gt;&lt;span class=&quot;amostra&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nome&quot;&gt;Nanquim&lt;/span&gt;&lt;/button&gt;
+    …
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<ul>
+<li>Cada botão tem o próprio <code>data-paleta</code>, então a amostra (papel / tinta / ponto do acento) se pinta com as cores da paleta que representa.</li>
+<li>A escolhida leva <code>aria-pressed="true"</code>: borda no <code>acento</code> e fundo <code>folha</code>.</li>
+<li>No celular só as amostras aparecem; os nomes continuam para leitores de tela.</li>
+<li>Não some com a paleta na impressão: imprimir usa sempre a versão clara.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<!-- as amostras recebem as cores de cada paleta (no site isso vem de data-paleta) -->
+<div class="sidebar" style="position:static;height:auto;width:272px;padding:16px;border:1px solid var(--linha);border-radius:var(--radius-md)">
+<div class="paletas" role="group" aria-label="Cores da cartilha"><span class="paletas-lbl">Cores</span><div class="paletas-opcoes">
+<button class="paleta" type="button" aria-pressed="false" style="--papel:#f4f6fa;--tinta:#121a2e;--folha:#ffffff;--linha-forte:#121a2e57;--acento:#2348b8"><span class="amostra" aria-hidden="true"></span><span class="nome">Nanquim</span></button>
+<button class="paleta" type="button" aria-pressed="true" style="--papel:#f7f7f5;--tinta:#1a1b1e;--folha:#ffffff;--linha-forte:#1a1b1e57;--acento:#0f6b66"><span class="amostra" aria-hidden="true"></span><span class="nome">Grafite</span></button>
+<button class="paleta" type="button" aria-pressed="false" style="--papel:#f2f5ef;--tinta:#16241c;--folha:#fcfdfb;--linha-forte:#16241c57;--acento:#2d4e9a"><span class="amostra" aria-hidden="true"></span><span class="nome">Sálvia</span></button>
+</div></div></div>
+</div></div></section><h2 id="Estrutura" class="g-titulo">Estrutura</h2><section class="comp" id="CapaCartilha"><h3>Capa da cartilha</h3><div class="comp-grid"><div class="guia"><p>A capa da cartilha: faixa escura com a foto do instrumento, título, a frase do método e o rodapé de autor. Também é a primeira página do PDF impresso.</p>
+<p><strong>O que você fornece:</strong>
+- A foto em <code>imagens/capa-&lt;instrumento&gt;.jpg</code>, horizontal, com cerca de 2000px de largura. Ela é tingida sozinha com o <code>acento</code> da paleta e do instrumento, num efeito duotônico. Sem foto, aparece a arte de partitura do exemplo (I7M → C7M → arpejo → 1 3 5 7).
+- O título com o instrumento no <code>&lt;span&gt;</code>: “Graus e Campos <span>na flauta</span>”, “… <span>no violão</span>”.
+- A frase do método em <code>.capa-frase</code>, uma ou duas linhas.
+- O autor: monograma, nome, papel e a lista <code>.autor-inst</code>, com <code>class="atual"</code> no instrumento da cartilha.</p>
+<ul>
+<li>O fundo é <code>bloco</code> nos dois temas; o título fica em <code>bloco-tinta</code> e o instrumento num tom claro do <code>acento</code>.</li>
+<li>Na impressão, a capa ocupa a primeira página inteira e as cores saem mesmo com “gráficos de fundo” desligado.</li>
+<li>Use fotos de que você tenha os direitos (suas ou de bancos com licença livre). Evite partituras com texto de copyright legível.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<header class="capa-livro">
+          <div class="capa-hero sem-foto">
+            
+            
+            <svg class="capa-arte" viewBox="0 0 380 300" aria-hidden="true" focusable="false">
+              <g class="ca-pauta"><path d="M10 150H370M10 166H370M10 182H370M10 198H370M10 214H370"/></g>
+              <text class="ca-romano" x="96" y="72">I7M</text>
+              <text class="ca-cifra" x="96" y="112">C7M</text>
+              <g class="ca-notas">
+                <ellipse cx="106" cy="230" rx="11" ry="7.6" transform="rotate(-20 106 230)"/>
+                <ellipse cx="170" cy="214" rx="11" ry="7.6" transform="rotate(-20 170 214)"/>
+                <ellipse cx="234" cy="198" rx="11" ry="7.6" transform="rotate(-20 234 198)"/>
+                <ellipse cx="298" cy="182" rx="11" ry="7.6" transform="rotate(-20 298 182)"/>
+              </g>
+              <g class="ca-hastes"><path d="M116.5 227V160M180.5 211V144M244.5 195V128M308.5 179V112M90 230H122"/></g>
+              <g class="ca-graus"><text x="106" y="270">1</text><text x="170" y="270">3</text><text x="234" y="270">5</text><text x="298" y="270">7</text></g>
+            </svg>
+            <div class="capa-hero-texto">
+              <div class="capa-serie">Cartilha do aluno · Harmonia</div>
+              <h1 class="capa-titulo">Graus e Campos <span>na flauta</span></h1>
+              <p class="capa-frase">A flauta toca uma nota por vez. A harmonia, você leva na cabeça.</p>
+            </div>
+          </div>
+          <div class="capa-autor">
+            <div class="autor-monograma" aria-hidden="true">SS</div>
+            <div class="autor-info">
+              <div class="autor-nome">Sávio Souza</div>
+              <div class="autor-papel">Professor e músico instrumentista</div>
+            </div>
+            <ul class="autor-inst" aria-label="Instrumentos que toca">
+              <li>Violão</li><li>Baixo</li><li>Teclado</li><li class="atual">Flauta</li><li>Cavaquinho</li><li class="outros">e outros</li>
+            </ul>
+          </div>
+        </header>
+</div></div></section><section class="comp" id="Navegacao"><h3>Navegação</h3><div class="comp-grid"><div class="guia"><p>A barra lateral da cartilha: marca do instrumento, lista de aulas e o botão de imprimir.</p>
+<p><strong>O que você fornece:</strong> o desenho do instrumento dentro de <code>.brand .marca</code> (SVG em <code>currentColor</code>, traço 1,6px), o nome “Graus e Campos” e a linha <code>&lt;small&gt;</code> “Cartilha do aluno · <Instrumento>”. Os botões <code>.chap-btn</code> são criados pelo script a partir do array <code>chapters</code>.</p>
+<ul>
+<li>Estados do item: normal, <code>.seen</code> (aula já visitada: número no <code>acento</code>), <code>.active</code> (fundo <code>acento</code>, texto <code>sobre-acento</code>).</li>
+<li>Aulas numeradas; o grupo “Consulta” (<code>.chap-group</code>) não leva número.</li>
+<li>No celular a lista vira uma fileira rolável e o grupo some.</li>
+<li>Não coloque mais nada na barra: ela é só navegação.</li>
+</ul></div><div class="vitrine" style="padding:0">
+<aside class="sidebar" style="position:static;height:auto;width:272px">
+  <div class="brand"><span class="marca" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" focusable="false"><g transform="rotate(-35 20 20)"><rect x="3" y="17.4" width="34" height="5.2" rx="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="9.5" cy="20" r="1.3" fill="currentColor"/><circle cx="19" cy="20" r="1.3" fill="currentColor"/><circle cx="23.5" cy="20" r="1.3" fill="currentColor"/><circle cx="28" cy="20" r="1.3" fill="currentColor"/><circle cx="32.5" cy="20" r="1.3" fill="currentColor"/></g></svg></span><div class="t">Graus e Campos<small>Cartilha do aluno · Flauta</small></div></div>
+  <nav class="chapters">
+    <button class="chap-btn seen"><span class="num">1</span>Notas e cifras</button>
+    <button class="chap-btn seen"><span class="num">2</span>Escala maior e graus</button>
+    <button class="chap-btn active seen"><span class="num">3</span>Como nasce um acorde</button>
+    <button class="chap-btn"><span class="num">4</span>Campo harmônico maior</button>
+    <div class="chap-group">Consulta</div>
+    <button class="chap-btn"><span class="num">·</span>Tabelas dos campos</button>
+  </nav>
+  <div class="side-actions"><button class="side-btn" type="button"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6V2h8v4M4 12H2V7h12v5h-2M4 10h8v4H4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/></svg>Imprimir / salvar em PDF</button>
+  <p class="side-hint">Navegue com <kbd>&larr;</kbd> <kbd>&rarr;</kbd></p></div>
+</aside>
+</div></div></section><section class="comp" id="CabecalhoAula"><h3>Cabeçalho da aula</h3><div class="comp-grid"><div class="guia"><p>A abertura de toda aula: sobrancelha, título e lead.</p>
+<p><strong>O que você fornece:</strong> <code>.eyebrow</code> com “AULA N” (ou “CONSULTA”), um <code>h2</code> em caixa de frase e um parágrafo <code>.lead</code> de duas a três linhas que diz o que a aula junta ou ensina.</p>
+<ul>
+<li>A sobrancelha leva o acento do instrumento e o pequeno desenho de pauta antes do texto (vem do CSS).</li>
+<li>O lead fica em <code>tinta-suave</code>; palavras-chave em <code>&lt;b&gt;</code> voltam para <code>tinta</code>.</li>
+<li>Na capa use <code>h1.big</code> em vez de <code>h2</code>.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<div class="eyebrow">Aula 4</div>
+<h2>O campo harmônico maior</h2>
+<p class="lead">Agora juntamos as duas aulas anteriores: aplicamos o “pula-uma” em cada grau da escala maior, usando só as notas da escala. Os sete acordes que surgem formam o <b>campo harmônico</b>.</p>
+</div></div></section><section class="comp" id="Rodape"><h3>Rodapé</h3><div class="comp-grid"><div class="guia"><p>Rodapé de navegação entre aulas: Anterior, progresso, Próximo.</p>
+<p><strong>O que você fornece:</strong> nada — o script monta <code>.page-footer</code> com dois <code>.nav-btn</code> e o texto <code>.prog</code> (“Aula 4 de 9”).</p>
+<ul>
+<li>No celular gruda no fim da tela.</li>
+</ul></div><div class="vitrine" style="padding:0">
+<div class="page-footer" style="padding:16px 24px"><button class="nav-btn">← Anterior</button><span class="prog">Aula 4 de 9</span><button class="nav-btn">Próximo →</button></div>
+</div></div></section><h2 id="Conteúdo" class="g-titulo">Conteúdo</h2><section class="comp" id="IdeiaChave"><h3>Ideia-chave</h3><div class="comp-grid"><div class="guia"><p>O resumo da aula numa frase que o aluno deve decorar — o único bloco invertido da cartilha.</p>
+<p><strong>O que você fornece:</strong> <code>.lbl</code> “Ideia-chave” e um <code>&lt;p&gt;</code> com uma frase (duas no máximo). Fórmulas e palavras a decorar vão em <code>&lt;b&gt;</code>, que ficam em <code>bloco-realce</code>.</p>
+<ul>
+<li>Um por aula, logo depois do lead.</li>
+<li>Não ponha listas, botões ou partituras dentro.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<div class="key-idea"><div class="lbl">Ideia-chave</div><p>Em qualquer tom maior, a sequência é sempre a mesma: <b>7M · m7 · m7 · 7M · 7 · m7 · m7(♭5)</b>. Decore como um número de telefone.</p></div>
+</div></div></section><section class="comp" id="Avisos"><h3>Avisos</h3><div class="comp-grid"><div class="guia"><p>Dica e Atenção: notas curtas no meio da aula.</p>
+<p><strong>O que você fornece:</strong> <code>&lt;div class="tip"&gt;</code> ou <code>&lt;div class="warn"&gt;</code> começando com a palavra-chave em <code>&lt;b&gt;</code> (“Como usar:”, “Atenção a uma diferença de nomenclatura:”).</p>
+<ul>
+<li><code>.tip</code> (sálvia, ícone <em>i</em>) para orientação de estudo; <code>.warn</code> (vermelhão, ícone !) só para pegadinhas de teoria.</li>
+<li>O ícone e a palavra em negrito carregam o sentido — nunca dependa só da cor.</li>
+<li>Máximo de dois por aula.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<div class="tip"><b>Como usar:</b> siga as aulas na ordem. Só avance quando conseguir marcar todos os itens do <b>checklist</b> no fim de cada aula.</div>
+<div class="warn"><b>Atenção a uma diferença de nomenclatura:</b> na teoria tradicional, a menor melódica sobe com 6º e 7º graus elevados e desce como a natural.</div>
+</div></div></section><section class="comp" id="Cartao"><h3>Cartão</h3><div class="comp-grid"><div class="guia"><p>Cartões lado a lado para comparar duas ou três ideias.</p>
+<p><strong>O que você fornece:</strong> <code>.grid-2</code> ou <code>.grid-3</code> com <code>.card &gt; h4 + p</code>.</p>
+<ul>
+<li>Use para comparações (tríade × tétrade, maior × menor). Para sequências, use <strong>Passos</strong>.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<div class="grid-2" style="margin:0"><div class="card"><h4>Tríade</h4><p>Três notas: 1 · 3 · 5. Pula-uma, duas vezes.</p></div><div class="card"><h4>Tétrade</h4><p>Quatro notas: 1 · 3 · 5 · 7. É a que usamos nos exercícios.</p></div></div>
+</div></div></section><section class="comp" id="Passos"><h3>Passos</h3><div class="comp-grid"><div class="guia"><p>Os quatro passos de estudo (Ouça, Fale, Toque, Mude) — um método em cartões numerados.</p>
+<p><strong>O que você fornece:</strong> <code>ol.steps</code> com quatro <code>&lt;li&gt;</code>, cada um com <code>.n</code> (número), <code>h4</code> (um verbo) e <code>&lt;p&gt;</code> (uma ou duas frases).</p>
+<ul>
+<li>Número grande em display no <code>acento</code>.</li>
+<li>Quatro colunas no computador, duas no celular. Use só para sequências de exatamente quatro passos.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<ol class="steps">
+<li><div class="n">1</div><h4>Ouça</h4><p>Aperte <b>▶ Ouvir</b> e acompanhe a partitura com os olhos.</p></li>
+<li><div class="n">2</div><h4>Fale</h4><p>Sem a flauta, diga em voz alta a cifra e os graus.</p></li>
+<li><div class="n">3</div><h4>Toque</h4><p>Devagar (tempo 60), respirando na troca de acorde.</p></li>
+<li><div class="n">4</div><h4>Mude</h4><p>Toque de trás para frente ou em outro tom.</p></li></ol>
+</div></div></section><section class="comp" id="ListaExercicios"><h3>Lista de exercícios</h3><div class="comp-grid"><div class="guia"><p>Lista numerada de desafios em texto, sem partitura (ex.: “Desafios sem tela”).</p>
+<p><strong>O que você fornece:</strong> <code>ol.ex-list &gt; li</code> com <code>.n</code> (número), e um <code>&lt;div&gt;</code> com <code>h4</code> e <code>&lt;p&gt;</code>.</p>
+<ul>
+<li>O número fica num disco <code>bloco</code>, igual à Ideia-chave: é conteúdo para fazer longe da tela.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<ol class="ex-list">
+<li><span class="n">4</span><div><h4>Troca-troca em outros tons</h4><p>Faça o Exercício 3.3 começando em Fá e em Sol: 7M → 7 → m7 → m7(♭5).</p></div></li>
+<li><span class="n">5</span><div><h4>Eco dos graus</h4><p>O professor toca um arpejo curto e o aluno repete de ouvido, dizendo os graus.</p></div></li></ol>
+</div></div></section><h2 id="Música" class="g-titulo">Música</h2><section class="comp" id="LegendaPauta"><h3>Legenda da pauta</h3><div class="comp-grid"><div class="guia"><p>A legenda que ensina a ler as cores das partituras — aparece uma vez, na capa.</p>
+<p><strong>O que você fornece:</strong> <code>.key-bar</code> com um <code>&lt;span&gt;</code> por camada: <code>.sw.roman</code>, <code>.sw.cifra</code>, <code>.sw.grau</code> e <code>.sw.hi</code>, cada um seguido da explicação.</p>
+<ul>
+<li>A ordem é a da leitura na pauta: romano → cifra → graus → destaque.</li>
+<li>O destaque leva sublinhado além da cor.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<div class="key-bar"><b>Como ler:</b>
+<span><span class="sw roman">IIm7</span> grau no campo</span>
+<span><span class="sw cifra">Dm7</span> cifra</span>
+<span><span class="sw grau">1 ♭3 5 ♭7</span> grau da nota no acorde</span>
+<span><span class="sw hi">♯7</span> nota que mudou</span></div>
+</div></div></section><section class="comp" id="FichasCampo"><h3>Fichas do campo</h3><div class="comp-grid"><div class="guia"><p>As sete fichas de um campo harmônico: romano em cima, cifra no meio, notas embaixo.</p>
+<p><strong>O que você fornece:</strong> no <code>body.html</code>, o marcador <code>{{CHIPS C maior}}</code> (tom + tipo de campo); o gerador cria as fichas a partir da teoria. À mão: <code>.chips &gt; .chip &gt; .r + .c + .g</code>.</p>
+<ul>
+<li><code>.r</code> em <code>musica-romano</code>, <code>.c</code> em <code>musica-cifra</code> (fonte display), <code>.g</code> em <code>musica-grau</code>.</li>
+<li><code>.chip.changed</code> marca o acorde que difere do campo menor natural: borda e sublinhado em <code>musica-destaque</code>.</li>
+<li>Sempre os sete graus, em ordem; no celular quebram em fileiras de quatro.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<div class="chips">
+<div class="chip changed"><span class="r">Im(7M)</span><span class="c">Am(7M)</span><span class="g">A C E G♯</span></div>
+<div class="chip"><span class="r">IIm7(♭5)</span><span class="c">Bm7(♭5)</span><span class="g">B D F A</span></div>
+<div class="chip changed"><span class="r">♭III7M(♯5)</span><span class="c">C7M(♯5)</span><span class="g">C E G♯ B</span></div>
+<div class="chip"><span class="r">IVm7</span><span class="c">Dm7</span><span class="g">D F A C</span></div>
+<div class="chip changed"><span class="r">V7</span><span class="c">E7</span><span class="g">E G♯ B D</span></div>
+<div class="chip"><span class="r">♭VI7M</span><span class="c">F7M</span><span class="g">F A C E</span></div>
+<div class="chip changed"><span class="r">VII°7</span><span class="c">G♯°7</span><span class="g">G♯ B D F</span></div>
+</div>
+</div></div></section><section class="comp" id="Partitura"><h3>Partitura</h3><div class="comp-grid"><div class="guia"><p>O cartão de exercício: etiqueta, título, instrução, a partitura e a fileira de áudio.</p>
+<p><strong>O que você fornece:</strong> no <code>body.html</code>, <code>{{FIG ex4_2|Exercício 4.2|Título|Instrução}}</code>. O gerador monta <code>figure.pauta</code> com a imagem (versão larga e de celular) e o script acrescenta a <code>.play-row</code> (Ouvir, Andamento, acorde de fundo, Tom).</p>
+<ul>
+<li>O cartão segue o tema; a folha da partitura (<code>picture</code>, <code>.vf-wrap</code>) é sempre <code>pauta-papel</code>, porque a tinta do SVG é fixa.</li>
+<li>Etiqueta <code>.ex-tag</code> no <code>acento</code>; título em <code>subtitulo</code>; instrução <code>.ex-how</code> em <code>tinta-suave</code>, uma frase imperativa.</li>
+<li>Botão <code>.play-btn</code> vira <code>.playing</code> (vermelhão, “■ Parar”) enquanto toca.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<figure class="pauta" style="margin:0">
+<figcaption><span class="ex-tag">Exercício 4.2</span><span class="ex-title">Tétrades do campo maior</span><span class="ex-how">O coração do método. Toque todos os dias até sair de memória.</span></figcaption>
+<picture><img src="../partituras/ex4_2.svg" alt="Partitura — Tétrades do campo maior" style="width:100%"></picture>
+<div class="play-row"><button class="play-btn" type="button">▶ Ouvir</button><label class="tempo">Andamento <select><option>60</option></select></label><label class="tempo"><input type="checkbox" checked> com acorde de fundo</label><label class="tempo">Tom <select><option>Dó maior (original)</option></select></label></div>
+</figure>
+</div></div></section><section class="comp" id="TabelaCampo"><h3>Tabela do campo</h3><div class="comp-grid"><div class="guia"><p>Tabelas de consulta: os campos nos 12 tons (<code>table.campo</code>) e tabelas de texto (<code>table.simple</code>).</p>
+<p><strong>O que você fornece:</strong> os marcadores <code>{{TABELAS}}</code> (quatro campos × 12 tons) e <code>{{MAPA A}}</code> (comparação dos quatro campos) — gerados da teoria. Sempre dentro de <code>.table-scroll</code>.</p>
+<ul>
+<li>Cabeçalho em <code>musica-romano</code>; tom da linha em display.</li>
+<li><code>tr.easy</code> ganha um ponto <code>musica-grau</code> (tons indicados para iniciantes; explique o ponto no lead).</li>
+<li><code>td.hl</code> marca o acorde que mudou em relação à linha de cima: vermelhão + sublinhado.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<div class="table-scroll" style="margin:0"><table class="campo">
+<thead><tr><th></th><th>I</th><th>II</th><th>III</th><th>IV</th><th>V</th><th>VI</th><th>VII</th></tr></thead>
+<tbody><tr class="easy"><th>Lá menor natural</th><td>Am7</td><td>Bm7(♭5)</td><td>C7M</td><td>Dm7</td><td>Em7</td><td>F7M</td><td>G7</td></tr>
+<tr><th>Lá menor harmônica</th><td>Am(7M)</td><td>Bm7(♭5)</td><td class="hl">C7M(♯5)</td><td>Dm7</td><td class="hl">E7</td><td>F7M</td><td class="hl">G♯°</td></tr>
+<tr><th>Lá menor melódica</th><td>Am(7M)</td><td class="hl">Bm7</td><td>C7M(♯5)</td><td class="hl">D7</td><td>E7</td><td class="hl">F♯m7(♭5)</td><td class="hl">G♯m7(♭5)</td></tr></tbody></table></div>
+</div></div></section><h2 id="Ações" class="g-titulo">Ações</h2><section class="comp" id="Botoes"><h3>Botões</h3><div class="comp-grid"><div class="guia"><p>Os quatro botões da cartilha — todos em pílula (<code>radius-pill</code>).</p>
+<ul>
+<li><code>.play-btn</code>: ação principal da partitura e dos jogos (fundo <code>acento</code>). <code>.play-btn.playing</code> enquanto toca; <code>.play-btn.ghost</code> para ações secundárias (Mostrar notas, Repetir).</li>
+<li><code>.nav-btn</code>: Anterior / Próximo no rodapé (fundo <code>tinta</code>, vira <code>acento</code> no hover; desabilitado fica só contornado).</li>
+<li><code>.side-btn</code>: ação da barra lateral (Imprimir).</li>
+<li><code>.answer-btns button</code>: respostas dos jogos; <code>.ok</code> em <code>musica-grau</code>, <code>.no</code> em <code>musica-destaque</code> riscado.</li>
+</ul>
+<p><strong>O que você fornece:</strong> o texto, curto e no imperativo (“Ouvir”, “Rolar”, “Mostrar cifras”). ▶ e ■ são os únicos símbolos.</p></div><div class="vitrine" style="padding:24px">
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+<button class="play-btn">▶ Ouvir</button><button class="play-btn playing">■ Parar</button><button class="play-btn ghost">Mostrar notas</button>
+<button class="nav-btn">← Anterior</button><button class="nav-btn">Próximo →</button><button class="nav-btn" disabled>Próximo →</button>
+<button class="side-btn">Imprimir / salvar em PDF</button></div>
+<div class="answer-btns"><button>Maior</button><button class="ok">Menor</button><button class="no">Diminuta</button></div>
+</div></div></section><h2 id="Fixação" class="g-titulo">Fixação</h2><section class="comp" id="TesteRapido"><h3>Teste rápido</h3><div class="comp-grid"><div class="guia"><p>Perguntas curtas com a resposta escondida.</p>
+<p><strong>O que você fornece:</strong> <code>ol.quiz &gt; li</code> com a pergunta e <code>&lt;details&gt;&lt;summary&gt;ver resposta&lt;/summary&gt;&lt;span class="ans"&gt;…&lt;/span&gt;&lt;/details&gt;</code>.</p>
+<ul>
+<li>De quatro a seis perguntas por aula, que se respondem em uma palavra ou uma cifra.</li>
+<li>A resposta aparece em <code>musica-grau</code>. Na impressão o botão some.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<ol class="quiz">
+<li>Qual é a fórmula das tétrades do campo maior? <details><summary>ver resposta</summary><span class="ans">7M · m7 · m7 · 7M · 7 · m7 · m7(♭5)</span></details></li>
+<li>Qual é o V7 de Sol maior? <details open><summary>ver resposta</summary><span class="ans">D7</span></details></li>
+<li>Bm7(♭5) é qual grau em Dó maior? <details><summary>ver resposta</summary><span class="ans">VIIm7(♭5)</span></details></li></ol>
+</div></div></section><section class="comp" id="Checklist"><h3>Checklist</h3><div class="comp-grid"><div class="guia"><p>O checklist para avançar — o fim de toda aula. O aluno só passa para a próxima quando marcar tudo.</p>
+<p><strong>O que você fornece:</strong> <code>ul.checklist</code> com <code>data-key</code> único da aula e um <code>&lt;li&gt;&lt;label&gt;&lt;input type="checkbox"&gt; …&lt;/label&gt;&lt;/li&gt;</code> por item. O script guarda as marcas no navegador e escreve o contador <code>.check-progress</code>.</p>
+<ul>
+<li>Itens são habilidades verificáveis, na primeira pessoa: “Toco o Exercício 4.2 de memória.”</li>
+<li>De três a cinco itens.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<ul class="checklist">
+<li><label><input type="checkbox" checked> Recito a fórmula do campo maior sem olhar.</label></li>
+<li><label><input type="checkbox" checked> Toco o Exercício 4.2 de memória.</label></li>
+<li><label><input type="checkbox"> Escrevi o campo de Ré maior (4.6) e conferi nas respostas.</label></li></ul>
+<div class="check-progress">2 de 3 marcados</div>
+</div></div></section><section class="comp" id="Jogo"><h3>Jogo</h3><div class="comp-grid"><div class="guia"><p>Um jogo interativo da aula: título, como jogar, controles e a área de resultado.</p>
+<p><strong>O que você fornece:</strong> <code>.game</code> com <code>h4</code>, <code>p.how</code>, <code>.controls</code> (selects + <code>.play-btn</code>/<code>.play-btn.ghost</code>) e <code>.out</code> (o script escreve o sorteio aqui; <code>.small</code> para instruções, <code>.reveal</code> para a resposta). Para jogos de resposta, <code>.answer-btns</code> e <code>.score-line</code>.</p>
+<ul>
+<li>Jogos de conversa (sem controles) usam só <code>h4</code> + <code>p.how</code>.</li>
+<li>Resultado em display grande; resposta revelada em <code>musica-grau</code>.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<div class="game" style="margin:0"><h4>2 · Dado harmônico</h4>
+<p class="how">O dado sorteia uma progressão de quatro graus (sempre começando no I). Diga as cifras, toque os arpejos, e só então confira.</p>
+<div class="controls"><select><option>Dó maior</option></select><button class="play-btn">Rolar</button><button class="play-btn ghost">Mostrar cifras</button></div>
+<div class="out">I · VIm · IIm · V <span class="reveal">C · Am · Dm · G</span></div>
+<div class="score-line">Acertos: 3 de 4</div></div>
+</div></div></section><section class="comp" id="Duvidas"><h3>Dúvidas frequentes</h3><div class="comp-grid"><div class="guia"><p>Perguntas frequentes em sanfona.</p>
+<p><strong>O que você fornece:</strong> um <code>details.faq</code> por pergunta: <code>&lt;summary&gt;</code> com a pergunta como o aluno faria, e um ou dois <code>&lt;p&gt;</code> de resposta.</p>
+<ul>
+<li>O “+” vira “–” no <code>acento</code> quando aberto.</li>
+</ul></div><div class="vitrine" style="padding:24px">
+<details class="faq"><summary>Se a flauta não toca acordes, por que estudar harmonia?</summary><p>Porque toda melodia caminha sobre acordes. Quem enxerga o acorde improvisa, decora e lê mais rápido.</p></details>
+<details class="faq" open><summary>Qual andamento devo usar?</summary><p>Comece em 60. Só suba quando tocar três vezes seguidas sem errar.</p></details>
+<details class="faq"><summary>O som do botão Ouvir não sai no celular.</summary><p>Tire o celular do modo silencioso e aperte de novo.</p></details>
+</div></div></section>
+</main>
+<script>
+(function(){
+  var h=document.documentElement, sp=document.getElementById('selPaleta'), st=document.getElementById('selTema'), si=document.getElementById('selInst');
+  sp.value=h.dataset.paleta||'nanquim';
+  sp.onchange=function(){ h.dataset.paleta=sp.value; try{localStorage.setItem('gc-paleta',sp.value)}catch(e){} };
+  st.onchange=function(){ if(st.value) h.dataset.tema=st.value; else delete h.dataset.tema; };
+  si.onchange=function(){ h.dataset.instrumento=si.value; };
+  /* a capa é desenhada a 960px: escala para caber */
+  var w=document.getElementById('capaWrap'), c=w.querySelector('.capa');
+  function fit(){ var s=Math.min(1,w.clientWidth/960); c.style.transform='scale('+s+')'; w.style.height=(300*s)+'px'; }
+  addEventListener('resize',fit); fit();
+  /* exemplos não navegam nem disparam nada */
+  document.querySelectorAll('.vitrine button').forEach(function(b){ b.addEventListener('click',function(e){ e.preventDefault(); }); });
+  document.querySelectorAll('.vitrine .paleta').forEach(function(b){ b.addEventListener('click',function(){ sp.value=['nanquim','grafite','salvia'][[].indexOf.call(b.parentNode.children,b)]; sp.onchange(); }); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+/* =====================================================================
+   Graus e Campos — folha de estilo do método (todas as cartilhas)
+   Usa só as variáveis de tokens.css. Para trocar de instrumento basta
+   <html data-instrumento="violao"> (flauta | violao | teclado | canto | percussao).
+   Também funciona num trecho da página: <div data-instrumento="teclado">.
+   ===================================================================== */
+
+/* ---------- Instrumento: escolhe a cor de acento ---------- */
+[data-instrumento="flauta"]    { --acento: var(--inst-flauta); }
+[data-instrumento="violao"]    { --acento: var(--inst-violao); }
+[data-instrumento="teclado"]   { --acento: var(--inst-teclado); }
+[data-instrumento="canto"]     { --acento: var(--inst-canto); }
+[data-instrumento="percussao"] { --acento: var(--inst-percussao); }
+
+/* tons derivados do acento (calculados, não são tokens) — recalculados
+   em qualquer elemento com data-instrumento */
+:root, [data-instrumento]{
+  --acento-suave: color-mix(in srgb, var(--acento) 12%, var(--papel));
+  --acento-leve:  color-mix(in srgb, var(--acento) 7%, transparent);
+  --grau-suave:   color-mix(in srgb, var(--musica-grau) 10%, var(--papel));
+  --grau-borda:   color-mix(in srgb, var(--musica-grau) 32%, transparent);
+  --destaque-suave: color-mix(in srgb, var(--musica-destaque) 9%, var(--papel));
+  --destaque-borda: color-mix(in srgb, var(--musica-destaque) 32%, transparent);
+  --largura-texto: 64ch;
+}
+
+/* ---------- Base ---------- */
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--papel);
+  color:var(--tinta);
+  font-family:var(--font-texto);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{
+  font-family:var(--font-display); font-optical-sizing:auto;
+  color:var(--tinta); font-weight:600; margin:0 0 .45em; text-wrap:balance;
+}
+h2{ font-size:clamp(28px, 4.2vw, 36px); line-height:1.1; letter-spacing:-0.015em; }
+h3{ font-size:22px; line-height:1.25; margin-top:var(--space-6); }
+h4{ font-size:18px; line-height:1.3; }
+p{ margin:0 0 1em; }
+b,strong{ font-weight:600; }
+a{ color:var(--acento); text-underline-offset:3px; text-decoration-thickness:1px; }
+a:hover{ text-decoration-thickness:2px; }
+:focus-visible{ outline:2px solid var(--foco); outline-offset:2px; border-radius:4px; }
+::selection{ background:var(--acento-suave); color:var(--tinta); }
+
+/* ---------- Estrutura ---------- */
+.shell{ display:grid; grid-template-columns:272px minmax(0,1fr); min-height:100vh; }
+@media (max-width:860px){ .shell{ grid-template-columns:1fr; } }
+
+/* ---------- Barra lateral ---------- */
+.sidebar{
+  background:var(--papel-fundo); color:var(--tinta);
+  padding:var(--space-6) var(--space-4) var(--space-4);
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+  border-right:1px solid var(--linha);
+}
+@media (max-width:860px){
+  .sidebar{ position:static; height:auto; padding:var(--space-4); border-right:none; border-bottom:1px solid var(--linha); }
+}
+.brand{
+  display:flex; align-items:center; gap:var(--space-3);
+  margin:0 var(--space-2) var(--space-5); padding-bottom:var(--space-5);
+  border-bottom:1px solid var(--linha);
+}
+@media (max-width:860px){ .brand{ margin-bottom:var(--space-3); padding-bottom:var(--space-3); } }
+.brand .marca{
+  width:44px; height:44px; flex-shrink:0; border-radius:var(--radius-pill);
+  background:var(--acento); color:var(--sobre-acento);
+  display:grid; place-items:center;
+}
+.brand .marca svg{ width:30px; height:30px; display:block; }
+.brand > svg{ width:40px; height:40px; flex-shrink:0; color:var(--acento); }
+.brand .t{ font-family:var(--font-display); font-size:20px; font-weight:600; line-height:1.1; color:var(--tinta); letter-spacing:-0.01em; }
+.brand .t small{
+  display:block; margin-top:5px;
+  font-family:var(--font-texto); font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--acento); white-space:nowrap;
+}
+
+nav.chapters{ margin:0; padding:0; }
+.chap-btn{
+  display:flex; align-items:center; gap:var(--space-3);
+  width:100%; text-align:left; margin-bottom:2px;
+  background:none; border:none; cursor:pointer;
+  color:var(--tinta-suave);
+  font-family:var(--font-texto); font-size:14px; font-weight:500; line-height:1.3;
+  padding:9px var(--space-2); border-radius:var(--radius-md);
+  transition:background .15s ease, color .15s ease;
+}
+.chap-btn .num{
+  display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
+  width:24px; height:24px; border-radius:var(--radius-pill);
+  border:1px solid var(--linha-forte);
+  font-size:12px; font-weight:600; font-variant-numeric:tabular-nums;
+  transition:inherit;
+}
+.chap-btn:hover{ background:var(--acento-leve); color:var(--tinta); }
+.chap-btn.seen .num{ background:var(--acento-suave); border-color:var(--acento); color:var(--acento); }
+.chap-btn.active{ background:var(--acento); color:var(--sobre-acento); font-weight:600; }
+.chap-btn.active .num{ background:transparent; border-color:var(--sobre-acento); color:var(--sobre-acento); }
+.chap-group{
+  font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--tinta-suave); margin:var(--space-5) var(--space-2) var(--space-2);
+}
+@media (max-width:860px){
+  nav.chapters{ display:flex; overflow-x:auto; gap:var(--space-1); padding-bottom:var(--space-1); -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
+  .chap-btn{ white-space:nowrap; width:auto; margin:0; }
+  .chap-group{ display:none; }
+}
+
+.side-actions{
+  margin:var(--space-5) var(--space-2) 0; padding-top:var(--space-5);
+  border-top:1px solid var(--linha);
+  display:flex; flex-direction:column; gap:var(--space-3);
+}
+.side-btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:var(--space-2);
+  background:transparent; border:1px solid var(--linha-forte); color:var(--tinta);
+  font-family:var(--font-texto); font-size:13px; font-weight:600; white-space:nowrap;
+  padding:9px var(--space-4); border-radius:var(--radius-pill); cursor:pointer;
+  text-decoration:none;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.side-btn:hover{ background:var(--tinta); color:var(--papel); border-color:var(--tinta); }
+.side-hint{ font-size:12px; color:var(--tinta-suave); text-align:center; line-height:1.6; margin:0; }
+.side-hint kbd{
+  font-family:var(--font-texto); font-size:11px; font-weight:600;
+  border:1px solid var(--linha-forte); border-bottom-width:2px; border-radius:4px; padding:0 5px; margin:0 1px;
+  background:var(--folha);
+}
+@media (max-width:860px){
+  .side-actions{ flex-direction:row; align-items:center; margin:var(--space-3) 0 0; padding-top:var(--space-3); }
+  .side-hint{ display:none; }
+}
+
+/* ---------- Conteúdo ---------- */
+main{ padding:0; display:flex; flex-direction:column; min-width:0; background:var(--papel); color:var(--tinta); }
+.content-scroll{ flex:1; width:100%; max-width:944px; padding:var(--space-7) 64px var(--space-6); }
+@media (max-width:860px){ .content-scroll{ padding:var(--space-5) var(--space-4) var(--space-5); } }
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:var(--space-2);
+  font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--acento); margin-bottom:var(--space-3);
+}
+.eyebrow::before{
+  content:""; width:22px; height:9px; flex-shrink:0;
+  background:repeating-linear-gradient(to bottom, currentColor 0 1px, transparent 1px 4px);
+  opacity:.7;
+}
+.chapter{ display:none; animation:entra .35s ease; }
+.chapter.active{ display:block; }
+@keyframes entra{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){ .chapter{ animation:none; } }
+
+.lead{ font-size:18px; line-height:1.6; color:var(--tinta-suave); max-width:var(--largura-texto); }
+.lead b{ color:var(--tinta); }
+.divider{ height:1px; background:var(--linha); margin:var(--space-6) 0; border:none; }
+
+/* cartões */
+.card{
+  background:var(--folha); border:1px solid var(--linha);
+  border-radius:var(--radius-md); padding:var(--space-5); box-shadow:var(--sombra-folha);
+}
+.card h4{ margin-bottom:var(--space-1); }
+.card p{ font-size:15px; color:var(--tinta-suave); }
+.card p:last-child{ margin-bottom:0; }
+.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); margin:var(--space-4) 0; }
+.grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-4); margin:var(--space-4) 0; }
+@media (max-width:760px){ .grid-2,.grid-3{ grid-template-columns:1fr; } }
+
+/* avisos: dica (sálvia) e atenção (vermelhão) — o ícone e a palavra
+   em negrito carregam o sentido, não só a cor */
+.tip,.warn{
+  position:relative; margin:var(--space-5) 0;
+  padding:var(--space-3) var(--space-4) var(--space-3) 52px;
+  border-radius:var(--radius-md); font-size:15px; line-height:1.6;
+}
+.tip::before,.warn::before{
+  position:absolute; left:var(--space-4); top:14px;
+  width:22px; height:22px; border-radius:var(--radius-pill);
+  display:grid; place-items:center;
+  font-family:var(--font-display); font-size:14px; font-weight:700; line-height:1;
+  color:var(--papel);
+}
+.tip{ background:var(--grau-suave); border:1px solid var(--grau-borda); }
+.tip::before{ content:"i"; background:var(--musica-grau); font-style:italic; }
+.tip b{ color:var(--musica-grau); }
+.warn{ background:var(--destaque-suave); border:1px solid var(--destaque-borda); }
+.warn::before{ content:"!"; background:var(--musica-destaque); }
+.warn b{ color:var(--musica-destaque); }
+
+/* ideia-chave da aula — o único bloco invertido */
+.key-idea{
+  position:relative; overflow:hidden;
+  background:var(--bloco); color:var(--bloco-tinta);
+  border-radius:var(--radius-lg); padding:var(--space-5) var(--space-5) var(--space-5);
+  margin:var(--space-5) 0;
+}
+.key-idea::after{ /* cinco linhas da pauta, discretas, no canto */
+  content:""; position:absolute; right:-10px; top:18px; width:38%; height:33px;
+  background:repeating-linear-gradient(to bottom, var(--bloco-realce) 0 1px, transparent 1px 8px);
+  opacity:.16; pointer-events:none;
+}
+.key-idea .lbl{ font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--bloco-realce); margin-bottom:var(--space-2); position:relative; }
+.key-idea p{ margin:0; font-family:var(--font-display); font-optical-sizing:auto; font-size:21px; font-weight:400; line-height:1.38; max-width:56ch; position:relative; }
+.key-idea b{ color:var(--bloco-realce); font-weight:600; }
+
+/* legenda das cores da partitura */
+.key-bar{
+  display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2) var(--space-5);
+  background:var(--papel-fundo); border:1px solid var(--linha);
+  border-radius:var(--radius-md); padding:var(--space-3) var(--space-4); margin:0 0 var(--space-5);
+  font-size:13px; color:var(--tinta-suave);
+}
+.key-bar b{ color:var(--tinta); }
+.key-bar span{ display:inline-flex; align-items:center; gap:6px; }
+.sw{ font-weight:700; font-size:14px; font-variant-numeric:tabular-nums; }
+.sw.roman{ color:var(--musica-romano); }
+.sw.cifra{ color:var(--musica-cifra); font-family:var(--font-display); }
+.sw.grau{ color:var(--musica-grau); }
+.sw.hi{ color:var(--musica-destaque); text-decoration:underline 2px; text-underline-offset:3px; }
+
+/* fichas do campo harmônico */
+.chips{ display:flex; flex-wrap:wrap; gap:var(--space-2); margin:var(--space-3) 0 var(--space-4); }
+.chip{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  min-width:72px; padding:var(--space-2) var(--space-3) 7px;
+  background:var(--folha); border:1px solid var(--linha); border-radius:var(--radius-sm);
+  box-shadow:0 1px 0 var(--linha);
+}
+.chip .r{ font-size:12px; font-weight:700; color:var(--musica-romano); font-variant-numeric:tabular-nums; }
+.chip .c{ font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; font-size:19px; color:var(--musica-cifra); line-height:1.15; white-space:nowrap; }
+.chip .g{ font-size:11px; font-weight:600; letter-spacing:.06em; color:var(--musica-grau); }
+.chip.changed{ border-color:var(--musica-destaque); box-shadow:inset 0 -3px 0 var(--musica-destaque); }
+.chip.changed .c{ color:var(--musica-destaque); }
+@media (max-width:520px){ .chip{ min-width:calc(25% - 6px); padding-inline:var(--space-1); } .chip .c{ font-size:17px; } }
+
+/* partituras: o cartão segue o tema; a folha da partitura é sempre clara
+   (o SVG do LilyPond e o desenho do VexFlow têm tinta fixa) */
+figure.pauta{
+  margin:var(--space-5) 0; padding:var(--space-4) var(--space-5) var(--space-4);
+  background:var(--folha); border:1px solid var(--linha); border-radius:var(--radius-md);
+  box-shadow:var(--sombra-folha);
+}
+figure.pauta figcaption{ margin-bottom:var(--space-3); }
+.ex-tag{
+  display:inline-block; vertical-align:2px; margin-right:var(--space-2);
+  font-size:11px; font-weight:700; letter-spacing:.04em; font-variant-numeric:tabular-nums;
+  color:var(--sobre-acento); background:var(--acento);
+  border-radius:var(--radius-pill); padding:3px 10px;
+}
+.ex-title{ font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; color:var(--tinta); font-size:18px; }
+.ex-how{ display:block; font-size:14px; color:var(--tinta-suave); margin-top:var(--space-1); max-width:var(--largura-texto); }
+figure.pauta picture{ display:block; background:var(--pauta-papel); border-radius:var(--radius-sm); padding:var(--space-2) var(--space-2) var(--space-1); }
+figure.pauta img{ display:block; max-width:100%; height:auto; margin:0; }
+.vf-wrap{ display:block; background:var(--pauta-papel); border-radius:var(--radius-sm); padding:var(--space-2) var(--space-2) var(--space-1); }
+/* !important: o VexFlow põe style="width:…" inline no <svg> ao redimensionar */
+.vf-wrap svg{ display:block; width:100% !important; height:auto !important; }
+.play-row{ display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2) var(--space-3); margin-top:var(--space-3); }
+.play-btn{
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--acento); color:var(--sobre-acento); border:1px solid var(--acento);
+  padding:8px 18px; border-radius:var(--radius-pill); cursor:pointer;
+  font-family:var(--font-texto); font-weight:600; font-size:14px; line-height:1.2;
+  transition:filter .15s ease, background .15s ease;
+}
+.play-btn:hover{ filter:brightness(1.12); }
+.play-btn.playing{ background:var(--musica-destaque); border-color:var(--musica-destaque); color:var(--papel); }
+.play-btn.ghost{ background:transparent; color:var(--tinta); border-color:var(--linha-forte); }
+.play-btn.ghost:hover{ background:var(--acento-leve); filter:none; }
+.tempo{ font-size:13px; color:var(--tinta-suave); display:inline-flex; align-items:center; gap:6px; }
+.tempo input[type=checkbox]{ accent-color:var(--acento); width:16px; height:16px; margin:0; }
+.tempo select, .game select{
+  font-family:var(--font-texto); font-size:13px; color:var(--tinta);
+  background:var(--folha); border:1px solid var(--linha-forte); border-radius:var(--radius-pill);
+  padding:5px 12px; cursor:pointer;
+}
+
+/* os 4 passos de estudo */
+.steps{ list-style:none; margin:var(--space-3) 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-3); counter-reset:none; }
+.steps li{ background:var(--folha); border:1px solid var(--linha); border-radius:var(--radius-md); padding:var(--space-4) var(--space-4) var(--space-4); }
+.steps .n{ font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; font-size:34px; color:var(--acento); line-height:1; font-variant-numeric:lining-nums; }
+.steps h4{ margin:var(--space-2) 0 var(--space-1); font-size:18px; }
+.steps p{ margin:0; font-size:14px; line-height:1.55; color:var(--tinta-suave); }
+@media (max-width:760px){ .steps{ grid-template-columns:1fr 1fr; } }
+
+/* lista de exercícios em texto */
+.ex-list{ list-style:none; margin:0; padding:0; }
+.ex-list li{ display:flex; gap:var(--space-4); padding:var(--space-4) 0; border-bottom:1px solid var(--linha); }
+.ex-list li:last-child{ border-bottom:none; }
+.ex-list .n{
+  flex-shrink:0; width:32px; height:32px; border-radius:var(--radius-pill);
+  background:var(--bloco); color:var(--bloco-tinta);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-weight:600; font-size:15px;
+}
+.ex-list h4{ margin:2px 0 var(--space-1); font-size:17px; }
+.ex-list p{ margin:0; font-size:15px; color:var(--tinta-suave); }
+
+/* tabelas */
+.table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; margin:var(--space-3) 0 var(--space-5); border:1px solid var(--linha); border-radius:var(--radius-md); background:var(--folha); }
+table.campo{ border-collapse:collapse; width:100%; font-size:14px; min-width:620px; font-variant-numeric:tabular-nums; }
+table.campo th, table.campo td{ padding:9px 10px; border-bottom:1px solid var(--linha); text-align:center; white-space:nowrap; }
+table.campo thead th{ background:var(--papel-fundo); color:var(--musica-romano); font-size:12px; font-weight:700; letter-spacing:.02em; }
+table.campo tbody th{ text-align:left; font-family:var(--font-display); color:var(--tinta); font-weight:600; font-size:15px; padding-left:var(--space-4); }
+table.campo tbody td{ color:var(--musica-cifra); }
+table.campo tbody tr:hover td, table.campo tbody tr:hover th{ background:var(--acento-leve); }
+table.campo tbody tr:last-child td, table.campo tbody tr:last-child th{ border-bottom:none; }
+table.campo tr.easy th::after{ content:"●"; color:var(--musica-grau); font-size:9px; margin-left:6px; vertical-align:2px; }
+table.campo td.hl{ color:var(--musica-destaque); font-weight:700; text-decoration:underline 2px; text-underline-offset:3px; }
+table.simple{ border-collapse:collapse; width:100%; font-size:15px; }
+table.simple th, table.simple td{ padding:10px 12px; border-bottom:1px solid var(--linha); text-align:left; vertical-align:top; }
+table.simple thead th{ background:var(--papel-fundo); color:var(--tinta); font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+table.simple tbody tr:last-child td{ border-bottom:none; }
+
+/* teste rápido */
+.quiz{ list-style:none; margin:0; padding:0; counter-reset:q; }
+.quiz li{ counter-increment:q; padding:var(--space-3) 0; border-bottom:1px solid var(--linha); font-size:15px; }
+.quiz li:last-child{ border-bottom:none; }
+.quiz li::before{ content:counter(q) "."; display:inline-block; min-width:1.6em; font-family:var(--font-display); font-weight:600; color:var(--acento); }
+.quiz details{ display:inline; }
+.quiz summary{
+  display:inline-block; cursor:pointer; list-style:none; margin-left:var(--space-2);
+  font-size:12px; font-weight:600; color:var(--musica-grau);
+  border:1px solid var(--grau-borda); border-radius:var(--radius-pill); padding:2px 10px;
+  transition:background .15s ease;
+}
+.quiz summary:hover{ background:var(--grau-suave); }
+.quiz summary::-webkit-details-marker{ display:none; }
+.quiz details[open] summary{ background:var(--musica-grau); color:var(--papel); border-color:var(--musica-grau); }
+.quiz .ans{ display:block; margin:var(--space-2) 0 0 1.6em; color:var(--musica-grau); font-weight:600; }
+
+/* checklist da aula */
+.checklist{ list-style:none; margin:0; padding:0; }
+.checklist li{ padding:5px 0; }
+.checklist label{ display:flex; gap:var(--space-3); align-items:flex-start; cursor:pointer; font-size:15px; }
+.checklist input{ width:20px; height:20px; margin:1px 0 0; accent-color:var(--acento); flex-shrink:0; cursor:pointer; }
+.checklist input:checked + *, .checklist label:has(input:checked){ color:var(--tinta-suave); }
+.check-progress{ font-size:13px; color:var(--tinta-suave); margin-top:var(--space-2); font-variant-numeric:tabular-nums; }
+
+/* jogos */
+.game{
+  background:var(--folha); border:1px solid var(--linha); border-radius:var(--radius-lg);
+  padding:var(--space-5); margin:var(--space-5) 0; box-shadow:var(--sombra-folha);
+}
+.game h4{ margin:0 0 var(--space-1); font-size:19px; }
+.game p.how{ font-size:15px; color:var(--tinta-suave); margin:0 0 var(--space-3); max-width:var(--largura-texto); }
+.game .controls{ display:flex; flex-wrap:wrap; gap:var(--space-2); align-items:center; }
+.game .out{
+  margin-top:var(--space-4); min-height:72px; display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-3);
+  padding:var(--space-3) var(--space-4); border-radius:var(--radius-md); background:var(--papel);
+  font-family:var(--font-display); font-optical-sizing:auto; font-size:30px; color:var(--tinta); font-weight:600;
+}
+.game .out:empty{ display:none; }
+.game .out .small{ font-family:var(--font-texto); font-size:15px; color:var(--tinta-suave); font-weight:500; }
+.game .reveal{ font-family:var(--font-texto); font-size:16px; color:var(--musica-grau); font-weight:600; }
+.game .score-line{ font-size:13px; color:var(--tinta-suave); margin-top:var(--space-2); font-variant-numeric:tabular-nums; }
+.answer-btns{ display:flex; flex-wrap:wrap; gap:var(--space-2); margin-top:var(--space-3); }
+.answer-btns button{
+  font-family:var(--font-texto); font-size:14px; font-weight:600; color:var(--tinta);
+  background:var(--folha); border:1px solid var(--linha-forte); border-radius:var(--radius-pill);
+  padding:7px 14px; cursor:pointer; transition:background .15s ease;
+}
+.answer-btns button:hover{ background:var(--acento-leve); }
+.answer-btns button.ok{ background:var(--musica-grau); color:var(--papel); border-color:var(--musica-grau); }
+.answer-btns button.no{ background:var(--musica-destaque); color:var(--papel); border-color:var(--musica-destaque); text-decoration:line-through; }
+
+/* dúvidas frequentes */
+details.faq{ border-bottom:1px solid var(--linha); padding:var(--space-4) 0; }
+details.faq summary{
+  cursor:pointer; list-style:none;
+  font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; font-size:18px; color:var(--tinta);
+  display:flex; align-items:center; justify-content:space-between; gap:var(--space-3);
+}
+details.faq summary::-webkit-details-marker{ display:none; }
+details.faq summary::after{
+  content:"+"; flex-shrink:0; width:28px; height:28px; border-radius:var(--radius-pill);
+  display:grid; place-items:center; border:1px solid var(--linha-forte);
+  font-family:var(--font-texto); font-size:18px; font-weight:400; color:var(--acento);
+}
+details.faq[open] summary::after{ content:"–"; background:var(--acento); color:var(--sobre-acento); border-color:var(--acento); }
+details.faq p{ margin:var(--space-3) 0 0; font-size:15px; color:var(--tinta-suave); max-width:var(--largura-texto); }
+
+/* rodapé de navegação */
+.page-footer{
+  border-top:1px solid var(--linha); padding:var(--space-4) 64px;
+  display:flex; justify-content:space-between; align-items:center; gap:var(--space-2);
+  background:var(--papel-fundo);
+}
+@media (max-width:860px){ .page-footer{ padding:var(--space-3) var(--space-4); position:sticky; bottom:0; } }
+.page-footer .prog{ font-size:13px; color:var(--tinta-suave); text-align:center; font-variant-numeric:tabular-nums; }
+.nav-btn{
+  background:var(--tinta); color:var(--papel); border:1px solid var(--tinta);
+  padding:10px 20px; border-radius:var(--radius-pill);
+  font-family:var(--font-texto); font-weight:600; font-size:14px; line-height:1.2;
+  cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.nav-btn:hover:not(:disabled){ background:var(--acento); border-color:var(--acento); color:var(--sobre-acento); }
+.nav-btn:disabled{ background:transparent; color:var(--tinta-suave); border-color:var(--linha); cursor:default; }
+
+/* capa */
+.cover{ display:flex; flex-direction:column; align-items:flex-start; justify-content:center; min-height:46vh; padding-top:var(--space-3); }
+.cover .big{ font-size:clamp(34px, 6vw, 52px); line-height:1.02; letter-spacing:-0.02em; max-width:15ch; margin-bottom:var(--space-4); }
+.cover > svg{ margin:0 0 var(--space-5); max-width:100%; height:auto; }
+.cover .lead{ max-width:58ch; }
+.credit{ font-size:13px; color:var(--tinta-suave); margin-top:var(--space-4); }
+
+.nowrap{ white-space:nowrap; }
+.mono{ font-variant-numeric:tabular-nums; }
+
+/* ---------- Impressão / PDF ---------- */
+@media print{
+  @page{ margin:13mm 12mm; }
+  :root{ color-scheme:light; }
+  html,body{ background:#fff !important; color:#000; font-size:10.5pt; }
+  .shell{ display:block; min-height:0; }
+  .sidebar, .page-footer, .side-actions, .no-print, .play-row, .game .controls, .answer-btns{ display:none !important; }
+  main{ display:block; background:#fff; }
+  .content-scroll{ max-width:none; padding:0; }
+  .chapter{ display:block !important; animation:none !important; }
+  .chapter + .chapter{ break-before:page; page-break-before:always; }
+  .cover{ min-height:0; }
+  figure.pauta, .card, .tip, .warn, .key-idea, .key-bar, .ex-list li, details.faq, .game, .quiz li, .steps li, .chips, .table-scroll, .checklist{ break-inside:avoid; page-break-inside:avoid; }
+  h1,h2,h3,h4{ break-after:avoid; page-break-after:avoid; }
+  .card, .key-bar, figure.pauta, .game, .steps li, .chip, .table-scroll, .tip, .warn{ background:#fff; box-shadow:none; border:1px solid #c9bba4; }
+  figure.pauta picture, .vf-wrap{ background:#fff; padding:0; }
+  .key-idea{ background:#fff; color:#000; border:2px solid #2a1e14; }
+  .key-idea::after{ display:none; }
+  .key-idea .lbl, .key-idea b{ color:#8a5a12; }
+  figure.pauta{ padding:8px 10px; margin:12px 0; }
+  .table-scroll{ overflow:visible; }
+  table.campo{ min-width:0; font-size:8.5pt; }
+  table.campo th, table.campo td{ padding:4px 5px; }
+  .game .out{ display:none; }
+  .quiz summary{ display:none; }
+  details.faq summary::after{ display:none; }
+  a{ color:#000; text-decoration:none; }
+  .checklist input{ appearance:none; -webkit-appearance:none; border:1.5px solid #555; border-radius:3px; }
+}
+
+/* ---------- Seletor de paleta (Nanquim · Grafite · Sálvia) ----------
+   Cada botão tem o próprio data-paleta, então a amostra pinta a si mesma
+   com as cores da paleta que representa. */
+.paletas{ display:flex; flex-direction:column; gap:var(--space-2); }
+.paletas-lbl{ font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--tinta-suave); }
+.paletas-opcoes{ display:flex; gap:var(--space-1); }
+.paleta{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;
+  background:transparent; border:1px solid transparent; border-radius:var(--radius-md);
+  padding:var(--space-2) var(--space-1) 6px; cursor:pointer;
+  font-family:var(--font-texto); font-size:12px; font-weight:600; color:inherit;
+  transition:border-color .15s ease, background .15s ease;
+}
+.paleta:hover{ border-color:var(--linha-forte); }
+.paleta .amostra{
+  position:relative; width:34px; height:34px; border-radius:var(--radius-pill);
+  background:linear-gradient(135deg, var(--papel) 0 50%, var(--tinta) 50% 100%);
+  box-shadow:0 0 0 1px var(--linha-forte);
+}
+.paleta .amostra::after{
+  content:""; position:absolute; right:-2px; bottom:-2px; width:13px; height:13px;
+  border-radius:var(--radius-pill); background:var(--acento); box-shadow:0 0 0 2px var(--papel);
+}
+.paleta[aria-pressed="true"]{ border-color:var(--acento); background:var(--folha); }
+.sidebar .paletas .paleta[aria-pressed="true"]{ background:var(--folha); }
+@media (max-width:860px){
+  .paletas{ flex-direction:row; align-items:center; margin-left:auto; }
+  .paletas-lbl, .paleta .nome{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .paleta{ padding:4px; flex:none; }
+  .paleta .amostra{ width:28px; height:28px; }
+}
+@media print{ .paletas{ display:none !important; } }
+
+/* ---------- Capa da cartilha ----------
+   Faixa escura (bloco) com a foto do instrumento tingida pela cor de acento
+   (duotônico), título por cima e o rodapé de autor. Sem foto, mostra a arte
+   de partitura (romano → cifra → pauta → graus, a ordem de leitura do método). */
+.capa-livro{ margin:0 0 var(--space-6); }
+.capa-hero{
+  --acento-claro: color-mix(in oklab, var(--acento) 50%, #ffffff);
+  position:relative; isolation:isolate; overflow:hidden;
+  min-height:440px; border-radius:var(--radius-lg);
+  background:var(--bloco); color:var(--bloco-tinta);
+  display:flex; align-items:flex-end;
+}
+.capa-foto{ position:absolute; inset:0 0 0 30%; z-index:-2; }
+.capa-foto img{ width:100%; height:100%; object-fit:cover; object-position:55% 40%; display:block; filter:grayscale(1) contrast(1.15) brightness(.95); }
+.capa-foto::after{ content:""; position:absolute; inset:0; background:var(--acento); mix-blend-mode:color; opacity:.8; }
+.capa-hero::before{ /* degradê que leva a foto até o bloco, para o título ler bem */
+  content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(90deg, var(--bloco) 0 30%, color-mix(in srgb, var(--bloco) 70%, transparent) 48%, transparent 78%),
+             linear-gradient(0deg, color-mix(in srgb, var(--bloco) 55%, transparent) 0, transparent 45%);
+}
+.capa-arte{ display:none; position:absolute; right:3%; top:50%; transform:translateY(-50%); width:min(46%, 420px); height:auto; z-index:-1; }
+.capa-hero.sem-foto .capa-arte{ display:block; }
+.ca-pauta path{ stroke:var(--bloco-tinta); stroke-width:1.4; opacity:.32; fill:none; }
+.ca-notas{ fill:var(--bloco-tinta); }
+.ca-hastes path{ stroke:var(--bloco-tinta); stroke-width:2; fill:none; }
+.ca-romano{ fill:var(--bloco-realce); font-family:var(--font-texto); font-weight:700; font-size:17px; }
+.ca-cifra{ fill:var(--acento-claro); font-family:var(--font-display); font-weight:600; font-size:38px; }
+.ca-graus text{ fill:var(--bloco-realce); font-family:var(--font-texto); font-weight:700; font-size:16px; text-anchor:middle; }
+
+.capa-hero-texto{ position:relative; padding:var(--space-7) var(--space-7) var(--space-7); max-width:600px; }
+.capa-serie{ font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--bloco-realce); margin-bottom:var(--space-4); }
+.capa-titulo{
+  font-family:var(--font-display); font-optical-sizing:auto; font-weight:600;
+  font-size:clamp(44px, 7vw, 76px); line-height:.96; letter-spacing:-0.025em;
+  color:var(--bloco-tinta); margin:0 0 var(--space-5); text-wrap:balance;
+}
+.capa-titulo span{ display:block; color:var(--acento-claro); }
+.capa-frase{
+  font-family:var(--font-display); font-optical-sizing:auto; font-weight:400;
+  font-size:21px; line-height:1.35; max-width:30ch; margin:0;
+  color:color-mix(in srgb, var(--bloco-tinta) 88%, transparent);
+  padding-top:var(--space-4); border-top:1px solid color-mix(in srgb, var(--bloco-tinta) 30%, transparent);
+}
+
+.capa-autor{
+  display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-3) var(--space-4);
+  padding:var(--space-5) var(--space-1); border-bottom:1px solid var(--linha);
+}
+.autor-monograma{
+  width:52px; height:52px; flex-shrink:0; border-radius:var(--radius-pill);
+  background:var(--acento); color:var(--sobre-acento);
+  display:grid; place-items:center;
+  font-family:var(--font-display); font-weight:600; font-size:19px; letter-spacing:.02em;
+}
+.autor-nome{ font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; font-size:21px; line-height:1.15; color:var(--tinta); }
+.autor-papel{ font-size:14px; color:var(--tinta-suave); }
+.autor-inst{ list-style:none; margin:0 0 0 auto; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+.autor-inst li{ font-size:13px; font-weight:600; color:var(--tinta); border:1px solid var(--linha-forte); border-radius:var(--radius-pill); padding:4px 12px; }
+.autor-inst li.atual{ background:var(--acento); border-color:var(--acento); color:var(--sobre-acento); }
+.autor-inst li.outros{ border-color:transparent; color:var(--tinta-suave); font-weight:500; padding-inline:4px; }
+.capa-intro{ margin-top:var(--space-6); }
+
+@media (max-width:760px){
+  .capa-hero{ min-height:0; flex-direction:column; align-items:stretch; }
+  .capa-foto{ position:relative; inset:auto; height:210px; z-index:0; }
+  .capa-hero::before{ display:none; }
+  .capa-foto::before{ content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(0deg, var(--bloco) 0, transparent 60%); }
+  .capa-hero.sem-foto .capa-arte{ position:relative; right:auto; top:auto; transform:none; width:80%; margin:var(--space-5) auto 0; }
+  .capa-hero-texto{ padding:var(--space-4) var(--space-5) var(--space-6); }
+  .capa-frase{ font-size:18px; }
+  .autor-inst{ margin-left:0; width:100%; }
+}
+
+@media print{
+  .capa-livro{ break-after:page; page-break-after:always; }
+  .capa-hero{ min-height:215mm; -webkit-print-color-adjust:exact; print-color-adjust:exact; border-radius:0; }
+  .autor-monograma, .autor-inst li.atual{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .capa-autor{ padding-top:10mm; }
+  .capa-titulo{ font-size:58pt; }
+  .capa-frase{ font-size:17pt; }
+}

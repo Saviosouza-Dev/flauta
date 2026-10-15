@@ -1,380 +1,909 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-instrumento="flauta">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Graus e Campos na Flauta — Cartilha do Aluno</title>
+<meta name="color-scheme" content="light dark">
+<title>Harmonização aplicada para Flauta — Cartilha do Aluno</title>
 <meta name="description" content="Cartilha do aluno de flauta transversal: nome das notas e cifras, escala maior e graus, formação de acordes, campo harmônico maior e campos menores (natural, harmônico e melódico), com exercícios em partitura, áudio e jogos.">
-<meta name="theme-color" content="#4A3220">
+<meta name="theme-color" content="#ECE3D2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F0C09" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Desenho da pauta quando o aluno muda de tom (vendorizado: nada de CDN, funciona offline).
+     TRANSPOSE_DATA vem de partituras/transpose_data.js, gerado por ferramentas/montar.py
+     a partir da teoria em ferramentas/transpose.py — sem depender do LilyPond. -->
+<script src="vexflow.min.js"></script>
+<script src="partituras/transpose_data.js"></script>
 <style>
-  :root{
-    --paper:#F2E9D3;
-    --paper-deep:#E9DCBC;
-    --sheet:#FBF7EC;
-    --ink:#3B2A1B;
-    --ink-soft:#6B5340;
-    --wood:#8C5A2E;
-    --wood-deep:#4A3220;
-    --wood-light:#C99A5B;
-    --brass:#B8862E;
-    --brass-deep:#9A6A1C;
-    --string:#D8B24C;
-    --sage:#4B6B4F;
-    --sage-deep:#2F5A3A;
-    --rose:#8C3B2E;
-    --hi:#B0362A;
-    --line:rgba(59,42,27,0.18);
-    --shadow: 4px 4px 0 rgba(59,42,27,0.10);
-    --radius: 4px;
-    --font-display: 'Fraunces', Georgia, serif;
-    --font-body: 'Work Sans', -apple-system, sans-serif;
-  }
+/* Graus e Campos — gerado de tokens.json (não edite à mão) */
+:root{
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-texto: "Work Sans", -apple-system, "Segoe UI", sans-serif;
+  --acento: var(--inst-flauta);
+}
+:root, [data-paleta="nanquim"]{
+  --papel: #f4f6fa;
+  --papel-fundo: #e6ebf3;
+  --folha: #ffffff;
+  --tinta: #121a2e;
+  --tinta-suave: #4a5670;
+  --tinta-fraca: #626e86;
+  --linha: #121a2e1f;
+  --linha-forte: #121a2e57;
+  --bloco: #121a2e;
+  --bloco-tinta: #f4f6fa;
+  --bloco-realce: #f2c46b;
+  --musica-romano: #8a5a00;
+  --musica-cifra: var(--tinta);
+  --musica-grau: #1f6a4a;
+  --musica-destaque: #b3261e;
+  --pauta-papel: #ffffff;
+  --pauta-tinta: #161b26;
+  --pauta-tinta-suave: #4a5670;
+  --pauta-romano: #9a6a1c;
+  --pauta-cifra: #161b26;
+  --pauta-grau: #1f6a4a;
+  --pauta-destaque: #b3261e;
+  --inst-flauta: #2348b8;
+  --inst-violao: #8a3a22;
+  --inst-teclado: #7a2e64;
+  --inst-canto: #1d5f7a;
+  --inst-percussao: #3d3f44;
+  --sobre-acento: #ffffff;
+  --foco: #8a5a00;
+  --sombra-folha: 0 1px 0 rgba(20,24,36,0.05), 0 12px 28px -20px rgba(20,24,36,0.35);
+  --sombra-nenhuma: none;
+}
+[data-paleta="grafite"]{
+  --papel: #f7f7f5;
+  --papel-fundo: #ececea;
+  --folha: #ffffff;
+  --tinta: #1a1b1e;
+  --tinta-suave: #52545a;
+  --tinta-fraca: #6b6d73;
+  --linha: #1a1b1e1f;
+  --linha-forte: #1a1b1e57;
+  --bloco: #1a1b1e;
+  --bloco-tinta: #f7f7f5;
+  --bloco-realce: #7fd8c4;
+  --musica-romano: #8a5a00;
+  --musica-cifra: var(--tinta);
+  --musica-grau: #1f6a4a;
+  --musica-destaque: #b3261e;
+  --pauta-papel: #ffffff;
+  --pauta-tinta: #161b26;
+  --pauta-tinta-suave: #4a5670;
+  --pauta-romano: #9a6a1c;
+  --pauta-cifra: #161b26;
+  --pauta-grau: #1f6a4a;
+  --pauta-destaque: #b3261e;
+  --inst-flauta: #0f6b66;
+  --inst-violao: #8a3a22;
+  --inst-teclado: #7a2e64;
+  --inst-canto: #1d5f7a;
+  --inst-percussao: #3d3f44;
+  --sobre-acento: #ffffff;
+  --foco: #8a5a00;
+  --sombra-folha: 0 1px 0 rgba(20,24,36,0.05), 0 12px 28px -20px rgba(20,24,36,0.35);
+  --sombra-nenhuma: none;
+}
+[data-paleta="salvia"]{
+  --papel: #f2f5ef;
+  --papel-fundo: #e3eadd;
+  --folha: #fcfdfb;
+  --tinta: #16241c;
+  --tinta-suave: #4a5a50;
+  --tinta-fraca: #62716a;
+  --linha: #16241c1f;
+  --linha-forte: #16241c57;
+  --bloco: #1d3a2c;
+  --bloco-tinta: #f2f5ef;
+  --bloco-realce: #f0c66a;
+  --musica-romano: #8a5a00;
+  --musica-cifra: var(--tinta);
+  --musica-grau: #1f6a4a;
+  --musica-destaque: #b3261e;
+  --pauta-papel: #ffffff;
+  --pauta-tinta: #161b26;
+  --pauta-tinta-suave: #4a5670;
+  --pauta-romano: #9a6a1c;
+  --pauta-cifra: #161b26;
+  --pauta-grau: #1f6a4a;
+  --pauta-destaque: #b3261e;
+  --inst-flauta: #2d4e9a;
+  --inst-violao: #8a3a22;
+  --inst-teclado: #7a2e64;
+  --inst-canto: #1d5f7a;
+  --inst-percussao: #3d3f44;
+  --sobre-acento: #ffffff;
+  --foco: #8a5a00;
+  --sombra-folha: 0 1px 0 rgba(20,24,36,0.05), 0 12px 28px -20px rgba(20,24,36,0.35);
+  --sombra-nenhuma: none;
+}
+@media (prefers-color-scheme: dark){
+:root:not([data-tema="claro"]), [data-paleta="nanquim"]:not([data-tema="claro"]){
+  --papel: #0d1322;
+  --papel-fundo: #080c17;
+  --folha: #151d31;
+  --tinta: #edf1f8;
+  --tinta-suave: #b3bed3;
+  --tinta-fraca: #8c98ae;
+  --linha: #edf1f81f;
+  --linha-forte: #edf1f84d;
+  --bloco: #1e2840;
+  --bloco-tinta: #edf1f8;
+  --bloco-realce: #f2c46b;
+  --musica-romano: #f2c46b;
+  --musica-cifra: var(--tinta);
+  --musica-grau: #86cfa6;
+  --musica-destaque: #ff8a7a;
+  --pauta-papel: #ffffff;
+  --pauta-tinta: #161b26;
+  --pauta-tinta-suave: #4a5670;
+  --pauta-romano: #9a6a1c;
+  --pauta-cifra: #161b26;
+  --pauta-grau: #1f6a4a;
+  --pauta-destaque: #b3261e;
+  --inst-flauta: #9db4ff;
+  --inst-violao: #eaa58c;
+  --inst-teclado: #dca6cc;
+  --inst-canto: #8fcbe6;
+  --inst-percussao: #d2d3d6;
+  --sobre-acento: #0d1322;
+  --foco: #f2c46b;
+  --sombra-folha: 0 1px 0 rgba(0,0,0,0.35), 0 14px 30px -18px rgba(0,0,0,0.85);
+  --sombra-nenhuma: none;
+}
+[data-paleta="grafite"]:not([data-tema="claro"]){
+  --papel: #121314;
+  --papel-fundo: #0b0b0c;
+  --folha: #1c1d1f;
+  --tinta: #ededec;
+  --tinta-suave: #b4b5b8;
+  --tinta-fraca: #8e9095;
+  --linha: #ededec1f;
+  --linha-forte: #ededec4d;
+  --bloco: #26282b;
+  --bloco-tinta: #ededec;
+  --bloco-realce: #7fd8c4;
+  --musica-romano: #f2c46b;
+  --musica-cifra: var(--tinta);
+  --musica-grau: #86cfa6;
+  --musica-destaque: #ff8a7a;
+  --pauta-papel: #ffffff;
+  --pauta-tinta: #161b26;
+  --pauta-tinta-suave: #4a5670;
+  --pauta-romano: #9a6a1c;
+  --pauta-cifra: #161b26;
+  --pauta-grau: #1f6a4a;
+  --pauta-destaque: #b3261e;
+  --inst-flauta: #6fd3c8;
+  --inst-violao: #eaa58c;
+  --inst-teclado: #dca6cc;
+  --inst-canto: #8fcbe6;
+  --inst-percussao: #d2d3d6;
+  --sobre-acento: #121314;
+  --foco: #f2c46b;
+  --sombra-folha: 0 1px 0 rgba(0,0,0,0.35), 0 14px 30px -18px rgba(0,0,0,0.85);
+  --sombra-nenhuma: none;
+}
+[data-paleta="salvia"]:not([data-tema="claro"]){
+  --papel: #101612;
+  --papel-fundo: #0a0f0c;
+  --folha: #18211b;
+  --tinta: #e9efe9;
+  --tinta-suave: #adbcb1;
+  --tinta-fraca: #8b9a90;
+  --linha: #e9efe91f;
+  --linha-forte: #e9efe94d;
+  --bloco: #223328;
+  --bloco-tinta: #e9efe9;
+  --bloco-realce: #f0c66a;
+  --musica-romano: #f2c46b;
+  --musica-cifra: var(--tinta);
+  --musica-grau: #86cfa6;
+  --musica-destaque: #ff8a7a;
+  --pauta-papel: #ffffff;
+  --pauta-tinta: #161b26;
+  --pauta-tinta-suave: #4a5670;
+  --pauta-romano: #9a6a1c;
+  --pauta-cifra: #161b26;
+  --pauta-grau: #1f6a4a;
+  --pauta-destaque: #b3261e;
+  --inst-flauta: #a9bff0;
+  --inst-violao: #eaa58c;
+  --inst-teclado: #dca6cc;
+  --inst-canto: #8fcbe6;
+  --inst-percussao: #d2d3d6;
+  --sobre-acento: #101612;
+  --foco: #f2c46b;
+  --sombra-folha: 0 1px 0 rgba(0,0,0,0.35), 0 14px 30px -18px rgba(0,0,0,0.85);
+  --sombra-nenhuma: none;
+}
+}
+:root[data-tema="escuro"], [data-paleta="nanquim"][data-tema="escuro"]{
+  --papel: #0d1322;
+  --papel-fundo: #080c17;
+  --folha: #151d31;
+  --tinta: #edf1f8;
+  --tinta-suave: #b3bed3;
+  --tinta-fraca: #8c98ae;
+  --linha: #edf1f81f;
+  --linha-forte: #edf1f84d;
+  --bloco: #1e2840;
+  --bloco-tinta: #edf1f8;
+  --bloco-realce: #f2c46b;
+  --musica-romano: #f2c46b;
+  --musica-cifra: var(--tinta);
+  --musica-grau: #86cfa6;
+  --musica-destaque: #ff8a7a;
+  --pauta-papel: #ffffff;
+  --pauta-tinta: #161b26;
+  --pauta-tinta-suave: #4a5670;
+  --pauta-romano: #9a6a1c;
+  --pauta-cifra: #161b26;
+  --pauta-grau: #1f6a4a;
+  --pauta-destaque: #b3261e;
+  --inst-flauta: #9db4ff;
+  --inst-violao: #eaa58c;
+  --inst-teclado: #dca6cc;
+  --inst-canto: #8fcbe6;
+  --inst-percussao: #d2d3d6;
+  --sobre-acento: #0d1322;
+  --foco: #f2c46b;
+  --sombra-folha: 0 1px 0 rgba(0,0,0,0.35), 0 14px 30px -18px rgba(0,0,0,0.85);
+  --sombra-nenhuma: none;
+}
+[data-paleta="grafite"][data-tema="escuro"]{
+  --papel: #121314;
+  --papel-fundo: #0b0b0c;
+  --folha: #1c1d1f;
+  --tinta: #ededec;
+  --tinta-suave: #b4b5b8;
+  --tinta-fraca: #8e9095;
+  --linha: #ededec1f;
+  --linha-forte: #ededec4d;
+  --bloco: #26282b;
+  --bloco-tinta: #ededec;
+  --bloco-realce: #7fd8c4;
+  --musica-romano: #f2c46b;
+  --musica-cifra: var(--tinta);
+  --musica-grau: #86cfa6;
+  --musica-destaque: #ff8a7a;
+  --pauta-papel: #ffffff;
+  --pauta-tinta: #161b26;
+  --pauta-tinta-suave: #4a5670;
+  --pauta-romano: #9a6a1c;
+  --pauta-cifra: #161b26;
+  --pauta-grau: #1f6a4a;
+  --pauta-destaque: #b3261e;
+  --inst-flauta: #6fd3c8;
+  --inst-violao: #eaa58c;
+  --inst-teclado: #dca6cc;
+  --inst-canto: #8fcbe6;
+  --inst-percussao: #d2d3d6;
+  --sobre-acento: #121314;
+  --foco: #f2c46b;
+  --sombra-folha: 0 1px 0 rgba(0,0,0,0.35), 0 14px 30px -18px rgba(0,0,0,0.85);
+  --sombra-nenhuma: none;
+}
+[data-paleta="salvia"][data-tema="escuro"]{
+  --papel: #101612;
+  --papel-fundo: #0a0f0c;
+  --folha: #18211b;
+  --tinta: #e9efe9;
+  --tinta-suave: #adbcb1;
+  --tinta-fraca: #8b9a90;
+  --linha: #e9efe91f;
+  --linha-forte: #e9efe94d;
+  --bloco: #223328;
+  --bloco-tinta: #e9efe9;
+  --bloco-realce: #f0c66a;
+  --musica-romano: #f2c46b;
+  --musica-cifra: var(--tinta);
+  --musica-grau: #86cfa6;
+  --musica-destaque: #ff8a7a;
+  --pauta-papel: #ffffff;
+  --pauta-tinta: #161b26;
+  --pauta-tinta-suave: #4a5670;
+  --pauta-romano: #9a6a1c;
+  --pauta-cifra: #161b26;
+  --pauta-grau: #1f6a4a;
+  --pauta-destaque: #b3261e;
+  --inst-flauta: #a9bff0;
+  --inst-violao: #eaa58c;
+  --inst-teclado: #dca6cc;
+  --inst-canto: #8fcbe6;
+  --inst-percussao: #d2d3d6;
+  --sobre-acento: #101612;
+  --foco: #f2c46b;
+  --sombra-folha: 0 1px 0 rgba(0,0,0,0.35), 0 14px 30px -18px rgba(0,0,0,0.85);
+  --sombra-nenhuma: none;
+}
 
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:var(--font-body);
-    line-height:1.55;
-    background-image:
-      radial-gradient(circle at 1px 1px, rgba(59,42,27,0.05) 1px, transparent 0);
-    background-size: 22px 22px;
-  }
+/* =====================================================================
+   Graus e Campos — folha de estilo do método (todas as cartilhas)
+   Usa só as variáveis de tokens.css. Para trocar de instrumento basta
+   <html data-instrumento="violao"> (flauta | violao | teclado | canto | percussao).
+   Também funciona num trecho da página: <div data-instrumento="teclado">.
+   ===================================================================== */
 
-  h1,h2,h3,h4{font-family:var(--font-display); color:var(--wood-deep); margin:0 0 0.4em; font-weight:600;}
-  h3{ font-size:1.18rem; margin-top:1.6em; }
-  p{margin:0 0 1em;}
-  a{color:var(--wood-deep);}
+/* ---------- Instrumento: escolhe a cor de acento ---------- */
+[data-instrumento="flauta"]    { --acento: var(--inst-flauta); }
+[data-instrumento="violao"]    { --acento: var(--inst-violao); }
+[data-instrumento="teclado"]   { --acento: var(--inst-teclado); }
+[data-instrumento="canto"]     { --acento: var(--inst-canto); }
+[data-instrumento="percussao"] { --acento: var(--inst-percussao); }
 
-  /* ---------- Layout shell ---------- */
-  .shell{ display:grid; grid-template-columns: 250px 1fr; min-height:100vh; }
-  @media (max-width:860px){ .shell{ grid-template-columns: 1fr; } }
+/* tons derivados do acento (calculados, não são tokens) — recalculados
+   em qualquer elemento com data-instrumento */
+:root, [data-instrumento]{
+  --acento-suave: color-mix(in srgb, var(--acento) 12%, var(--papel));
+  --acento-leve:  color-mix(in srgb, var(--acento) 7%, transparent);
+  --grau-suave:   color-mix(in srgb, var(--musica-grau) 10%, var(--papel));
+  --grau-borda:   color-mix(in srgb, var(--musica-grau) 32%, transparent);
+  --destaque-suave: color-mix(in srgb, var(--musica-destaque) 9%, var(--papel));
+  --destaque-borda: color-mix(in srgb, var(--musica-destaque) 32%, transparent);
+  --largura-texto: 64ch;
+}
 
-  /* ---------- Sidebar ---------- */
-  .sidebar{
-    background:var(--wood-deep); color:var(--paper);
-    padding:28px 18px 18px;
-    position:sticky; top:0; height:100vh; overflow-y:auto;
-  }
-  @media (max-width:860px){ .sidebar{ position:static; height:auto; padding:16px; } }
-  .brand{
-    display:flex; align-items:center; gap:10px;
-    margin-bottom:22px; padding-bottom:16px;
-    border-bottom:1px solid rgba(242,233,211,0.18);
-  }
-  .brand svg{ width:34px; height:34px; flex-shrink:0; }
-  .brand .t{ font-family:var(--font-display); font-size:1.05rem; line-height:1.15; color:var(--paper);}
-  .brand .t small{ display:block; font-family:var(--font-body); font-size:0.7rem; color:var(--wood-light); font-weight:500; letter-spacing:0.02em; margin-top:2px;}
+/* ---------- Base ---------- */
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--papel);
+  color:var(--tinta);
+  font-family:var(--font-texto);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{
+  font-family:var(--font-display); font-optical-sizing:auto;
+  color:var(--tinta); font-weight:600; margin:0 0 .45em; text-wrap:balance;
+}
+h2{ font-size:clamp(28px, 4.2vw, 36px); line-height:1.1; letter-spacing:-0.015em; }
+h3{ font-size:22px; line-height:1.25; margin-top:var(--space-6); }
+h4{ font-size:18px; line-height:1.3; }
+p{ margin:0 0 1em; }
+b,strong{ font-weight:600; }
+a{ color:var(--acento); text-underline-offset:3px; text-decoration-thickness:1px; }
+a:hover{ text-decoration-thickness:2px; }
+:focus-visible{ outline:2px solid var(--foco); outline-offset:2px; border-radius:4px; }
+::selection{ background:var(--acento-suave); color:var(--tinta); }
 
-  nav.chapters{ margin:0; padding:0; }
-  .chap-btn{
-    display:flex; align-items:center; gap:10px;
-    width:100%; text-align:left;
-    background:none; border:none; cursor:pointer;
-    color:var(--wood-light);
-    font-family:var(--font-body); font-size:0.88rem; font-weight:500;
-    padding:9px 10px; border-radius:3px; margin-bottom:2px;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
-  .chap-btn .num{
-    display:inline-flex; align-items:center; justify-content:center;
-    width:20px; height:20px; border-radius:50%;
-    border:1px solid rgba(242,233,211,0.35);
-    font-size:0.7rem; flex-shrink:0;
-  }
-  .chap-btn:hover{ background:rgba(242,233,211,0.08); color:var(--paper); }
-  .chap-btn.active{ background:var(--brass); color:var(--wood-deep); font-weight:700;}
-  .chap-btn.active .num{ border-color:var(--wood-deep); }
-  .chap-btn.seen .num{ border-color:var(--brass); background:rgba(184,134,46,0.32); color:var(--paper); }
-  .chap-btn.active.seen .num{ background:rgba(74,50,32,0.20); color:var(--wood-deep); border-color:var(--wood-deep); }
-  .chap-group{
-    font-size:0.64rem; letter-spacing:0.08em; text-transform:uppercase;
-    color:rgba(242,233,211,0.45); margin:14px 10px 4px; font-weight:600;
-  }
-  @media (max-width:860px){
-    nav.chapters{ display:flex; overflow-x:auto; gap:6px; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
-    .chap-btn{ white-space:nowrap; width:auto; }
-    .chap-group{ display:none; }
-  }
+/* ---------- Estrutura ---------- */
+.shell{ display:grid; grid-template-columns:272px minmax(0,1fr); min-height:100vh; }
+@media (max-width:860px){ .shell{ grid-template-columns:1fr; } }
 
-  .side-actions{
-    margin-top:20px; padding-top:16px;
-    border-top:1px solid rgba(242,233,211,0.18);
-    display:flex; flex-direction:column; gap:10px;
-  }
-  .side-btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    background:none; border:1px solid rgba(242,233,211,0.35);
-    color:var(--paper);
-    font-family:var(--font-body); font-size:0.82rem; font-weight:600;
-    padding:9px 12px; border-radius:20px; cursor:pointer;
-    transition:background .15s ease, color .15s ease, border-color .15s ease;
-  }
-  .side-btn:hover{ background:var(--brass); color:var(--wood-deep); border-color:var(--brass); }
-  .side-hint{ font-size:0.68rem; color:var(--wood-light); text-align:center; line-height:1.6; }
-  .side-hint kbd{
-    font-family:var(--font-body); font-size:0.7rem;
-    border:1px solid rgba(242,233,211,0.30); border-radius:3px; padding:0 4px; margin:0 1px;
-  }
-  @media (max-width:860px){
-    .side-actions{ flex-direction:row; align-items:center; justify-content:flex-start; margin-top:12px; padding-top:12px; }
-    .side-hint{ display:none; }
-  }
+/* ---------- Barra lateral ---------- */
+.sidebar{
+  background:var(--papel-fundo); color:var(--tinta);
+  padding:var(--space-6) var(--space-4) var(--space-4);
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+  border-right:1px solid var(--linha);
+}
+@media (max-width:860px){
+  .sidebar{ position:static; height:auto; padding:var(--space-4); border-right:none; border-bottom:1px solid var(--linha); }
+}
+.brand{
+  display:flex; align-items:center; gap:var(--space-3);
+  margin:0 var(--space-2) var(--space-5); padding-bottom:var(--space-5);
+  border-bottom:1px solid var(--linha);
+}
+@media (max-width:860px){ .brand{ margin-bottom:var(--space-3); padding-bottom:var(--space-3); } }
+.brand .marca{
+  width:44px; height:44px; flex-shrink:0; border-radius:var(--radius-pill);
+  background:var(--acento); color:var(--sobre-acento);
+  display:grid; place-items:center;
+}
+.brand .marca svg{ width:30px; height:30px; display:block; }
+.brand > svg{ width:40px; height:40px; flex-shrink:0; color:var(--acento); }
+.brand .t{ font-family:var(--font-display); font-size:20px; font-weight:600; line-height:1.1; color:var(--tinta); letter-spacing:-0.01em; }
+.brand .t small{
+  display:block; margin-top:5px;
+  font-family:var(--font-texto); font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--acento); white-space:nowrap;
+}
 
-  /* ---------- Main content ---------- */
-  main{ padding:0; display:flex; flex-direction:column; min-width:0; }
-  .content-scroll{ flex:1; padding:44px 56px 30px; max-width:960px; }
-  @media (max-width:860px){ .content-scroll{ padding:28px 16px 20px; } }
+nav.chapters{ margin:0; padding:0; }
+.chap-btn{
+  display:flex; align-items:center; gap:var(--space-3);
+  width:100%; text-align:left; margin-bottom:2px;
+  background:none; border:none; cursor:pointer;
+  color:var(--tinta-suave);
+  font-family:var(--font-texto); font-size:14px; font-weight:500; line-height:1.3;
+  padding:9px var(--space-2); border-radius:var(--radius-md);
+  transition:background .15s ease, color .15s ease;
+}
+.chap-btn .num{
+  display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
+  width:24px; height:24px; border-radius:var(--radius-pill);
+  border:1px solid var(--linha-forte);
+  font-size:12px; font-weight:600; font-variant-numeric:tabular-nums;
+  transition:inherit;
+}
+.chap-btn:hover{ background:var(--acento-leve); color:var(--tinta); }
+.chap-btn.seen .num{ background:var(--acento-suave); border-color:var(--acento); color:var(--acento); }
+.chap-btn.active{ background:var(--acento); color:var(--sobre-acento); font-weight:600; }
+.chap-btn.active .num{ background:transparent; border-color:var(--sobre-acento); color:var(--sobre-acento); }
+.chap-group{
+  font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--tinta-suave); margin:var(--space-5) var(--space-2) var(--space-2);
+}
+@media (max-width:860px){
+  nav.chapters{ display:flex; overflow-x:auto; gap:var(--space-1); padding-bottom:var(--space-1); -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
+  .chap-btn{ white-space:nowrap; width:auto; margin:0; }
+  .chap-group{ display:none; }
+}
 
-  .eyebrow{ font-size:0.78rem; color:var(--rose); font-weight:600; margin-bottom:6px; }
-  .chapter{ display:none; animation: fade .3s ease; }
-  .chapter.active{ display:block; }
-  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+.side-actions{
+  margin:var(--space-5) var(--space-2) 0; padding-top:var(--space-5);
+  border-top:1px solid var(--linha);
+  display:flex; flex-direction:column; gap:var(--space-3);
+}
+.side-btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:var(--space-2);
+  background:transparent; border:1px solid var(--linha-forte); color:var(--tinta);
+  font-family:var(--font-texto); font-size:13px; font-weight:600; white-space:nowrap;
+  padding:9px var(--space-4); border-radius:var(--radius-pill); cursor:pointer;
+  text-decoration:none;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.side-btn:hover{ background:var(--tinta); color:var(--papel); border-color:var(--tinta); }
+.side-hint{ font-size:12px; color:var(--tinta-suave); text-align:center; line-height:1.6; margin:0; }
+.side-hint kbd{
+  font-family:var(--font-texto); font-size:11px; font-weight:600;
+  border:1px solid var(--linha-forte); border-bottom-width:2px; border-radius:4px; padding:0 5px; margin:0 1px;
+  background:var(--folha);
+}
+@media (max-width:860px){
+  .side-actions{ flex-direction:row; align-items:center; margin:var(--space-3) 0 0; padding-top:var(--space-3); }
+  .side-hint{ display:none; }
+}
 
-  .lead{ font-size:1.08rem; color:var(--ink-soft); max-width:62ch; }
-  .divider{ height:1px; background:var(--line); margin:28px 0; border:none; }
+/* ---------- Conteúdo ---------- */
+main{ padding:0; display:flex; flex-direction:column; min-width:0; background:var(--papel); color:var(--tinta); }
+.content-scroll{ flex:1; width:100%; max-width:944px; padding:var(--space-7) 64px var(--space-6); }
+@media (max-width:860px){ .content-scroll{ padding:var(--space-5) var(--space-4) var(--space-5); } }
 
-  .card{
-    background:var(--paper-deep); border:1px solid var(--line);
-    border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow);
-  }
-  .card h4{ font-size:1rem; margin-bottom:6px; }
-  .card p:last-child{ margin-bottom:0; }
-  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
-  @media (max-width:760px){ .grid-2,.grid-3{ grid-template-columns:1fr; } }
+.eyebrow{
+  display:inline-flex; align-items:center; gap:var(--space-2);
+  font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--acento); margin-bottom:var(--space-3);
+}
+.eyebrow::before{
+  content:""; width:22px; height:9px; flex-shrink:0;
+  background:repeating-linear-gradient(to bottom, currentColor 0 1px, transparent 1px 4px);
+  opacity:.7;
+}
+.chapter{ display:none; animation:entra .35s ease; }
+.chapter.active{ display:block; }
+@keyframes entra{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){ .chapter{ animation:none; } }
 
-  .tip{
-    border-left:3px solid var(--sage); background:rgba(75,107,79,0.08);
-    padding:12px 16px; border-radius:0 4px 4px 0; font-size:0.94rem; margin:18px 0;
-  }
-  .tip b{ color:var(--sage-deep); }
-  .warn{
-    border-left:3px solid var(--rose); background:rgba(140,59,46,0.07);
-    padding:12px 16px; border-radius:0 4px 4px 0; font-size:0.94rem; margin:18px 0;
-  }
-  .warn b{ color:var(--rose); }
+.lead{ font-size:18px; line-height:1.6; color:var(--tinta-suave); max-width:var(--largura-texto); }
+.lead b{ color:var(--tinta); }
+.divider{ height:1px; background:var(--linha); margin:var(--space-6) 0; border:none; }
 
-  /* ideia-chave da aula */
-  .key-idea{
-    background:var(--wood-deep); color:var(--paper);
-    border-radius:var(--radius); padding:18px 22px; margin:22px 0;
-    box-shadow:var(--shadow);
-  }
-  .key-idea .lbl{ font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--string); font-weight:700; margin-bottom:4px; }
-  .key-idea p{ margin:0; font-family:var(--font-display); font-size:1.18rem; line-height:1.35; }
-  .key-idea b{ color:var(--string); font-weight:600; }
+/* cartões */
+.card{
+  background:var(--folha); border:1px solid var(--linha);
+  border-radius:var(--radius-md); padding:var(--space-5); box-shadow:var(--sombra-folha);
+}
+.card h4{ margin-bottom:var(--space-1); }
+.card p{ font-size:15px; color:var(--tinta-suave); }
+.card p:last-child{ margin-bottom:0; }
+.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); margin:var(--space-4) 0; }
+.grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-4); margin:var(--space-4) 0; }
+@media (max-width:760px){ .grid-2,.grid-3{ grid-template-columns:1fr; } }
 
-  /* legenda da partitura */
-  .key-bar{
-    display:flex; flex-wrap:wrap; align-items:center; gap:8px 18px;
-    background:var(--paper-deep); border:1px solid var(--line);
-    border-radius:var(--radius); padding:10px 16px; margin:0 0 18px;
-    font-size:0.8rem; color:var(--ink-soft);
-  }
-  .key-bar b{ color:var(--wood-deep); }
-  .key-bar span{ display:inline-flex; align-items:center; gap:6px; }
-  .sw{ font-weight:700; font-size:0.86rem; }
-  .sw.roman{ color:var(--brass-deep); }
-  .sw.cifra{ color:var(--ink); }
-  .sw.grau{ color:var(--sage-deep); }
-  .sw.hi{ color:var(--hi); }
+/* avisos: dica (sálvia) e atenção (vermelhão) — o ícone e a palavra
+   em negrito carregam o sentido, não só a cor */
+.tip,.warn{
+  position:relative; margin:var(--space-5) 0;
+  padding:var(--space-3) var(--space-4) var(--space-3) 52px;
+  border-radius:var(--radius-md); font-size:15px; line-height:1.6;
+}
+.tip::before,.warn::before{
+  position:absolute; left:var(--space-4); top:14px;
+  width:22px; height:22px; border-radius:var(--radius-pill);
+  display:grid; place-items:center;
+  font-family:var(--font-display); font-size:14px; font-weight:700; line-height:1;
+  color:var(--papel);
+}
+.tip{ background:var(--grau-suave); border:1px solid var(--grau-borda); }
+.tip::before{ content:"i"; background:var(--musica-grau); font-style:italic; }
+.tip b{ color:var(--musica-grau); }
+.warn{ background:var(--destaque-suave); border:1px solid var(--destaque-borda); }
+.warn::before{ content:"!"; background:var(--musica-destaque); }
+.warn b{ color:var(--musica-destaque); }
 
-  /* fórmulas em "fichas" */
-  .chips{ display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 16px; }
-  .chip{
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    min-width:64px; padding:8px 8px 6px;
-    background:var(--sheet); border:1px solid var(--line); border-radius:6px;
-    font-family:var(--font-body);
-  }
-  .chip .r{ font-size:0.72rem; font-weight:700; color:var(--brass-deep); }
-  .chip .c{ font-family:var(--font-display); font-weight:600; font-size:1.12rem; color:var(--wood-deep); line-height:1.2; }
-  .chip .g{ font-size:0.7rem; color:var(--sage-deep); font-weight:600; }
-  .chip.changed{ border-color:var(--hi); box-shadow:inset 0 -3px 0 var(--hi); }
-  @media (max-width:520px){ .chip{ min-width:calc(25% - 6px); } }
+/* ideia-chave da aula — o único bloco invertido */
+.key-idea{
+  position:relative; overflow:hidden;
+  background:var(--bloco); color:var(--bloco-tinta);
+  border-radius:var(--radius-lg); padding:var(--space-5) var(--space-5) var(--space-5);
+  margin:var(--space-5) 0;
+}
+.key-idea::after{ /* cinco linhas da pauta, discretas, no canto */
+  content:""; position:absolute; right:-10px; top:18px; width:38%; height:33px;
+  background:repeating-linear-gradient(to bottom, var(--bloco-realce) 0 1px, transparent 1px 8px);
+  opacity:.16; pointer-events:none;
+}
+.key-idea .lbl{ font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--bloco-realce); margin-bottom:var(--space-2); position:relative; }
+.key-idea p{ margin:0; font-family:var(--font-display); font-optical-sizing:auto; font-size:21px; font-weight:400; line-height:1.38; max-width:56ch; position:relative; }
+.key-idea b{ color:var(--bloco-realce); font-weight:600; }
 
-  /* partituras */
-  figure.pauta{
-    margin:22px 0; padding:14px 16px 12px;
-    background:var(--sheet); border:1px solid var(--line); border-radius:var(--radius);
-    box-shadow:var(--shadow);
-  }
-  figure.pauta figcaption{ margin-bottom:8px; }
-  .ex-tag{
-    display:inline-block; font-size:0.7rem; font-weight:700; letter-spacing:0.04em;
-    color:var(--paper); background:var(--wood); border-radius:12px; padding:2px 9px; margin-right:6px;
-    vertical-align:2px;
-  }
-  .ex-title{ font-family:var(--font-display); font-weight:600; color:var(--wood-deep); font-size:1.04rem; }
-  .ex-how{ display:block; font-size:0.86rem; color:var(--ink-soft); margin-top:3px; }
-  figure.pauta picture, figure.pauta img{ display:block; max-width:100%; height:auto; }
-  figure.pauta img{ margin:4px 0 2px; }
-  .play-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:8px; }
-  .play-btn{
-    display:inline-flex; align-items:center; gap:6px;
-    background:var(--sage-deep); color:var(--paper); border:none;
-    padding:7px 14px; border-radius:18px; cursor:pointer;
-    font-family:var(--font-body); font-weight:600; font-size:0.8rem;
-  }
-  .play-btn:hover{ background:var(--sage); }
-  .play-btn.playing{ background:var(--rose); }
-  .play-btn.ghost{ background:none; color:var(--sage-deep); border:1px solid var(--sage); }
-  .tempo{ font-size:0.78rem; color:var(--ink-soft); display:inline-flex; align-items:center; gap:6px; }
-  .tempo select{ font-family:var(--font-body); font-size:0.8rem; background:var(--sheet); border:1px solid var(--line); border-radius:12px; padding:3px 8px; color:var(--ink); }
+/* legenda das cores da partitura */
+.key-bar{
+  display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2) var(--space-5);
+  background:var(--papel-fundo); border:1px solid var(--linha);
+  border-radius:var(--radius-md); padding:var(--space-3) var(--space-4); margin:0 0 var(--space-5);
+  font-size:13px; color:var(--tinta-suave);
+}
+.key-bar b{ color:var(--tinta); }
+.key-bar span{ display:inline-flex; align-items:center; gap:6px; }
+.sw{ font-weight:700; font-size:14px; font-variant-numeric:tabular-nums; }
+.sw.roman{ color:var(--musica-romano); }
+.sw.cifra{ color:var(--musica-cifra); font-family:var(--font-display); }
+.sw.grau{ color:var(--musica-grau); }
+.sw.hi{ color:var(--musica-destaque); text-decoration:underline 2px; text-underline-offset:3px; }
 
-  /* passos de estudo */
-  .steps{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-  .steps li{ background:var(--paper-deep); border:1px solid var(--line); border-radius:6px; padding:14px 12px; }
-  .steps .n{ font-family:var(--font-display); font-weight:700; font-size:1.5rem; color:var(--brass); line-height:1; }
-  .steps h4{ margin:6px 0 4px; font-size:0.98rem; }
-  .steps p{ margin:0; font-size:0.84rem; color:var(--ink-soft); }
-  @media (max-width:760px){ .steps{ grid-template-columns:1fr 1fr; } }
+/* fichas do campo harmônico */
+.chips{ display:flex; flex-wrap:wrap; gap:var(--space-2); margin:var(--space-3) 0 var(--space-4); }
+.chip{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  min-width:72px; padding:var(--space-2) var(--space-3) 7px;
+  background:var(--folha); border:1px solid var(--linha); border-radius:var(--radius-sm);
+  box-shadow:0 1px 0 var(--linha);
+}
+.chip .r{ font-size:12px; font-weight:700; color:var(--musica-romano); font-variant-numeric:tabular-nums; }
+.chip .c{ font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; font-size:19px; color:var(--musica-cifra); line-height:1.15; white-space:nowrap; }
+.chip .g{ font-size:11px; font-weight:600; letter-spacing:.06em; color:var(--musica-grau); }
+.chip.changed{ border-color:var(--musica-destaque); box-shadow:inset 0 -3px 0 var(--musica-destaque); }
+.chip.changed .c{ color:var(--musica-destaque); }
+@media (max-width:520px){ .chip{ min-width:calc(25% - 6px); padding-inline:var(--space-1); } .chip .c{ font-size:17px; } }
 
-  /* listas de exercício em texto (igual às outras cartilhas) */
-  .ex-list{ list-style:none; margin:0; padding:0; }
-  .ex-list li{ display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--line); }
-  .ex-list li:last-child{ border-bottom:none; }
-  .ex-list .n{
-    flex-shrink:0; width:30px; height:30px; border-radius:50%;
-    background:var(--wood-deep); color:var(--paper);
-    display:flex;align-items:center;justify-content:center;
-    font-family:var(--font-display); font-weight:600; font-size:0.95rem;
-  }
-  .ex-list h4{ margin:0 0 3px; font-size:1rem; }
-  .ex-list p{ margin:0; font-size:0.92rem; color:var(--ink-soft); }
+/* partituras: o cartão segue o tema; a folha da partitura é sempre clara
+   (o SVG do LilyPond e o desenho do VexFlow têm tinta fixa) */
+figure.pauta{
+  margin:var(--space-5) 0; padding:var(--space-4) var(--space-5) var(--space-4);
+  background:var(--folha); border:1px solid var(--linha); border-radius:var(--radius-md);
+  box-shadow:var(--sombra-folha);
+}
+figure.pauta figcaption{ margin-bottom:var(--space-3); }
+.ex-tag{
+  display:inline-block; vertical-align:2px; margin-right:var(--space-2);
+  font-size:11px; font-weight:700; letter-spacing:.04em; font-variant-numeric:tabular-nums;
+  color:var(--sobre-acento); background:var(--acento);
+  border-radius:var(--radius-pill); padding:3px 10px;
+}
+.ex-title{ font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; color:var(--tinta); font-size:18px; }
+.ex-how{ display:block; font-size:14px; color:var(--tinta-suave); margin-top:var(--space-1); max-width:var(--largura-texto); }
+figure.pauta picture{ display:block; background:var(--pauta-papel); border-radius:var(--radius-sm); padding:var(--space-2) var(--space-2) var(--space-1); }
+figure.pauta img{ display:block; max-width:100%; height:auto; margin:0; }
+.vf-wrap{ display:block; background:var(--pauta-papel); border-radius:var(--radius-sm); padding:var(--space-2) var(--space-2) var(--space-1); }
+/* !important: o VexFlow põe style="width:…" inline no <svg> ao redimensionar */
+.vf-wrap svg{ display:block; width:100% !important; height:auto !important; }
+.play-row{ display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2) var(--space-3); margin-top:var(--space-3); }
+.play-btn{
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--acento); color:var(--sobre-acento); border:1px solid var(--acento);
+  padding:8px 18px; border-radius:var(--radius-pill); cursor:pointer;
+  font-family:var(--font-texto); font-weight:600; font-size:14px; line-height:1.2;
+  transition:filter .15s ease, background .15s ease;
+}
+.play-btn:hover{ filter:brightness(1.12); }
+.play-btn.playing{ background:var(--musica-destaque); border-color:var(--musica-destaque); color:var(--papel); }
+.play-btn.ghost{ background:transparent; color:var(--tinta); border-color:var(--linha-forte); }
+.play-btn.ghost:hover{ background:var(--acento-leve); filter:none; }
+.tempo{ font-size:13px; color:var(--tinta-suave); display:inline-flex; align-items:center; gap:6px; }
+.tempo input[type=checkbox]{ accent-color:var(--acento); width:16px; height:16px; margin:0; }
+.tempo select, .game select{
+  font-family:var(--font-texto); font-size:13px; color:var(--tinta);
+  background:var(--folha); border:1px solid var(--linha-forte); border-radius:var(--radius-pill);
+  padding:5px 12px; cursor:pointer;
+}
 
-  /* tabelas */
-  .table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; margin:14px 0 22px; border:1px solid var(--line); border-radius:var(--radius); background:var(--sheet); }
-  table.campo{ border-collapse:collapse; width:100%; font-size:0.86rem; min-width:620px; }
-  table.campo th, table.campo td{ padding:7px 8px; border-bottom:1px solid var(--line); text-align:center; white-space:nowrap; }
-  table.campo thead th{ background:var(--paper-deep); color:var(--brass-deep); font-size:0.76rem; font-weight:700; }
-  table.campo tbody th{ text-align:left; font-family:var(--font-display); color:var(--wood-deep); font-weight:600; }
-  table.campo tbody tr:last-child td, table.campo tbody tr:last-child th{ border-bottom:none; }
-  table.campo tr.easy th::after{ content:"●"; color:var(--sage); font-size:0.6rem; margin-left:5px; vertical-align:2px; }
-  table.campo td.hl{ color:var(--hi); font-weight:600; }
-  table.simple{ border-collapse:collapse; width:100%; font-size:0.9rem; }
-  table.simple th, table.simple td{ padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
-  table.simple thead th{ background:var(--paper-deep); color:var(--wood-deep); font-size:0.8rem; }
+/* os 4 passos de estudo */
+.steps{ list-style:none; margin:var(--space-3) 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-3); counter-reset:none; }
+.steps li{ background:var(--folha); border:1px solid var(--linha); border-radius:var(--radius-md); padding:var(--space-4) var(--space-4) var(--space-4); }
+.steps .n{ font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; font-size:34px; color:var(--acento); line-height:1; font-variant-numeric:lining-nums; }
+.steps h4{ margin:var(--space-2) 0 var(--space-1); font-size:18px; }
+.steps p{ margin:0; font-size:14px; line-height:1.55; color:var(--tinta-suave); }
+@media (max-width:760px){ .steps{ grid-template-columns:1fr 1fr; } }
 
-  /* teste rápido */
-  .quiz{ list-style:none; margin:0; padding:0; counter-reset:q; }
-  .quiz li{ counter-increment:q; padding:10px 0; border-bottom:1px solid var(--line); font-size:0.94rem; }
-  .quiz li:last-child{ border-bottom:none; }
-  .quiz li::before{ content:counter(q) ". "; font-weight:700; color:var(--brass-deep); }
-  .quiz details{ display:inline; }
-  .quiz summary{
-    display:inline-block; cursor:pointer; list-style:none; margin-left:6px;
-    font-size:0.74rem; font-weight:600; color:var(--sage-deep);
-    border:1px solid var(--sage); border-radius:12px; padding:1px 9px;
-  }
-  .quiz summary::-webkit-details-marker{ display:none; }
-  .quiz details[open] summary{ background:var(--sage-deep); color:var(--paper); border-color:var(--sage-deep); }
-  .quiz .ans{ display:block; margin-top:6px; color:var(--sage-deep); font-weight:600; }
+/* lista de exercícios em texto */
+.ex-list{ list-style:none; margin:0; padding:0; }
+.ex-list li{ display:flex; gap:var(--space-4); padding:var(--space-4) 0; border-bottom:1px solid var(--linha); }
+.ex-list li:last-child{ border-bottom:none; }
+.ex-list .n{
+  flex-shrink:0; width:32px; height:32px; border-radius:var(--radius-pill);
+  background:var(--bloco); color:var(--bloco-tinta);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-weight:600; font-size:15px;
+}
+.ex-list h4{ margin:2px 0 var(--space-1); font-size:17px; }
+.ex-list p{ margin:0; font-size:15px; color:var(--tinta-suave); }
 
-  /* checklist da aula */
-  .checklist{ list-style:none; margin:0; padding:0; }
-  .checklist li{ padding:6px 0; }
-  .checklist label{ display:flex; gap:10px; align-items:flex-start; cursor:pointer; font-size:0.94rem; }
-  .checklist input{ width:18px; height:18px; margin-top:2px; accent-color:var(--sage-deep); flex-shrink:0; }
-  .check-progress{ font-size:0.78rem; color:var(--ink-soft); margin-top:8px; }
+/* tabelas */
+.table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; margin:var(--space-3) 0 var(--space-5); border:1px solid var(--linha); border-radius:var(--radius-md); background:var(--folha); }
+table.campo{ border-collapse:collapse; width:100%; font-size:14px; min-width:620px; font-variant-numeric:tabular-nums; }
+table.campo th, table.campo td{ padding:9px 10px; border-bottom:1px solid var(--linha); text-align:center; white-space:nowrap; }
+table.campo thead th{ background:var(--papel-fundo); color:var(--musica-romano); font-size:12px; font-weight:700; letter-spacing:.02em; }
+table.campo tbody th{ text-align:left; font-family:var(--font-display); color:var(--tinta); font-weight:600; font-size:15px; padding-left:var(--space-4); }
+table.campo tbody td{ color:var(--musica-cifra); }
+table.campo tbody tr:hover td, table.campo tbody tr:hover th{ background:var(--acento-leve); }
+table.campo tbody tr:last-child td, table.campo tbody tr:last-child th{ border-bottom:none; }
+table.campo tr.easy th::after{ content:"●"; color:var(--musica-grau); font-size:9px; margin-left:6px; vertical-align:2px; }
+table.campo td.hl{ color:var(--musica-destaque); font-weight:700; text-decoration:underline 2px; text-underline-offset:3px; }
+table.simple{ border-collapse:collapse; width:100%; font-size:15px; }
+table.simple th, table.simple td{ padding:10px 12px; border-bottom:1px solid var(--linha); text-align:left; vertical-align:top; }
+table.simple thead th{ background:var(--papel-fundo); color:var(--tinta); font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+table.simple tbody tr:last-child td{ border-bottom:none; }
 
-  /* jogos */
-  .game{ background:var(--sheet); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; margin:18px 0; box-shadow:var(--shadow); }
-  .game h4{ margin:0 0 4px; font-size:1.05rem; }
-  .game p.how{ font-size:0.9rem; color:var(--ink-soft); margin:0 0 12px; }
-  .game .controls{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
-  .game select{ font-family:var(--font-body); font-size:0.85rem; background:#fff; border:1px solid var(--line); border-radius:14px; padding:5px 10px; color:var(--ink); }
-  .game .out{
-    margin-top:14px; min-height:64px; display:flex; flex-wrap:wrap; align-items:center; gap:10px;
-    font-family:var(--font-display); font-size:1.7rem; color:var(--wood-deep); font-weight:600;
-  }
-  .game .out .small{ font-family:var(--font-body); font-size:0.9rem; color:var(--ink-soft); font-weight:500; }
-  .game .reveal{ font-family:var(--font-body); font-size:1rem; color:var(--sage-deep); font-weight:600; }
-  .game .score-line{ font-size:0.8rem; color:var(--ink-soft); margin-top:6px; }
-  .answer-btns{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
-  .answer-btns button{ font-family:var(--font-body); font-size:0.85rem; font-weight:600; background:#fff; border:1px solid var(--line); border-radius:16px; padding:6px 12px; cursor:pointer; color:var(--wood-deep); }
-  .answer-btns button.ok{ background:var(--sage-deep); color:#fff; border-color:var(--sage-deep); }
-  .answer-btns button.no{ background:var(--rose); color:#fff; border-color:var(--rose); }
+/* teste rápido */
+.quiz{ list-style:none; margin:0; padding:0; counter-reset:q; }
+.quiz li{ counter-increment:q; padding:var(--space-3) 0; border-bottom:1px solid var(--linha); font-size:15px; }
+.quiz li:last-child{ border-bottom:none; }
+.quiz li::before{ content:counter(q) "."; display:inline-block; min-width:1.6em; font-family:var(--font-display); font-weight:600; color:var(--acento); }
+.quiz details{ display:inline; }
+.quiz summary{
+  display:inline-block; cursor:pointer; list-style:none; margin-left:var(--space-2);
+  font-size:12px; font-weight:600; color:var(--musica-grau);
+  border:1px solid var(--grau-borda); border-radius:var(--radius-pill); padding:2px 10px;
+  transition:background .15s ease;
+}
+.quiz summary:hover{ background:var(--grau-suave); }
+.quiz summary::-webkit-details-marker{ display:none; }
+.quiz details[open] summary{ background:var(--musica-grau); color:var(--papel); border-color:var(--musica-grau); }
+.quiz .ans{ display:block; margin:var(--space-2) 0 0 1.6em; color:var(--musica-grau); font-weight:600; }
 
-  /* FAQ */
-  details.faq{ border-bottom:1px solid var(--line); padding:14px 0; }
-  details.faq summary{
-    cursor:pointer; font-family:var(--font-display); font-weight:600;
-    font-size:1.02rem; color:var(--wood-deep); list-style:none;
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-  }
-  details.faq summary::-webkit-details-marker{ display:none; }
-  details.faq summary::after{ content:"+"; font-size:1.3rem; color:var(--brass); font-family:var(--font-body); font-weight:400; }
-  details.faq[open] summary::after{ content:"–"; }
-  details.faq p{ margin-top:10px; font-size:0.94rem; color:var(--ink-soft); max-width:65ch; }
+/* checklist da aula */
+.checklist{ list-style:none; margin:0; padding:0; }
+.checklist li{ padding:5px 0; }
+.checklist label{ display:flex; gap:var(--space-3); align-items:flex-start; cursor:pointer; font-size:15px; }
+.checklist input{ width:20px; height:20px; margin:1px 0 0; accent-color:var(--acento); flex-shrink:0; cursor:pointer; }
+.checklist input:checked + *, .checklist label:has(input:checked){ color:var(--tinta-suave); }
+.check-progress{ font-size:13px; color:var(--tinta-suave); margin-top:var(--space-2); font-variant-numeric:tabular-nums; }
 
-  /* footer nav */
-  .page-footer{
-    border-top:1px solid var(--line); padding:18px 56px;
-    display:flex; justify-content:space-between; align-items:center; gap:8px;
-    background:var(--paper-deep);
-  }
-  @media (max-width:860px){ .page-footer{ padding:14px 16px; } }
-  .page-footer .prog{ font-size:0.8rem; color:var(--ink-soft); font-family:var(--font-body); text-align:center; }
-  .nav-btn{
-    background:var(--wood-deep); color:var(--paper);
-    border:none; padding:10px 18px; border-radius:20px;
-    font-family:var(--font-body); font-weight:600; font-size:0.85rem;
-    cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
-  }
-  .nav-btn:disabled{ opacity:0.35; cursor:default; }
-  .nav-btn:hover:not(:disabled){ background:var(--brass); color:var(--wood-deep); }
+/* jogos */
+.game{
+  background:var(--folha); border:1px solid var(--linha); border-radius:var(--radius-lg);
+  padding:var(--space-5); margin:var(--space-5) 0; box-shadow:var(--sombra-folha);
+}
+.game h4{ margin:0 0 var(--space-1); font-size:19px; }
+.game p.how{ font-size:15px; color:var(--tinta-suave); margin:0 0 var(--space-3); max-width:var(--largura-texto); }
+.game .controls{ display:flex; flex-wrap:wrap; gap:var(--space-2); align-items:center; }
+.game .out{
+  margin-top:var(--space-4); min-height:72px; display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-3);
+  padding:var(--space-3) var(--space-4); border-radius:var(--radius-md); background:var(--papel);
+  font-family:var(--font-display); font-optical-sizing:auto; font-size:30px; color:var(--tinta); font-weight:600;
+}
+.game .out:empty{ display:none; }
+.game .out .small{ font-family:var(--font-texto); font-size:15px; color:var(--tinta-suave); font-weight:500; }
+.game .reveal{ font-family:var(--font-texto); font-size:16px; color:var(--musica-grau); font-weight:600; }
+.game .score-line{ font-size:13px; color:var(--tinta-suave); margin-top:var(--space-2); font-variant-numeric:tabular-nums; }
+.answer-btns{ display:flex; flex-wrap:wrap; gap:var(--space-2); margin-top:var(--space-3); }
+.answer-btns button{
+  font-family:var(--font-texto); font-size:14px; font-weight:600; color:var(--tinta);
+  background:var(--folha); border:1px solid var(--linha-forte); border-radius:var(--radius-pill);
+  padding:7px 14px; cursor:pointer; transition:background .15s ease;
+}
+.answer-btns button:hover{ background:var(--acento-leve); }
+.answer-btns button.ok{ background:var(--musica-grau); color:var(--papel); border-color:var(--musica-grau); }
+.answer-btns button.no{ background:var(--musica-destaque); color:var(--papel); border-color:var(--musica-destaque); text-decoration:line-through; }
 
-  .cover{ display:flex; flex-direction:column; align-items:flex-start; justify-content:center; min-height:50vh; }
-  .cover .big{ font-size:clamp(2.1rem, 5vw, 3.2rem); line-height:1.05; max-width:14ch; }
-  .cover > svg{ margin:0 0 22px; max-width:100%; height:auto; }
-  .credit{ font-size:0.8rem; color:var(--ink-soft); margin-top:18px; }
+/* dúvidas frequentes */
+details.faq{ border-bottom:1px solid var(--linha); padding:var(--space-4) 0; }
+details.faq summary{
+  cursor:pointer; list-style:none;
+  font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; font-size:18px; color:var(--tinta);
+  display:flex; align-items:center; justify-content:space-between; gap:var(--space-3);
+}
+details.faq summary::-webkit-details-marker{ display:none; }
+details.faq summary::after{
+  content:"+"; flex-shrink:0; width:28px; height:28px; border-radius:var(--radius-pill);
+  display:grid; place-items:center; border:1px solid var(--linha-forte);
+  font-family:var(--font-texto); font-size:18px; font-weight:400; color:var(--acento);
+}
+details.faq[open] summary::after{ content:"–"; background:var(--acento); color:var(--sobre-acento); border-color:var(--acento); }
+details.faq p{ margin:var(--space-3) 0 0; font-size:15px; color:var(--tinta-suave); max-width:var(--largura-texto); }
 
-  .nowrap{ white-space:nowrap; }
-  .mono{ font-variant-numeric:tabular-nums; }
+/* rodapé de navegação */
+.page-footer{
+  border-top:1px solid var(--linha); padding:var(--space-4) 64px;
+  display:flex; justify-content:space-between; align-items:center; gap:var(--space-2);
+  background:var(--papel-fundo);
+}
+@media (max-width:860px){ .page-footer{ padding:var(--space-3) var(--space-4); position:sticky; bottom:0; } }
+.page-footer .prog{ font-size:13px; color:var(--tinta-suave); text-align:center; font-variant-numeric:tabular-nums; }
+.nav-btn{
+  background:var(--tinta); color:var(--papel); border:1px solid var(--tinta);
+  padding:10px 20px; border-radius:var(--radius-pill);
+  font-family:var(--font-texto); font-weight:600; font-size:14px; line-height:1.2;
+  cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.nav-btn:hover:not(:disabled){ background:var(--acento); border-color:var(--acento); color:var(--sobre-acento); }
+.nav-btn:disabled{ background:transparent; color:var(--tinta-suave); border-color:var(--linha); cursor:default; }
 
-  :focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+/* capa */
+.cover{ display:flex; flex-direction:column; align-items:flex-start; justify-content:center; min-height:46vh; padding-top:var(--space-3); }
+.cover .big{ font-size:clamp(34px, 6vw, 52px); line-height:1.02; letter-spacing:-0.02em; max-width:15ch; margin-bottom:var(--space-4); }
+.cover > svg{ margin:0 0 var(--space-5); max-width:100%; height:auto; }
+.cover .lead{ max-width:58ch; }
+.credit{ font-size:13px; color:var(--tinta-suave); margin-top:var(--space-4); }
 
-  /* ---------- Impressao / PDF ---------- */
-  @media print{
-    @page{ margin:13mm 12mm; }
-    html,body{ background:#fff !important; background-image:none !important; color:#000; font-size:10.5pt; }
-    .shell{ display:block; min-height:0; }
-    .sidebar, .page-footer, .side-actions, .no-print, .play-row, .game .controls, .answer-btns{ display:none !important; }
-    main{ display:block; }
-    .content-scroll{ max-width:none; padding:0; }
+.nowrap{ white-space:nowrap; }
+.mono{ font-variant-numeric:tabular-nums; }
 
-    /* a cartilha inteira sai numa tirada so, uma aula por pagina */
-    .chapter{ display:block !important; animation:none !important; }
-    .chapter + .chapter{ break-before:page; page-break-before:always; }
-    .cover{ min-height:0; }
+/* ---------- Impressão / PDF ---------- */
+@media print{
+  @page{ margin:13mm 12mm; }
+  :root{ color-scheme:light; }
+  html,body{ background:#fff !important; color:#000; font-size:10.5pt; }
+  .shell{ display:block; min-height:0; }
+  .sidebar, .page-footer, .side-actions, .no-print, .play-row, .game .controls, .answer-btns{ display:none !important; }
+  main{ display:block; background:#fff; }
+  .content-scroll{ max-width:none; padding:0; }
+  .chapter{ display:block !important; animation:none !important; }
+  .chapter + .chapter{ break-before:page; page-break-before:always; }
+  .cover{ min-height:0; }
+  figure.pauta, .card, .tip, .warn, .key-idea, .key-bar, .ex-list li, details.faq, .game, .quiz li, .steps li, .chips, .table-scroll, .checklist{ break-inside:avoid; page-break-inside:avoid; }
+  h1,h2,h3,h4{ break-after:avoid; page-break-after:avoid; }
+  .card, .key-bar, figure.pauta, .game, .steps li, .chip, .table-scroll, .tip, .warn{ background:#fff; box-shadow:none; border:1px solid #c9bba4; }
+  figure.pauta picture, .vf-wrap{ background:#fff; padding:0; }
+  .key-idea{ background:#fff; color:#000; border:2px solid #2a1e14; }
+  .key-idea::after{ display:none; }
+  .key-idea .lbl, .key-idea b{ color:#8a5a12; }
+  figure.pauta{ padding:8px 10px; margin:12px 0; }
+  .table-scroll{ overflow:visible; }
+  table.campo{ min-width:0; font-size:8.5pt; }
+  table.campo th, table.campo td{ padding:4px 5px; }
+  .game .out{ display:none; }
+  .quiz summary{ display:none; }
+  details.faq summary::after{ display:none; }
+  a{ color:#000; text-decoration:none; }
+  .checklist input{ appearance:none; -webkit-appearance:none; border:1.5px solid #555; border-radius:3px; }
+}
 
-    figure.pauta, .card, .tip, .warn, .key-idea, .key-bar, .ex-list li, details.faq, .game, .quiz li, .steps li, .chips, .table-scroll{
-      break-inside:avoid; page-break-inside:avoid;
-    }
-    h1,h2,h3,h4{ break-after:avoid; page-break-after:avoid; }
+/* ---------- Seletor de paleta (Nanquim · Grafite · Sálvia) ----------
+   Cada botão tem o próprio data-paleta, então a amostra pinta a si mesma
+   com as cores da paleta que representa. */
+.paletas{ display:flex; flex-direction:column; gap:var(--space-2); }
+.paletas-lbl{ font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--tinta-suave); }
+.paletas-opcoes{ display:flex; gap:var(--space-1); }
+.paleta{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;
+  background:transparent; border:1px solid transparent; border-radius:var(--radius-md);
+  padding:var(--space-2) var(--space-1) 6px; cursor:pointer;
+  font-family:var(--font-texto); font-size:12px; font-weight:600; color:inherit;
+  transition:border-color .15s ease, background .15s ease;
+}
+.paleta:hover{ border-color:var(--linha-forte); }
+.paleta .amostra{
+  position:relative; width:34px; height:34px; border-radius:var(--radius-pill);
+  background:linear-gradient(135deg, var(--papel) 0 50%, var(--tinta) 50% 100%);
+  box-shadow:0 0 0 1px var(--linha-forte);
+}
+.paleta .amostra::after{
+  content:""; position:absolute; right:-2px; bottom:-2px; width:13px; height:13px;
+  border-radius:var(--radius-pill); background:var(--acento); box-shadow:0 0 0 2px var(--papel);
+}
+.paleta[aria-pressed="true"]{ border-color:var(--acento); background:var(--folha); }
+.sidebar .paletas .paleta[aria-pressed="true"]{ background:var(--folha); }
+@media (max-width:860px){
+  .paletas{ flex-direction:row; align-items:center; margin-left:auto; }
+  .paletas-lbl, .paleta .nome{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .paleta{ padding:4px; flex:none; }
+  .paleta .amostra{ width:28px; height:28px; }
+}
+@media print{ .paletas{ display:none !important; } }
 
-    /* economia de tinta: fundos chapados viram branco com borda */
-    .card, .key-bar, figure.pauta, .game, .steps li, .chip, .table-scroll{ background:#fff; box-shadow:none; border:1px solid #b9ab92; }
-    .key-idea{ background:#fff; color:#000; border:2px solid var(--wood-deep); box-shadow:none; }
-    .key-idea .lbl, .key-idea b{ color:var(--brass-deep); }
-    .tip, .warn{ background:#fff; }
-    figure.pauta{ padding:8px 10px; margin:12px 0; }
-    .table-scroll{ overflow:visible; }
-    table.campo{ min-width:0; font-size:8.5pt; }
-    table.campo th, table.campo td{ padding:4px 5px; }
-    .game .out{ display:none; }
-    .quiz summary{ display:none; }
-    details.faq summary::after{ content:"" !important; }
-    a{ color:#000; text-decoration:none; }
-    .checklist input{ appearance:none; -webkit-appearance:none; border:1.5px solid #555; border-radius:3px; }
-  }
+/* ---------- Capa da cartilha ----------
+   Faixa escura (bloco) com a foto do instrumento tingida pela cor de acento
+   (duotônico), título por cima e o rodapé de autor. Sem foto, mostra a arte
+   de partitura (romano → cifra → pauta → graus, a ordem de leitura do método). */
+.capa-livro{ margin:0 0 var(--space-6); }
+.capa-hero{
+  --acento-claro: color-mix(in oklab, var(--acento) 50%, #ffffff);
+  position:relative; isolation:isolate; overflow:hidden;
+  min-height:440px; border-radius:var(--radius-lg);
+  background:var(--bloco); color:var(--bloco-tinta);
+  display:flex; align-items:flex-end;
+}
+.capa-foto{ position:absolute; inset:0 0 0 30%; z-index:-2; }
+.capa-foto img{ width:100%; height:100%; object-fit:cover; object-position:55% 40%; display:block; filter:grayscale(1) contrast(1.15) brightness(.95); }
+.capa-foto::after{ content:""; position:absolute; inset:0; background:var(--acento); mix-blend-mode:color; opacity:.8; }
+.capa-hero::before{ /* degradê que leva a foto até o bloco, para o título ler bem */
+  content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(90deg, var(--bloco) 0 30%, color-mix(in srgb, var(--bloco) 70%, transparent) 48%, transparent 78%),
+             linear-gradient(0deg, color-mix(in srgb, var(--bloco) 55%, transparent) 0, transparent 45%);
+}
+.capa-arte{ display:none; position:absolute; right:3%; top:50%; transform:translateY(-50%); width:min(46%, 420px); height:auto; z-index:-1; }
+.capa-hero.sem-foto .capa-arte{ display:block; }
+.ca-pauta path{ stroke:var(--bloco-tinta); stroke-width:1.4; opacity:.32; fill:none; }
+.ca-notas{ fill:var(--bloco-tinta); }
+.ca-hastes path{ stroke:var(--bloco-tinta); stroke-width:2; fill:none; }
+.ca-romano{ fill:var(--bloco-realce); font-family:var(--font-texto); font-weight:700; font-size:17px; }
+.ca-cifra{ fill:var(--acento-claro); font-family:var(--font-display); font-weight:600; font-size:38px; }
+.ca-graus text{ fill:var(--bloco-realce); font-family:var(--font-texto); font-weight:700; font-size:16px; text-anchor:middle; }
+
+.capa-hero-texto{ position:relative; padding:var(--space-7) var(--space-7) var(--space-7); max-width:600px; }
+.capa-serie{ font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--bloco-realce); margin-bottom:var(--space-4); }
+.capa-titulo{
+  font-family:var(--font-display); font-optical-sizing:auto; font-weight:600;
+  font-size:clamp(44px, 7vw, 76px); line-height:.96; letter-spacing:-0.025em;
+  color:var(--bloco-tinta); margin:0 0 var(--space-5); text-wrap:balance;
+}
+.capa-titulo span{ display:block; color:var(--acento-claro); }
+.capa-frase{
+  font-family:var(--font-display); font-optical-sizing:auto; font-weight:400;
+  font-size:21px; line-height:1.35; max-width:30ch; margin:0;
+  color:color-mix(in srgb, var(--bloco-tinta) 88%, transparent);
+  padding-top:var(--space-4); border-top:1px solid color-mix(in srgb, var(--bloco-tinta) 30%, transparent);
+}
+
+.capa-autor{
+  display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-3) var(--space-4);
+  padding:var(--space-5) var(--space-1); border-bottom:1px solid var(--linha);
+}
+.autor-monograma{
+  width:52px; height:52px; flex-shrink:0; border-radius:var(--radius-pill);
+  background:var(--acento); color:var(--sobre-acento);
+  display:grid; place-items:center;
+  font-family:var(--font-display); font-weight:600; font-size:19px; letter-spacing:.02em;
+}
+.autor-nome{ font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; font-size:21px; line-height:1.15; color:var(--tinta); }
+.autor-papel{ font-size:14px; color:var(--tinta-suave); }
+.autor-inst{ list-style:none; margin:0 0 0 auto; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+.autor-inst li{ font-size:13px; font-weight:600; color:var(--tinta); border:1px solid var(--linha-forte); border-radius:var(--radius-pill); padding:4px 12px; }
+.autor-inst li.atual{ background:var(--acento); border-color:var(--acento); color:var(--sobre-acento); }
+.autor-inst li.outros{ border-color:transparent; color:var(--tinta-suave); font-weight:500; padding-inline:4px; }
+.capa-intro{ margin-top:var(--space-6); }
+
+@media (max-width:760px){
+  .capa-hero{ min-height:0; flex-direction:column; align-items:stretch; }
+  .capa-foto{ position:relative; inset:auto; height:210px; z-index:0; }
+  .capa-hero::before{ display:none; }
+  .capa-foto::before{ content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(0deg, var(--bloco) 0, transparent 60%); }
+  .capa-hero.sem-foto .capa-arte{ position:relative; right:auto; top:auto; transform:none; width:80%; margin:var(--space-5) auto 0; }
+  .capa-hero-texto{ padding:var(--space-4) var(--space-5) var(--space-6); }
+  .capa-frase{ font-size:18px; }
+  .autor-inst{ margin-left:0; width:100%; }
+}
+
+@media print{
+  .capa-livro{ break-after:page; page-break-after:always; }
+  .capa-hero{ min-height:215mm; -webkit-print-color-adjust:exact; print-color-adjust:exact; border-radius:0; }
+  .autor-monograma, .autor-inst li.atual{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .capa-autor{ padding-top:10mm; }
+  .capa-titulo{ font-size:58pt; }
+  .capa-frase{ font-size:17pt; }
+}
 </style>
+<script>
+  /* paleta escolhida pelo aluno (vale para todas as cartilhas do site) —
+     aplicada antes de desenhar a página, para não piscar a cor padrão */
+  try { var p = localStorage.getItem('gc-paleta'); if (p) document.documentElement.dataset.paleta = p; } catch (e) {}
+</script>
 </head>
 <body>
 
@@ -383,31 +912,40 @@
   <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar">
     <div class="brand">
-      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="20" cy="20" r="19" stroke="#D8B24C" stroke-width="1.4"/>
-        <g transform="rotate(-35 20 20)">
-          <rect x="4" y="17.6" width="32" height="4.8" rx="2.4" fill="none" stroke="#D8B24C" stroke-width="1.3"/>
-          <circle cx="10" cy="20" r="1.1" fill="#D8B24C"/>
-          <circle cx="19" cy="20" r="1.1" fill="#D8B24C"/>
-          <circle cx="23.5" cy="20" r="1.1" fill="#D8B24C"/>
-          <circle cx="28" cy="20" r="1.1" fill="#D8B24C"/>
-          <circle cx="32" cy="20" r="1.1" fill="#D8B24C"/>
-        </g>
-      </svg>
-      <div class="t">Graus e Campos<small>CARTILHA DO ALUNO · FLAUTA</small></div>
+      <span class="marca" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none" focusable="false">
+          <g transform="rotate(-35 20 20)">
+            <rect x="3" y="17.4" width="34" height="5.2" rx="2.6" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="9.5" cy="20" r="1.3" fill="currentColor"/>
+            <circle cx="19" cy="20" r="1.3" fill="currentColor"/>
+            <circle cx="23.5" cy="20" r="1.3" fill="currentColor"/>
+            <circle cx="28" cy="20" r="1.3" fill="currentColor"/>
+            <circle cx="32.5" cy="20" r="1.3" fill="currentColor"/>
+          </g>
+        </svg>
+      </span>
+      <div class="t">Harmonização aplicada<small>Cartilha do aluno · Flauta</small></div>
     </div>
     <nav class="chapters" id="chapterNav" aria-label="Aulas da cartilha"></nav>
 
     <div class="side-actions">
-      <button class="side-btn" id="btnPrint" type="button">
+      <div class="paletas" role="group" aria-label="Cores da cartilha">
+        <span class="paletas-lbl">Cores</span>
+        <div class="paletas-opcoes">
+          <button class="paleta" type="button" data-paleta="nanquim" aria-pressed="true"><span class="amostra" aria-hidden="true"></span><span class="nome">Nanquim</span></button>
+          <button class="paleta" type="button" data-paleta="grafite" aria-pressed="false"><span class="amostra" aria-hidden="true"></span><span class="nome">Grafite</span></button>
+          <button class="paleta" type="button" data-paleta="salvia" aria-pressed="false"><span class="amostra" aria-hidden="true"></span><span class="nome">Sálvia</span></button>
+        </div>
+      </div>
+      <a class="side-btn" id="btnPrint" href="cartilha-flauta.pdf" download>
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
-          <path d="M4 6V2h8v4M4 12H2V7h12v5h-2M4 10h8v4H4z" stroke="currentColor" stroke-width="1.4"
+          <path d="M8 2v8m0 0 3-3m-3 3L5 7M3 12v1.5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5V12" stroke="currentColor" stroke-width="1.4"
                 stroke-linejoin="round" stroke-linecap="round"/>
         </svg>
-        Imprimir / salvar em PDF
-      </button>
+        Baixar PDF
+      </a>
       <p class="side-hint">
-        Imprime a cartilha <b>inteira</b>, uma aula por página.<br>
+        PDF com a cartilha <b>inteira</b>, uma aula por página.<br>
         Navegue com <kbd>&larr;</kbd> <kbd>&rarr;</kbd>
       </p>
     </div>
@@ -419,29 +957,42 @@
 
       <!-- 0. CAPA -->
       <section class="chapter" data-chapter="capa">
-        <div class="cover">
-          <svg width="220" height="70" viewBox="0 0 220 70" fill="none" aria-hidden="true" focusable="false">
-            <g stroke="#8C5A2E" stroke-width="1.2" opacity="0.55">
-              <path d="M4 18h212M4 26h212M4 34h212M4 42h212M4 50h212"/>
-            </g>
-            <g fill="#4A3220">
-              <ellipse cx="30" cy="54" rx="6" ry="4.4" transform="rotate(-18 30 54)"/>
-              <ellipse cx="62" cy="46" rx="6" ry="4.4" transform="rotate(-18 62 46)"/>
-              <ellipse cx="94" cy="38" rx="6" ry="4.4" transform="rotate(-18 94 38)"/>
-              <ellipse cx="126" cy="30" rx="6" ry="4.4" transform="rotate(-18 126 30)"/>
-            </g>
-            <g stroke="#4A3220" stroke-width="1.6">
-              <path d="M35.5 52V24M67.5 44V16M99.5 36V8M131.5 28V2"/>
-              <path d="M22 54h16"/>
-            </g>
-            <g font-family="Work Sans, sans-serif" font-size="10" font-weight="700" fill="#2F5A3A" text-anchor="middle">
-              <text x="30" y="68">1</text><text x="62" y="68">3</text><text x="94" y="68">5</text><text x="126" y="68">7</text>
-            </g>
-            <rect x="146" y="20" width="66" height="26" fill="#F2E9D3"/>
-            <text x="152" y="41" font-family="Fraunces, serif" font-size="21" font-weight="600" fill="#9A6A1C">C7M</text>
-          </svg>
-          <div class="eyebrow">CARTILHA DO ALUNO · HARMONIA NA FLAUTA</div>
-          <h1 class="big">A flauta toca uma nota por vez. A harmonia, você leva na cabeça.</h1>
+        <header class="capa-livro">
+          <div class="capa-hero">
+            <!-- Foto da capa: salve a imagem em imagens/imgflauta.jpg (horizontal, de preferência 2000px de largura).
+                 Ela ganha o tom da paleta/instrumento sozinha. Sem foto, aparece a arte de partitura. -->
+            <picture class="capa-foto"><img src="imagens/imgflauta.jpg" alt="" loading="eager" onerror="this.closest('.capa-hero').classList.add('sem-foto'); this.parentNode.remove();"></picture>
+            <svg class="capa-arte" viewBox="0 0 380 300" aria-hidden="true" focusable="false">
+              <g class="ca-pauta"><path d="M10 150H370M10 166H370M10 182H370M10 198H370M10 214H370"/></g>
+              <text class="ca-romano" x="96" y="72">I7M</text>
+              <text class="ca-cifra" x="96" y="112">C7M</text>
+              <g class="ca-notas">
+                <ellipse cx="106" cy="230" rx="11" ry="7.6" transform="rotate(-20 106 230)"/>
+                <ellipse cx="170" cy="214" rx="11" ry="7.6" transform="rotate(-20 170 214)"/>
+                <ellipse cx="234" cy="198" rx="11" ry="7.6" transform="rotate(-20 234 198)"/>
+                <ellipse cx="298" cy="182" rx="11" ry="7.6" transform="rotate(-20 298 182)"/>
+              </g>
+              <g class="ca-hastes"><path d="M116.5 227V160M180.5 211V144M244.5 195V128M308.5 179V112M90 230H122"/></g>
+              <g class="ca-graus"><text x="106" y="270">1</text><text x="170" y="270">3</text><text x="234" y="270">5</text><text x="298" y="270">7</text></g>
+            </svg>
+            <div class="capa-hero-texto">
+              <div class="capa-serie">Cartilha do aluno · Graus e campos harmônicos</div>
+              <h1 class="capa-titulo">Harmonização aplicada <span>na flauta</span></h1>
+              <p class="capa-frase">A flauta toca uma nota por vez. A harmonia, você leva na cabeça.</p>
+            </div>
+          </div>
+          <div class="capa-autor">
+            <div class="autor-monograma" aria-hidden="true">SS</div>
+            <div class="autor-info">
+              <div class="autor-nome">Sávio Souza</div>
+              <div class="autor-papel">Professor e músico instrumentista</div>
+            </div>
+            <ul class="autor-inst" aria-label="Instrumentos que toca">
+              <li>Violão</li><li>Baixo</li><li>Teclado</li><li class="atual">Flauta</li><li>Cavaquinho</li><li class="outros">e outros</li>
+            </ul>
+          </div>
+        </header>
+        <div class="capa-intro">
           <p class="lead">Esta cartilha ensina, passo a passo, a enxergar <b>escalas, graus e acordes</b> dentro das melodias que você toca. Cada aula usa só o que você aprendeu nas anteriores — no fim, você vai ler uma cifra como <b>Dm7</b> e já saber quais notas tocar.</p>
           <div class="tip"><b>Como usar:</b> siga as aulas na ordem. Só avance quando conseguir marcar todos os itens do <b>checklist</b> no fim de cada aula. É isso que torna o método à prova de falhas: nenhum passo fica para trás.</div>
         </div>
@@ -493,7 +1044,7 @@
           </div>
         </div>
 
-        <figure class="pauta" data-play='{"n":[[60,1.0],[62,1.0],[64,1.0],[65,1.0],[67,1.0],[69,1.0],[71,1.0],[72,1.0]],"p":[]}'>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[62,1.0],[64,1.0],[65,1.0],[67,1.0],[69,1.0],[71,1.0],[72,1.0]],"p":[]}' data-ex="ex1_1">
           <figcaption><span class="ex-tag">Exercício 1.1</span><span class="ex-title">Letra em cima, nome embaixo</span><span class="ex-how">Toque devagar dizendo a letra de cada nota: “C, D, E…”. Depois repita dizendo o nome: “Dó, Ré, Mi…”.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex1_1.svg">
@@ -501,7 +1052,7 @@
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[67,1.0],[76,1.0],[69,1.0],[72,1.0],[65,1.0],[74,1.0],[71,1.0],[64,1.0],[81,1.0],[62,1.0],[79,1.0],[77,1.0]],"p":[]}'>
+        <figure class="pauta" data-play='{"n":[[67,1.0],[76,1.0],[69,1.0],[72,1.0],[65,1.0],[74,1.0],[71,1.0],[64,1.0],[81,1.0],[62,1.0],[79,1.0],[77,1.0]],"p":[]}' data-ex="ex1_2">
           <figcaption><span class="ex-tag">Exercício 1.2</span><span class="ex-title">Complete as cifras</span><span class="ex-how">Escreva a letra de cada nota no quadrinho (a lápis). Depois toque dizendo as letras. Respostas no capítulo “Respostas”.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex1_2.svg">
@@ -550,15 +1101,15 @@
         </div>
         <p style="font-size:0.92rem;">Os semitons ficam sempre <b>entre o 3 e o 4</b> e <b>entre o 7 e o 1</b>. Depois do 7, a contagem volta para o 1 — o Dó agudo também é grau 1.</p>
 
-        <figure class="pauta" data-play='{"n":[[60,1.0],[62,1.0],[64,1.0],[65,1.0],[67,1.0],[69,1.0],[71,1.0],[72,1.0],[71,1.0],[69,1.0],[67,1.0],[65,1.0],[64,1.0],[62,1.0],[60,2.0]],"p":[]}'>
-          <figcaption><span class="ex-tag">Exercício 2.1</span><span class="ex-title">Escala de Dó maior com os graus</span><span class="ex-how">Suba dizendo os números, desça dizendo os números. Depois toque só pensando nos números, sem falar.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[62,1.0],[64,1.0],[65,1.0],[67,1.0],[69,1.0],[71,1.0],[72,1.0],[71,1.0],[69,1.0],[67,1.0],[65,1.0],[64,1.0],[62,1.0],[60,2.0]],"p":[]}' data-ex="ex2_1">
+          <figcaption><span class="ex-tag">Exercício 2.1</span><span class="ex-title">Escala maior com os graus</span><span class="ex-how">Suba dizendo os números, desça dizendo os números. Depois toque só pensando nos números, sem falar.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex2_1.svg">
-            <img src="partituras/ex2_1.svg" width="419" height="58" style="width:100%" alt="Partitura — Escala de Dó maior com os graus">
+            <img src="partituras/ex2_1.svg" width="419" height="58" style="width:100%" alt="Partitura — Escala maior com os graus">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[60,1.0],[62,1.0],[64,1.0],[60,1.0],[62,1.0],[64,1.0],[65,1.0],[62,1.0],[64,1.0],[65,1.0],[67,1.0],[64,1.0],[65,1.0],[67,1.0],[69,1.0],[65,1.0],[67,1.0],[69,1.0],[71,1.0],[67,1.0],[69,1.0],[71,1.0],[72,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[71,1.0],[72,4.0]],"p":[]}'>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[62,1.0],[64,1.0],[60,1.0],[62,1.0],[64,1.0],[65,1.0],[62,1.0],[64,1.0],[65,1.0],[67,1.0],[64,1.0],[65,1.0],[67,1.0],[69,1.0],[65,1.0],[67,1.0],[69,1.0],[71,1.0],[67,1.0],[69,1.0],[71,1.0],[72,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[71,1.0],[72,4.0]],"p":[]}' data-ex="ex2_2">
           <figcaption><span class="ex-tag">Exercício 2.2</span><span class="ex-title">Grupos “1-2-3-1”</span><span class="ex-how">O mesmo desenho começa em cada grau da escala. Diga os números em voz alta na primeira vez.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex2_2.svg">
@@ -566,7 +1117,7 @@
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[62,1.0],[65,1.0],[64,1.0],[67,1.0],[65,1.0],[69,1.0],[67,1.0],[71,1.0],[69,1.0],[72,1.0],[71,1.0],[74,1.0],[72,2.0]],"p":[]}'>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[62,1.0],[65,1.0],[64,1.0],[67,1.0],[65,1.0],[69,1.0],[67,1.0],[71,1.0],[69,1.0],[72,1.0],[71,1.0],[74,1.0],[72,2.0]],"p":[]}' data-ex="ex2_3">
           <figcaption><span class="ex-tag">Exercício 2.3</span><span class="ex-title">Pula-uma (terças)</span><span class="ex-how">Toque uma nota, pule a vizinha, toque a seguinte: 1-3, 2-4, 3-5… Guarde bem este movimento: é assim que nascem os acordes na próxima aula.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex2_3.svg">
@@ -577,21 +1128,21 @@
         <h3>A mesma receita em outros tons</h3>
         <p style="font-size:0.92rem;">Em Sol maior, para o semitom cair entre o 7 e o 1, o Fá precisa subir: <b>F#</b>. Em Fá maior, para o semitom cair entre o 3 e o 4, o Si precisa descer: <b>Bb</b>. A armadura de clave já avisa isso no começo da pauta.</p>
 
-        <figure class="pauta" data-play='{"n":[[67,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[78,1.0],[79,1.0],[78,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,1.0],[67,2.0]],"p":[]}'>
+        <figure class="pauta" data-play='{"n":[[67,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[78,1.0],[79,1.0],[78,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,1.0],[67,2.0]],"p":[]}' data-ex="ex2_4g">
           <figcaption><span class="ex-tag">Exercício 2.4a</span><span class="ex-title">Sol maior (G) — um sustenido: F#</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex2_4g.svg">
             <img src="partituras/ex2_4g.svg" width="424" height="57" style="width:100%" alt="Partitura — Sol maior (G) — um sustenido: F#">
           </picture>
         </figure>
-        <figure class="pauta" data-play='{"n":[[65,1.0],[67,1.0],[69,1.0],[70,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[76,1.0],[74,1.0],[72,1.0],[70,1.0],[69,1.0],[67,1.0],[65,2.0]],"p":[]}'>
+        <figure class="pauta" data-play='{"n":[[65,1.0],[67,1.0],[69,1.0],[70,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[76,1.0],[74,1.0],[72,1.0],[70,1.0],[69,1.0],[67,1.0],[65,2.0]],"p":[]}' data-ex="ex2_4f">
           <figcaption><span class="ex-tag">Exercício 2.4b</span><span class="ex-title">Fá maior (F) — um bemol: Bb</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex2_4f.svg">
             <img src="partituras/ex2_4f.svg" width="423" height="56" style="width:100%" alt="Partitura — Fá maior (F) — um bemol: Bb">
           </picture>
         </figure>
-        <figure class="pauta" data-play='{"n":[[62,1.0],[64,1.0],[66,1.0],[67,1.0],[69,1.0],[71,1.0],[73,1.0],[74,1.0],[73,1.0],[71,1.0],[69,1.0],[67,1.0],[66,1.0],[64,1.0],[62,2.0]],"p":[]}'>
+        <figure class="pauta" data-play='{"n":[[62,1.0],[64,1.0],[66,1.0],[67,1.0],[69,1.0],[71,1.0],[73,1.0],[74,1.0],[73,1.0],[71,1.0],[69,1.0],[67,1.0],[66,1.0],[64,1.0],[62,2.0]],"p":[]}' data-ex="ex2_4d">
           <figcaption><span class="ex-tag">Exercício 2.4c</span><span class="ex-title">Ré maior (D) — dois sustenidos: F# e C#</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex2_4d.svg">
@@ -599,11 +1150,11 @@
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[74,1.0],[71,1.0],[67,1.0],[78,1.0],[72,1.0],[69,1.0],[76,1.0],[79,1.0],[62,1.0],[66,1.0],[71,1.0],[64,1.0]],"p":[]}'>
-          <figcaption><span class="ex-tag">Exercício 2.5</span><span class="ex-title">Descubra o grau em Sol maior</span><span class="ex-how">As notas estão fora de ordem. Escreva no quadrinho qual é o grau de cada uma na escala de Sol maior.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[74,1.0],[71,1.0],[67,1.0],[78,1.0],[72,1.0],[69,1.0],[76,1.0],[79,1.0],[62,1.0],[66,1.0],[71,1.0],[64,1.0]],"p":[]}' data-ex="ex2_5">
+          <figcaption><span class="ex-tag">Exercício 2.5</span><span class="ex-title">Descubra o grau</span><span class="ex-how">As notas estão fora de ordem. Escreva no quadrinho qual é o grau de cada uma na escala do tom escolhido.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex2_5.svg">
-            <img src="partituras/ex2_5.svg" width="345" height="62" style="width:100%" alt="Partitura — Descubra o grau em Sol maior">
+            <img src="partituras/ex2_5.svg" width="345" height="62" style="width:100%" alt="Partitura — Descubra o grau">
           </picture>
         </figure>
 
@@ -611,11 +1162,11 @@
           <h4>Jogo da aula: Telefone musical</h4>
           <p class="how">Um “número de telefone” é uma sequência de graus. O professor dita, você toca na escala do dia. Exemplo em Dó: <b>5-3-1</b> e <b>1-3-5-1</b>. No capítulo <a href="#jogos">Jogos</a> há um gerador de números para treinar sozinho.</p>
         </div>
-        <figure class="pauta" data-play='{"n":[[67,1.0],[64,1.0],[60,1.0],[0,1.0],[60,1.0],[64,1.0],[67,1.0],[72,1.0]],"p":[]}'>
-          <figcaption><span class="ex-tag">Exemplo</span><span class="ex-title">“5-3-1” e “1-3-5-1” em Dó maior</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[67,1.0],[64,1.0],[60,1.0],[0,1.0],[60,1.0],[64,1.0],[67,1.0],[72,1.0]],"p":[]}' data-ex="ex2_6">
+          <figcaption><span class="ex-tag">Exemplo</span><span class="ex-title">“5-3-1” e “1-3-5-1”</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex2_6.svg">
-            <img src="partituras/ex2_6.svg" width="236" height="56" style="width:65.5%" alt="Partitura — “5-3-1” e “1-3-5-1” em Dó maior">
+            <img src="partituras/ex2_6.svg" width="236" height="56" style="width:65.5%" alt="Partitura — “5-3-1” e “1-3-5-1”">
           </picture>
         </figure>
 
@@ -655,11 +1206,11 @@
             </tbody>
           </table>
         </div>
-        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[60,1.0],[63,1.0],[67,1.0],[60,1.0],[63,1.0],[66,1.0],[60,1.0],[64,1.0],[68,1.0]],"p":[[0.0,[48,52,55],3.0],[3.0,[48,51,55],3.0],[6.0,[48,51,54],3.0],[9.0,[48,52,56],3.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 3.1</span><span class="ex-title">As quatro tríades de Dó</span><span class="ex-how">Repare: só uma nota muda de um acorde para o outro. Ouça a diferença antes de tocar.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[60,1.0],[63,1.0],[67,1.0],[60,1.0],[63,1.0],[66,1.0],[60,1.0],[64,1.0],[68,1.0]],"p":[[0.0,[48,52,55],3.0],[3.0,[48,51,55],3.0],[6.0,[48,51,54],3.0],[9.0,[48,52,56],3.0]]}' data-ex="ex3_1">
+          <figcaption><span class="ex-tag">Exercício 3.1</span><span class="ex-title">As quatro tríades</span><span class="ex-how">Repare: só uma nota muda de um acorde para o outro. Ouça a diferença antes de tocar.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex3_1.svg">
-            <img src="partituras/ex3_1.svg" width="349" height="58" style="width:77.4%" alt="Partitura — As quatro tríades de Dó">
+            <img src="partituras/ex3_1.svg" width="349" height="58" style="width:77.4%" alt="Partitura — As quatro tríades">
           </picture>
         </figure>
 
@@ -680,16 +1231,16 @@
         </div>
         <p style="font-size:0.9rem;">Não precisa decorar a tabela inteira agora. As quatro primeiras aparecem já na próxima aula; as outras três só nas aulas de escalas menores.</p>
 
-        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[60,1.0],[64,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[69,1.0],[60,1.0],[63,1.0],[67,1.0],[71,1.0],[60,1.0],[64,1.0],[68,1.0],[71,1.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[48,52,55,58],4.0],[8.0,[48,51,55,58],4.0],[12.0,[48,51,54,58],4.0],[16.0,[48,51,54,57],4.0],[20.0,[48,51,55,59],4.0],[24.0,[48,52,56,59],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 3.2</span><span class="ex-title">As sete tétrades a partir do Dó</span><span class="ex-how">Diga a cifra antes de cada compasso. Ouça como cada tipo tem uma “cor” própria.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[60,1.0],[64,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[69,1.0],[60,1.0],[63,1.0],[67,1.0],[71,1.0],[60,1.0],[64,1.0],[68,1.0],[71,1.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[48,52,55,58],4.0],[8.0,[48,51,55,58],4.0],[12.0,[48,51,54,58],4.0],[16.0,[48,51,54,57],4.0],[20.0,[48,51,55,59],4.0],[24.0,[48,52,56,59],4.0]]}' data-ex="ex3_2">
+          <figcaption><span class="ex-tag">Exercício 3.2</span><span class="ex-title">As sete tétrades do campo maior</span><span class="ex-how">Diga a cifra antes de cada compasso. Ouça como cada tipo tem uma “cor” própria.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex3_2.svg">
-            <img src="partituras/ex3_2.svg" width="477" height="113" style="width:100%" alt="Partitura — As sete tétrades a partir do Dó">
+            <img src="partituras/ex3_2.svg" width="477" height="113" style="width:100%" alt="Partitura — As sete tétrades do campo maior">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[60,1.0],[64,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[69,1.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[48,52,55,58],4.0],[8.0,[48,51,55,58],4.0],[12.0,[48,51,54,58],4.0],[16.0,[48,51,54,57],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 3.3</span><span class="ex-title">Troca-troca: uma nota por vez</span><span class="ex-how">De C7M até C°, a cada compasso só uma nota desce meio tom (em vermelho). Este é o exercício mais importante da aula: toque até conseguir sem olhar. (Bbb = Si dobrado bemol, soa como Lá.)</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[60,1.0],[64,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[70,1.0],[60,1.0],[63,1.0],[66,1.0],[69,1.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[48,52,55,58],4.0],[8.0,[48,51,55,58],4.0],[12.0,[48,51,54,58],4.0],[16.0,[48,51,54,57],4.0]]}' data-ex="ex3_3">
+          <figcaption><span class="ex-tag">Exercício 3.3</span><span class="ex-title">Troca-troca: uma nota por vez</span><span class="ex-how">Do acorde maior com sétima (I7M) até o diminuto (I°), a cada compasso só uma nota desce meio tom (em vermelho). Este é o exercício mais importante da aula: toque até conseguir sem olhar. (Um acidente duplo, tipo ♭♭, soa igual à nota vizinha mais simples.)</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex3_3.svg">
             <img src="partituras/ex3_3.svg" width="477" height="109" style="width:100%" alt="Partitura — Troca-troca: uma nota por vez">
@@ -736,23 +1287,23 @@
         </div>
         <p style="font-size:0.92rem;">Com tríades, a fórmula fica ainda mais curta: <b>maior · menor · menor · maior · maior · menor · diminuto</b>.</p>
 
-        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[62,1.0],[65,1.0],[69,1.0],[64,1.0],[67,1.0],[71,1.0],[65,1.0],[69,1.0],[72,1.0],[67,1.0],[71,1.0],[74,1.0],[69,1.0],[72,1.0],[76,1.0],[71,1.0],[74,1.0],[77,1.0],[60,1.0],[64,1.0],[67,1.0]],"p":[[0.0,[48,52,55],3.0],[3.0,[50,53,57],3.0],[6.0,[52,55,59],3.0],[9.0,[53,57,60],3.0],[12.0,[55,59,62],3.0],[15.0,[57,60,64],3.0],[18.0,[59,62,65],3.0],[21.0,[48,52,55],3.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 4.1</span><span class="ex-title">Tríades do campo de Dó maior</span><span class="ex-how">Diga o grau romano e a cifra antes de cada compasso: “um, Dó” — “dois menor, Ré menor”…</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[62,1.0],[65,1.0],[69,1.0],[64,1.0],[67,1.0],[71,1.0],[65,1.0],[69,1.0],[72,1.0],[67,1.0],[71,1.0],[74,1.0],[69,1.0],[72,1.0],[76,1.0],[71,1.0],[74,1.0],[77,1.0],[60,1.0],[64,1.0],[67,1.0]],"p":[[0.0,[48,52,55],3.0],[3.0,[50,53,57],3.0],[6.0,[52,55,59],3.0],[9.0,[53,57,60],3.0],[12.0,[55,59,62],3.0],[15.0,[57,60,64],3.0],[18.0,[59,62,65],3.0],[21.0,[48,52,55],3.0]]}' data-ex="ex4_1">
+          <figcaption><span class="ex-tag">Exercício 4.1</span><span class="ex-title">Tríades do campo maior</span><span class="ex-how">Diga o grau romano e a cifra antes de cada compasso: “um” — “dois menor”… complete com o nome da nota no tom escolhido.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex4_1.svg">
-            <img src="partituras/ex4_1.svg" width="477" height="133" style="width:100%" alt="Partitura — Tríades do campo de Dó maior">
+            <img src="partituras/ex4_1.svg" width="477" height="133" style="width:100%" alt="Partitura — Tríades do campo maior">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[64,1.0],[67,1.0],[71,1.0],[74,1.0],[65,1.0],[69,1.0],[72,1.0],[76,1.0],[67,1.0],[71,1.0],[74,1.0],[77,1.0],[69,1.0],[72,1.0],[76,1.0],[79,1.0],[71,1.0],[74,1.0],[77,1.0],[81,1.0],[60,1.0],[64,1.0],[67,1.0],[71,1.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[50,53,57,60],4.0],[8.0,[52,55,59,62],4.0],[12.0,[53,57,60,64],4.0],[16.0,[55,59,62,65],4.0],[20.0,[57,60,64,67],4.0],[24.0,[59,62,65,69],4.0],[28.0,[48,52,55,59],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 4.2</span><span class="ex-title">Tétrades do campo de Dó maior</span><span class="ex-how">O coração do método. Toque todos os dias até sair de memória.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[64,1.0],[67,1.0],[71,1.0],[74,1.0],[65,1.0],[69,1.0],[72,1.0],[76,1.0],[67,1.0],[71,1.0],[74,1.0],[77,1.0],[69,1.0],[72,1.0],[76,1.0],[79,1.0],[71,1.0],[74,1.0],[77,1.0],[81,1.0],[60,1.0],[64,1.0],[67,1.0],[71,1.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[50,53,57,60],4.0],[8.0,[52,55,59,62],4.0],[12.0,[53,57,60,64],4.0],[16.0,[55,59,62,65],4.0],[20.0,[57,60,64,67],4.0],[24.0,[59,62,65,69],4.0],[28.0,[48,52,55,59],4.0]]}' data-ex="ex4_2">
+          <figcaption><span class="ex-tag">Exercício 4.2</span><span class="ex-title">Tétrades do campo maior</span><span class="ex-how">O coração do método. Toque todos os dias até sair de memória.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex4_2.svg">
-            <img src="partituras/ex4_2.svg" width="477" height="137" style="width:100%" alt="Partitura — Tétrades do campo de Dó maior">
+            <img src="partituras/ex4_2.svg" width="477" height="137" style="width:100%" alt="Partitura — Tétrades do campo maior">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[60,0.5],[64,0.5],[67,0.5],[71,0.5],[67,0.5],[64,0.5],[62,0.5],[65,0.5],[69,0.5],[72,0.5],[69,0.5],[65,0.5],[64,0.5],[67,0.5],[71,0.5],[74,0.5],[71,0.5],[67,0.5],[65,0.5],[69,0.5],[72,0.5],[76,0.5],[72,0.5],[69,0.5],[67,0.5],[71,0.5],[74,0.5],[77,0.5],[74,0.5],[71,0.5],[69,0.5],[72,0.5],[76,0.5],[79,0.5],[76,0.5],[72,0.5],[71,0.5],[74,0.5],[77,0.5],[81,0.5],[77,0.5],[74,0.5],[60,0.5],[64,0.5],[67,0.5],[71,0.5],[67,0.5],[64,0.5]],"p":[[0.0,[48,52,55,59],3.0],[3.0,[50,53,57,60],3.0],[6.0,[52,55,59,62],3.0],[9.0,[53,57,60,64],3.0],[12.0,[55,59,62,65],3.0],[15.0,[57,60,64,67],3.0],[18.0,[59,62,65,69],3.0],[21.0,[48,52,55,59],3.0]]}'>
+        <figure class="pauta" data-play='{"n":[[60,0.5],[64,0.5],[67,0.5],[71,0.5],[67,0.5],[64,0.5],[62,0.5],[65,0.5],[69,0.5],[72,0.5],[69,0.5],[65,0.5],[64,0.5],[67,0.5],[71,0.5],[74,0.5],[71,0.5],[67,0.5],[65,0.5],[69,0.5],[72,0.5],[76,0.5],[72,0.5],[69,0.5],[67,0.5],[71,0.5],[74,0.5],[77,0.5],[74,0.5],[71,0.5],[69,0.5],[72,0.5],[76,0.5],[79,0.5],[76,0.5],[72,0.5],[71,0.5],[74,0.5],[77,0.5],[81,0.5],[77,0.5],[74,0.5],[60,0.5],[64,0.5],[67,0.5],[71,0.5],[67,0.5],[64,0.5]],"p":[[0.0,[48,52,55,59],3.0],[3.0,[50,53,57,60],3.0],[6.0,[52,55,59,62],3.0],[9.0,[53,57,60,64],3.0],[12.0,[55,59,62,65],3.0],[15.0,[57,60,64,67],3.0],[18.0,[59,62,65,69],3.0],[21.0,[48,52,55,59],3.0]]}' data-ex="ex4_3">
           <figcaption><span class="ex-tag">Exercício 4.3</span><span class="ex-title">Sobe e desce (1-3-5-7-5-3)</span><span class="ex-how">Em colcheias. Comece bem devagar e respire a cada dois compassos.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex4_3.svg">
@@ -761,35 +1312,35 @@
         </figure>
 
         <h3>Mesma fórmula, outros tons</h3>
-        <figure class="pauta" data-play='{"n":[[78,1.0],[74,1.0],[71,1.0],[67,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[81,1.0],[78,1.0],[74,1.0],[71,1.0],[71,1.0],[67,1.0],[64,1.0],[60,1.0],[72,1.0],[69,1.0],[66,1.0],[62,1.0],[74,1.0],[71,1.0],[67,1.0],[64,1.0],[76,1.0],[72,1.0],[69,1.0],[66,1.0],[78,1.0],[74,1.0],[71,1.0],[67,1.0]],"p":[[0.0,[55,59,62,66],4.0],[4.0,[57,60,64,67],4.0],[8.0,[59,62,66,69],4.0],[12.0,[48,52,55,59],4.0],[16.0,[50,54,57,60],4.0],[20.0,[52,55,59,62],4.0],[24.0,[54,57,60,64],4.0],[28.0,[55,59,62,66],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 4.4</span><span class="ex-title">Sol maior, descendo (7-5-3-1)</span><span class="ex-how">Agora o arpejo começa pela sétima. Pense no grau antes de pensar na nota.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[78,1.0],[74,1.0],[71,1.0],[67,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[81,1.0],[78,1.0],[74,1.0],[71,1.0],[71,1.0],[67,1.0],[64,1.0],[60,1.0],[72,1.0],[69,1.0],[66,1.0],[62,1.0],[74,1.0],[71,1.0],[67,1.0],[64,1.0],[76,1.0],[72,1.0],[69,1.0],[66,1.0],[78,1.0],[74,1.0],[71,1.0],[67,1.0]],"p":[[0.0,[55,59,62,66],4.0],[4.0,[57,60,64,67],4.0],[8.0,[59,62,66,69],4.0],[12.0,[48,52,55,59],4.0],[16.0,[50,54,57,60],4.0],[20.0,[52,55,59,62],4.0],[24.0,[54,57,60,64],4.0],[28.0,[55,59,62,66],4.0]]}' data-ex="ex4_4">
+          <figcaption><span class="ex-tag">Exercício 4.4</span><span class="ex-title">Descendo (7-5-3-1)</span><span class="ex-how">Agora o arpejo começa pela sétima. Pense no grau antes de pensar na nota.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex4_4.svg">
-            <img src="partituras/ex4_4.svg" width="477" height="139" style="width:100%" alt="Partitura — Sol maior, descendo (7-5-3-1)">
+            <img src="partituras/ex4_4.svg" width="477" height="139" style="width:100%" alt="Partitura — Descendo (7-5-3-1)">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[65,1.0],[72,1.0],[69,1.0],[76,1.0],[67,1.0],[74,1.0],[70,1.0],[77,1.0],[69,1.0],[76,1.0],[72,1.0],[79,1.0],[70,1.0],[77,1.0],[74,1.0],[81,1.0],[60,1.0],[67,1.0],[64,1.0],[70,1.0],[62,1.0],[69,1.0],[65,1.0],[72,1.0],[64,1.0],[70,1.0],[67,1.0],[74,1.0],[65,1.0],[72,1.0],[69,1.0],[76,1.0]],"p":[[0.0,[53,57,60,64],4.0],[4.0,[55,58,62,65],4.0],[8.0,[57,60,64,67],4.0],[12.0,[58,62,65,69],4.0],[16.0,[48,52,55,58],4.0],[20.0,[50,53,57,60],4.0],[24.0,[52,55,58,62],4.0],[28.0,[53,57,60,64],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 4.5</span><span class="ex-title">Fá maior, salteado (1-5-3-7)</span><span class="ex-how">O desenho muda, o acorde é o mesmo. Ouça como o campo continua reconhecível.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[65,1.0],[72,1.0],[69,1.0],[76,1.0],[67,1.0],[74,1.0],[70,1.0],[77,1.0],[69,1.0],[76,1.0],[72,1.0],[79,1.0],[70,1.0],[77,1.0],[74,1.0],[81,1.0],[60,1.0],[67,1.0],[64,1.0],[70,1.0],[62,1.0],[69,1.0],[65,1.0],[72,1.0],[64,1.0],[70,1.0],[67,1.0],[74,1.0],[65,1.0],[72,1.0],[69,1.0],[76,1.0]],"p":[[0.0,[53,57,60,64],4.0],[4.0,[55,58,62,65],4.0],[8.0,[57,60,64,67],4.0],[12.0,[58,62,65,69],4.0],[16.0,[48,52,55,58],4.0],[20.0,[50,53,57,60],4.0],[24.0,[52,55,58,62],4.0],[28.0,[53,57,60,64],4.0]]}' data-ex="ex4_5">
+          <figcaption><span class="ex-tag">Exercício 4.5</span><span class="ex-title">Salteado (1-5-3-7)</span><span class="ex-how">O desenho muda, o acorde é o mesmo. Ouça como o campo continua reconhecível.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex4_5.svg">
-            <img src="partituras/ex4_5.svg" width="477" height="141" style="width:100%" alt="Partitura — Fá maior, salteado (1-5-3-7)">
+            <img src="partituras/ex4_5.svg" width="477" height="141" style="width:100%" alt="Partitura — Salteado (1-5-3-7)">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0]],"p":[[0.0,[50,54,57,61],4.0],[4.0,[52,55,59,62],4.0],[8.0,[54,57,61,64],4.0],[12.0,[55,59,62,66],4.0],[16.0,[57,61,64,67],4.0],[20.0,[59,62,66,69],4.0],[24.0,[49,52,55,59],4.0],[28.0,[50,54,57,61],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 4.6</span><span class="ex-title">Escreva o campo de Ré maior</span><span class="ex-how">Só as cifras estão dadas. Escreva as quatro notas de cada acorde (1-3-5-7) com a armadura de Ré maior. Use ▶ Ouvir para escutar a base enquanto escreve.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0]],"p":[[0.0,[50,54,57,61],4.0],[4.0,[52,55,59,62],4.0],[8.0,[54,57,61,64],4.0],[12.0,[55,59,62,66],4.0],[16.0,[57,61,64,67],4.0],[20.0,[59,62,66,69],4.0],[24.0,[49,52,55,59],4.0],[28.0,[50,54,57,61],4.0]]}' data-ex="ex4_6">
+          <figcaption><span class="ex-tag">Exercício 4.6</span><span class="ex-title">Escreva o campo maior</span><span class="ex-how">Só as cifras estão dadas. Escreva as quatro notas de cada acorde (1-3-5-7) com a armadura do tom escolhido. Use ▶ Ouvir para escutar a base enquanto escreve.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex4_6.svg">
-            <img src="partituras/ex4_6.svg" width="477" height="108" style="width:100%" alt="Partitura — Escreva o campo de Ré maior">
+            <img src="partituras/ex4_6.svg" width="477" height="108" style="width:100%" alt="Partitura — Escreva o campo maior">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[63,1.0],[67,1.0],[70,1.0],[74,1.0],[70,1.0],[74,1.0],[77,1.0],[81,1.0],[65,1.0],[69,1.0],[72,1.0],[75,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[67,1.0],[70,1.0],[74,1.0],[77,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[69,1.0],[72,1.0],[75,1.0],[79,1.0]],"p":[]}'>
-          <figcaption><span class="ex-tag">Exercício 4.7</span><span class="ex-title">Detetive de cifras em Si bemol maior</span><span class="ex-how">Os arpejos estão fora de ordem. Escreva o grau romano (quadrinho de cima) e a cifra (de baixo). Dica: comece encontrando o 7 (acorde dominante).</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[63,1.0],[67,1.0],[70,1.0],[74,1.0],[70,1.0],[74,1.0],[77,1.0],[81,1.0],[65,1.0],[69,1.0],[72,1.0],[75,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[67,1.0],[70,1.0],[74,1.0],[77,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[69,1.0],[72,1.0],[75,1.0],[79,1.0]],"p":[]}' data-ex="ex4_7">
+          <figcaption><span class="ex-tag">Exercício 4.7</span><span class="ex-title">Detetive de cifras</span><span class="ex-how">Os arpejos estão fora de ordem. Escreva o grau romano (quadrinho de cima) e a cifra (de baixo). Dica: comece encontrando o 7 (acorde dominante).</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex4_7.svg">
-            <img src="partituras/ex4_7.svg" width="477" height="160" style="width:100%" alt="Partitura — Detetive de cifras em Si bemol maior">
+            <img src="partituras/ex4_7.svg" width="477" height="160" style="width:100%" alt="Partitura — Detetive de cifras">
           </picture>
         </figure>
 
@@ -825,31 +1376,31 @@
           <div class="card"><h4>IIm7 – V7 – I7M</h4><p style="font-size:0.9rem;">O “dois-cinco-um”, a cadência mais usada do jazz e da MPB.<br><b>Dó:</b> Dm7 – G7 – C7M</p></div>
         </div>
 
-        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[77,1.0],[74,1.0],[71,1.0],[67,1.0],[60,1.0],[64,1.0],[67,1.0],[71,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[77,1.0],[74,1.0],[71,1.0],[67,1.0],[60,4.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[57,60,64,67],4.0],[8.0,[50,53,57,60],4.0],[12.0,[55,59,62,65],4.0],[16.0,[48,52,55,59],4.0],[20.0,[57,60,64,67],4.0],[24.0,[50,53,57,60],4.0],[28.0,[55,59,62,65],4.0],[32.0,[48,52,55,59],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 5.1</span><span class="ex-title">I – VIm – IIm – V7 em Dó, em zigue-zague</span><span class="ex-how">Um acorde sobe, o seguinte desce. Assim as notas ficam perto umas das outras e a melodia fica mais bonita.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[60,1.0],[64,1.0],[67,1.0],[71,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[77,1.0],[74,1.0],[71,1.0],[67,1.0],[60,1.0],[64,1.0],[67,1.0],[71,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[77,1.0],[74,1.0],[71,1.0],[67,1.0],[60,4.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[57,60,64,67],4.0],[8.0,[50,53,57,60],4.0],[12.0,[55,59,62,65],4.0],[16.0,[48,52,55,59],4.0],[20.0,[57,60,64,67],4.0],[24.0,[50,53,57,60],4.0],[28.0,[55,59,62,65],4.0],[32.0,[48,52,55,59],4.0]]}' data-ex="ex5_1">
+          <figcaption><span class="ex-tag">Exercício 5.1</span><span class="ex-title">I – VIm – IIm – V7, em zigue-zague</span><span class="ex-how">Um acorde sobe, o seguinte desce. Assim as notas ficam perto umas das outras e a melodia fica mais bonita.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex5_1.svg">
-            <img src="partituras/ex5_1.svg" width="477" height="138" style="width:100%" alt="Partitura — I – VIm – IIm – V7 em Dó, em zigue-zague">
+            <img src="partituras/ex5_1.svg" width="477" height="138" style="width:100%" alt="Partitura — I – VIm – IIm – V7, em zigue-zague">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[67,1.0],[71,1.0],[74,1.0],[78,1.0],[71,1.0],[67,1.0],[64,1.0],[60,1.0],[62,1.0],[66,1.0],[69,1.0],[72,1.0],[78,1.0],[74,1.0],[71,1.0],[67,1.0],[67,4.0]],"p":[[0.0,[55,59,62,66],4.0],[4.0,[48,52,55,59],4.0],[8.0,[50,54,57,60],4.0],[12.0,[55,59,62,66],4.0],[16.0,[55,59,62,66],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 5.2</span><span class="ex-title">I – IV – V7 – I em Sol maior</span><span class="ex-how">Mesmo zigue-zague, outro tom e outra progressão.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[67,1.0],[71,1.0],[74,1.0],[78,1.0],[71,1.0],[67,1.0],[64,1.0],[60,1.0],[62,1.0],[66,1.0],[69,1.0],[72,1.0],[78,1.0],[74,1.0],[71,1.0],[67,1.0],[67,4.0]],"p":[[0.0,[55,59,62,66],4.0],[4.0,[48,52,55,59],4.0],[8.0,[50,54,57,60],4.0],[12.0,[55,59,62,66],4.0],[16.0,[55,59,62,66],4.0]]}' data-ex="ex5_2">
+          <figcaption><span class="ex-tag">Exercício 5.2</span><span class="ex-title">I – IV – V7 – I</span><span class="ex-how">Mesmo zigue-zague, outra progressão.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex5_2.svg">
-            <img src="partituras/ex5_2.svg" width="477" height="124" style="width:100%" alt="Partitura — I – IV – V7 – I em Sol maior">
+            <img src="partituras/ex5_2.svg" width="477" height="124" style="width:100%" alt="Partitura — I – IV – V7 – I">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[62,1.0],[65,1.0],[69,1.0],[72,1.0],[71,1.0],[67,1.0],[62,1.0],[65,1.0],[64,1.0],[67,1.0],[71,2.0],[72,4.0]],"p":[[0.0,[50,53,57,60],4.0],[4.0,[55,59,62,65],4.0],[8.0,[48,52,55,59],8.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 5.3</span><span class="ex-title">Frase no II – V – I com notas-guia</span><span class="ex-how">As notas em vermelho mostram o caminho 7ª → 3ª: Dó (♭7 de Dm7) → Si (3 de G7) e Fá (♭7 de G7) → Mi (3 de C7M).</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[62,1.0],[65,1.0],[69,1.0],[72,1.0],[71,1.0],[67,1.0],[62,1.0],[65,1.0],[64,1.0],[67,1.0],[71,2.0],[72,4.0]],"p":[[0.0,[50,53,57,60],4.0],[4.0,[55,59,62,65],4.0],[8.0,[48,52,55,59],8.0]]}' data-ex="ex5_3">
+          <figcaption><span class="ex-tag">Exercício 5.3</span><span class="ex-title">Frase no II – V – I com notas-guia</span><span class="ex-how">As notas em vermelho mostram o caminho 7ª → 3ª: a ♭7 do IIm7 resolve na 3ª do V7, e a ♭7 do V7 resolve na 3ª do I7M.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex5_3.svg">
             <img src="partituras/ex5_3.svg" width="370" height="63" style="width:89.3%" alt="Partitura — Frase no II – V – I com notas-guia">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[64,2.0],[67,2.0],[69,2.0],[72,2.0],[74,2.0],[69,2.0],[71,2.0],[74,2.0],[72,4.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[57,60,64,67],4.0],[8.0,[50,53,57,60],4.0],[12.0,[55,59,62,65],4.0],[16.0,[48,52,55,59],4.0]]}'>
+        <figure class="pauta" data-play='{"n":[[64,2.0],[67,2.0],[69,2.0],[72,2.0],[74,2.0],[69,2.0],[71,2.0],[74,2.0],[72,4.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[57,60,64,67],4.0],[8.0,[50,53,57,60],4.0],[12.0,[55,59,62,65],4.0],[16.0,[48,52,55,59],4.0]]}' data-ex="ex5_4">
           <figcaption><span class="ex-tag">Exercício 5.4</span><span class="ex-title">Improviso de duas notas (exemplo)</span><span class="ex-how">Em cada acorde, apenas duas notas longas do arpejo. Simples, mas já é um improviso que “conversa” com a harmonia.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex5_4.svg">
@@ -857,7 +1408,7 @@
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[57,60,64,67],4.0],[8.0,[50,53,57,60],4.0],[12.0,[55,59,62,65],4.0],[16.0,[48,52,55,59],4.0],[20.0,[57,60,64,67],4.0],[24.0,[50,53,57,60],4.0],[28.0,[55,59,62,65],4.0]]}'>
+        <figure class="pauta" data-play='{"n":[[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0],[0,4.0]],"p":[[0.0,[48,52,55,59],4.0],[4.0,[57,60,64,67],4.0],[8.0,[50,53,57,60],4.0],[12.0,[55,59,62,65],4.0],[16.0,[48,52,55,59],4.0],[20.0,[57,60,64,67],4.0],[24.0,[50,53,57,60],4.0],[28.0,[55,59,62,65],4.0]]}' data-ex="ex5_5">
           <figcaption><span class="ex-tag">Exercício 5.5</span><span class="ex-title">Agora é a sua vez</span><span class="ex-how">Aperte ▶ Ouvir para tocar a base em repetição e improvise usando só as notas 1, 3, 5 e 7 de cada acorde. Depois escreva a sua melhor versão na pauta.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex5_5.svg">
@@ -915,47 +1466,47 @@
         <div class="chip"><span class="r">♭VII7</span><span class="c">G7</span><span class="g">G B D F</span></div>
         </div>
 
-        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[79,1.0],[81,1.0],[79,1.0],[77,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,2.0]],"p":[]}'>
-          <figcaption><span class="ex-tag">Exercício 6.1</span><span class="ex-title">Escala de Lá menor natural com os graus</span><span class="ex-how">Mesmas notas de Dó maior. Ouça como o “ponto de repouso” agora é o Lá.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[79,1.0],[81,1.0],[79,1.0],[77,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,2.0]],"p":[]}' data-ex="ex6_1">
+          <figcaption><span class="ex-tag">Exercício 6.1</span><span class="ex-title">Escala menor natural com os graus</span><span class="ex-how">Mesmas notas da relativa maior. Ouça como o “ponto de repouso” muda de lugar.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex6_1.svg">
-            <img src="partituras/ex6_1.svg" width="417" height="59" style="width:100%" alt="Partitura — Escala de Lá menor natural com os graus">
+            <img src="partituras/ex6_1.svg" width="417" height="59" style="width:100%" alt="Partitura — Escala menor natural com os graus">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[71,1.0],[74,1.0],[77,1.0],[60,1.0],[64,1.0],[67,1.0],[62,1.0],[65,1.0],[69,1.0],[64,1.0],[67,1.0],[71,1.0],[65,1.0],[69,1.0],[72,1.0],[67,1.0],[71,1.0],[74,1.0],[69,1.0],[72,1.0],[76,1.0]],"p":[[0.0,[57,60,64],3.0],[3.0,[59,62,65],3.0],[6.0,[48,52,55],3.0],[9.0,[50,53,57],3.0],[12.0,[52,55,59],3.0],[15.0,[53,57,60],3.0],[18.0,[55,59,62],3.0],[21.0,[57,60,64],3.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 6.2</span><span class="ex-title">Tríades do campo de Lá menor natural</span><span class="ex-how">Fórmula das tríades: menor · diminuto · maior · menor · menor · maior · maior.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[71,1.0],[74,1.0],[77,1.0],[60,1.0],[64,1.0],[67,1.0],[62,1.0],[65,1.0],[69,1.0],[64,1.0],[67,1.0],[71,1.0],[65,1.0],[69,1.0],[72,1.0],[67,1.0],[71,1.0],[74,1.0],[69,1.0],[72,1.0],[76,1.0]],"p":[[0.0,[57,60,64],3.0],[3.0,[59,62,65],3.0],[6.0,[48,52,55],3.0],[9.0,[50,53,57],3.0],[12.0,[52,55,59],3.0],[15.0,[53,57,60],3.0],[18.0,[55,59,62],3.0],[21.0,[57,60,64],3.0]]}' data-ex="ex6_2">
+          <figcaption><span class="ex-tag">Exercício 6.2</span><span class="ex-title">Tríades do campo menor natural</span><span class="ex-how">Fórmula das tríades: menor · diminuto · maior · menor · menor · maior · maior.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex6_2.svg">
-            <img src="partituras/ex6_2.svg" width="477" height="139" style="width:100%" alt="Partitura — Tríades do campo de Lá menor natural">
+            <img src="partituras/ex6_2.svg" width="477" height="139" style="width:100%" alt="Partitura — Tríades do campo menor natural">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[79,1.0],[71,1.0],[74,1.0],[77,1.0],[81,1.0],[60,1.0],[64,1.0],[67,1.0],[71,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[64,1.0],[67,1.0],[71,1.0],[74,1.0],[65,1.0],[69,1.0],[72,1.0],[76,1.0],[67,1.0],[71,1.0],[74,1.0],[77,1.0],[69,1.0],[72,1.0],[76,1.0],[79,1.0]],"p":[[0.0,[57,60,64,67],4.0],[4.0,[59,62,65,69],4.0],[8.0,[48,52,55,59],4.0],[12.0,[50,53,57,60],4.0],[16.0,[52,55,59,62],4.0],[20.0,[53,57,60,64],4.0],[24.0,[55,59,62,65],4.0],[28.0,[57,60,64,67],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 6.3</span><span class="ex-title">Tétrades do campo de Lá menor natural</span><span class="ex-how">Compare com o Exercício 4.2: são os mesmos acordes!</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[79,1.0],[71,1.0],[74,1.0],[77,1.0],[81,1.0],[60,1.0],[64,1.0],[67,1.0],[71,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[64,1.0],[67,1.0],[71,1.0],[74,1.0],[65,1.0],[69,1.0],[72,1.0],[76,1.0],[67,1.0],[71,1.0],[74,1.0],[77,1.0],[69,1.0],[72,1.0],[76,1.0],[79,1.0]],"p":[[0.0,[57,60,64,67],4.0],[4.0,[59,62,65,69],4.0],[8.0,[48,52,55,59],4.0],[12.0,[50,53,57,60],4.0],[16.0,[52,55,59,62],4.0],[20.0,[53,57,60,64],4.0],[24.0,[55,59,62,65],4.0],[28.0,[57,60,64,67],4.0]]}' data-ex="ex6_3">
+          <figcaption><span class="ex-tag">Exercício 6.3</span><span class="ex-title">Tétrades do campo menor natural</span><span class="ex-how">Compare com o Exercício 4.2: são os mesmos acordes!</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex6_3.svg">
-            <img src="partituras/ex6_3.svg" width="477" height="141" style="width:100%" alt="Partitura — Tétrades do campo de Lá menor natural">
+            <img src="partituras/ex6_3.svg" width="477" height="141" style="width:100%" alt="Partitura — Tétrades do campo menor natural">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[64,0.5],[67,0.5],[71,0.5],[74,0.5],[71,0.5],[67,0.5],[66,0.5],[69,0.5],[72,0.5],[76,0.5],[72,0.5],[69,0.5],[67,0.5],[71,0.5],[74,0.5],[78,0.5],[74,0.5],[71,0.5],[69,0.5],[72,0.5],[76,0.5],[79,0.5],[76,0.5],[72,0.5],[71,0.5],[74,0.5],[78,0.5],[81,0.5],[78,0.5],[74,0.5],[60,0.5],[64,0.5],[67,0.5],[71,0.5],[67,0.5],[64,0.5],[62,0.5],[66,0.5],[69,0.5],[72,0.5],[69,0.5],[66,0.5],[64,0.5],[67,0.5],[71,0.5],[74,0.5],[71,0.5],[67,0.5]],"p":[[0.0,[52,55,59,62],3.0],[3.0,[54,57,60,64],3.0],[6.0,[55,59,62,66],3.0],[9.0,[57,60,64,67],3.0],[12.0,[59,62,66,69],3.0],[15.0,[48,52,55,59],3.0],[18.0,[50,54,57,60],3.0],[21.0,[52,55,59,62],3.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 6.4</span><span class="ex-title">Mi menor natural — sobe e desce</span><span class="ex-how">Relativa de Sol maior: mesma armadura, com um F#.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[64,0.5],[67,0.5],[71,0.5],[74,0.5],[71,0.5],[67,0.5],[66,0.5],[69,0.5],[72,0.5],[76,0.5],[72,0.5],[69,0.5],[67,0.5],[71,0.5],[74,0.5],[78,0.5],[74,0.5],[71,0.5],[69,0.5],[72,0.5],[76,0.5],[79,0.5],[76,0.5],[72,0.5],[71,0.5],[74,0.5],[78,0.5],[81,0.5],[78,0.5],[74,0.5],[60,0.5],[64,0.5],[67,0.5],[71,0.5],[67,0.5],[64,0.5],[62,0.5],[66,0.5],[69,0.5],[72,0.5],[69,0.5],[66,0.5],[64,0.5],[67,0.5],[71,0.5],[74,0.5],[71,0.5],[67,0.5]],"p":[[0.0,[52,55,59,62],3.0],[3.0,[54,57,60,64],3.0],[6.0,[55,59,62,66],3.0],[9.0,[57,60,64,67],3.0],[12.0,[59,62,66,69],3.0],[15.0,[48,52,55,59],3.0],[18.0,[50,54,57,60],3.0],[21.0,[52,55,59,62],3.0]]}' data-ex="ex6_4">
+          <figcaption><span class="ex-tag">Exercício 6.4</span><span class="ex-title">Sobe e desce</span><span class="ex-how">A relativa menor sempre tem a mesma armadura da relativa maior.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex6_4.svg">
-            <img src="partituras/ex6_4.svg" width="477" height="216" style="width:100%" alt="Partitura — Mi menor natural — sobe e desce">
+            <img src="partituras/ex6_4.svg" width="477" height="216" style="width:100%" alt="Partitura — Sobe e desce">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[72,1.0],[69,1.0],[65,1.0],[62,1.0],[74,1.0],[70,1.0],[67,1.0],[64,1.0],[76,1.0],[72,1.0],[69,1.0],[65,1.0],[77,1.0],[74,1.0],[70,1.0],[67,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[81,1.0],[77,1.0],[74,1.0],[70,1.0],[70,1.0],[67,1.0],[64,1.0],[60,1.0],[72,1.0],[69,1.0],[65,1.0],[62,1.0]],"p":[[0.0,[50,53,57,60],4.0],[4.0,[52,55,58,62],4.0],[8.0,[53,57,60,64],4.0],[12.0,[55,58,62,65],4.0],[16.0,[57,60,64,67],4.0],[20.0,[58,62,65,69],4.0],[24.0,[48,52,55,58],4.0],[28.0,[50,53,57,60],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 6.5</span><span class="ex-title">Ré menor natural — descendo (7-5-3-1)</span><span class="ex-how">Relativa de Fá maior: mesma armadura, com um Bb.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[72,1.0],[69,1.0],[65,1.0],[62,1.0],[74,1.0],[70,1.0],[67,1.0],[64,1.0],[76,1.0],[72,1.0],[69,1.0],[65,1.0],[77,1.0],[74,1.0],[70,1.0],[67,1.0],[79,1.0],[76,1.0],[72,1.0],[69,1.0],[81,1.0],[77,1.0],[74,1.0],[70,1.0],[70,1.0],[67,1.0],[64,1.0],[60,1.0],[72,1.0],[69,1.0],[65,1.0],[62,1.0]],"p":[[0.0,[50,53,57,60],4.0],[4.0,[52,55,58,62],4.0],[8.0,[53,57,60,64],4.0],[12.0,[55,58,62,65],4.0],[16.0,[57,60,64,67],4.0],[20.0,[58,62,65,69],4.0],[24.0,[48,52,55,58],4.0],[28.0,[50,53,57,60],4.0]]}' data-ex="ex6_5">
+          <figcaption><span class="ex-tag">Exercício 6.5</span><span class="ex-title">Descendo (7-5-3-1)</span><span class="ex-how">A relativa menor sempre tem a mesma armadura da relativa maior.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex6_5.svg">
-            <img src="partituras/ex6_5.svg" width="477" height="144" style="width:100%" alt="Partitura — Ré menor natural — descendo (7-5-3-1)">
+            <img src="partituras/ex6_5.svg" width="477" height="144" style="width:100%" alt="Partitura — Descendo (7-5-3-1)">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[72,1.0],[65,1.0],[69,1.0],[72,1.0],[69,1.0],[67,1.0],[71,1.0],[74,1.0],[71,1.0],[69,1.0],[72,1.0],[76,1.0],[72,1.0],[69,1.0],[72,1.0],[76,1.0],[72,1.0],[62,1.0],[65,1.0],[69,1.0],[65,1.0],[64,1.0],[67,1.0],[71,1.0],[67,1.0],[69,1.0],[72,1.0],[76,1.0],[72,1.0]],"p":[[0.0,[57,60,64],4.0],[4.0,[53,57,60],4.0],[8.0,[55,59,62],4.0],[12.0,[57,60,64],4.0],[16.0,[57,60,64],4.0],[20.0,[50,53,57],4.0],[24.0,[52,55,59],4.0],[28.0,[57,60,64],4.0]]}'>
+        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[72,1.0],[65,1.0],[69,1.0],[72,1.0],[69,1.0],[67,1.0],[71,1.0],[74,1.0],[71,1.0],[69,1.0],[72,1.0],[76,1.0],[72,1.0],[69,1.0],[72,1.0],[76,1.0],[72,1.0],[62,1.0],[65,1.0],[69,1.0],[65,1.0],[64,1.0],[67,1.0],[71,1.0],[67,1.0],[69,1.0],[72,1.0],[76,1.0],[72,1.0]],"p":[[0.0,[57,60,64],4.0],[4.0,[53,57,60],4.0],[8.0,[55,59,62],4.0],[12.0,[57,60,64],4.0],[16.0,[57,60,64],4.0],[20.0,[50,53,57],4.0],[24.0,[52,55,59],4.0],[28.0,[57,60,64],4.0]]}' data-ex="ex6_6">
           <figcaption><span class="ex-tag">Exercício 6.6</span><span class="ex-title">Duas progressões menores muito usadas</span><span class="ex-how">Im – ♭VI – ♭VII – Im (pop, rock, trilhas) e Im – IVm – Vm – Im (baladas, música nordestina).</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex6_6.svg">
@@ -997,43 +1548,43 @@
         <div class="chip changed"><span class="r">VII°</span><span class="c">G#°</span><span class="g">G# B D F</span></div>
         </div>
 
-        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[80,1.0],[81,1.0],[80,1.0],[77,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,2.0]],"p":[]}'>
-          <figcaption><span class="ex-tag">Exercício 7.1</span><span class="ex-title">Escala de Lá menor harmônica</span><span class="ex-how">O Sol# (em vermelho) cria um salto de tom e meio entre o Fá e o Sol#. Toque devagar até esse intervalo soar natural.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[80,1.0],[81,1.0],[80,1.0],[77,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,2.0]],"p":[]}' data-ex="ex7_1">
+          <figcaption><span class="ex-tag">Exercício 7.1</span><span class="ex-title">Escala menor harmônica</span><span class="ex-how">A nota alterada (em vermelho) cria um salto de tom e meio com o grau anterior. Toque devagar até esse intervalo soar natural.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex7_1.svg">
-            <img src="partituras/ex7_1.svg" width="421" height="60" style="width:100%" alt="Partitura — Escala de Lá menor harmônica">
+            <img src="partituras/ex7_1.svg" width="421" height="60" style="width:100%" alt="Partitura — Escala menor harmônica">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[80,1.0],[71,1.0],[74,1.0],[77,1.0],[81,1.0],[60,1.0],[64,1.0],[68,1.0],[71,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[64,1.0],[68,1.0],[71,1.0],[74,1.0],[65,1.0],[69,1.0],[72,1.0],[76,1.0],[68,1.0],[71,1.0],[74,1.0],[77,1.0],[69,1.0],[72,1.0],[76,1.0],[80,1.0]],"p":[[0.0,[57,60,64,68],4.0],[4.0,[59,62,65,69],4.0],[8.0,[48,52,56,59],4.0],[12.0,[50,53,57,60],4.0],[16.0,[52,56,59,62],4.0],[20.0,[53,57,60,64],4.0],[24.0,[56,59,62,65],4.0],[28.0,[57,60,64,68],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 7.2</span><span class="ex-title">Tétrades do campo de Lá menor harmônico</span><span class="ex-how">Em vermelho, todas as vezes que o Sol# aparece: exatamente nos acordes que mudaram.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[80,1.0],[71,1.0],[74,1.0],[77,1.0],[81,1.0],[60,1.0],[64,1.0],[68,1.0],[71,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[64,1.0],[68,1.0],[71,1.0],[74,1.0],[65,1.0],[69,1.0],[72,1.0],[76,1.0],[68,1.0],[71,1.0],[74,1.0],[77,1.0],[69,1.0],[72,1.0],[76,1.0],[80,1.0]],"p":[[0.0,[57,60,64,68],4.0],[4.0,[59,62,65,69],4.0],[8.0,[48,52,56,59],4.0],[12.0,[50,53,57,60],4.0],[16.0,[52,56,59,62],4.0],[20.0,[53,57,60,64],4.0],[24.0,[56,59,62,65],4.0],[28.0,[57,60,64,68],4.0]]}' data-ex="ex7_2">
+          <figcaption><span class="ex-tag">Exercício 7.2</span><span class="ex-title">Tétrades do campo menor harmônico</span><span class="ex-how">Em vermelho, todas as vezes que a nota alterada aparece: exatamente nos acordes que mudaram.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex7_2.svg">
-            <img src="partituras/ex7_2.svg" width="477" height="145" style="width:100%" alt="Partitura — Tétrades do campo de Lá menor harmônico">
+            <img src="partituras/ex7_2.svg" width="477" height="145" style="width:100%" alt="Partitura — Tétrades do campo menor harmônico">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[64,1.0],[67,1.0],[71,1.0],[74,1.0],[64,1.0],[68,1.0],[71,1.0],[74,1.0],[69,1.0],[72,1.0],[76,2.0]],"p":[[0.0,[52,55,59,62],4.0],[4.0,[52,56,59,62],4.0],[8.0,[57,60,64],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 7.3</span><span class="ex-title">Antes e depois: Em7 → E7 → Am</span><span class="ex-how">Ouça a diferença: com o Sol#, o acorde de Mi “puxa” para o Lá.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[64,1.0],[67,1.0],[71,1.0],[74,1.0],[64,1.0],[68,1.0],[71,1.0],[74,1.0],[69,1.0],[72,1.0],[76,2.0]],"p":[[0.0,[52,55,59,62],4.0],[4.0,[52,56,59,62],4.0],[8.0,[57,60,64],4.0]]}' data-ex="ex7_3">
+          <figcaption><span class="ex-tag">Exercício 7.3</span><span class="ex-title">Antes e depois: Vm7 → V7 → Im</span><span class="ex-how">Ouça a diferença: com a nota alterada, o acorde do V grau “puxa” para o I.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex7_3.svg">
-            <img src="partituras/ex7_3.svg" width="321" height="70" style="width:89.3%" alt="Partitura — Antes e depois: Em7 → E7 → Am">
+            <img src="partituras/ex7_3.svg" width="321" height="70" style="width:89.3%" alt="Partitura — Antes e depois: Vm7 → V7 → Im">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[71,1.0],[74,1.0],[77,1.0],[81,1.0],[80,1.0],[76,1.0],[71,1.0],[74,1.0],[72,1.0],[76,1.0],[69,2.0]],"p":[[0.0,[59,62,65,69],4.0],[4.0,[52,56,59,62],4.0],[8.0,[57,60,64],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 7.4</span><span class="ex-title">Cadência menor: IIm7(b5) – V7 – Im</span><span class="ex-how">A versão menor do dois-cinco-um. As notas-guia estão em vermelho: Lá → Sol# e Ré → Dó.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[71,1.0],[74,1.0],[77,1.0],[81,1.0],[80,1.0],[76,1.0],[71,1.0],[74,1.0],[72,1.0],[76,1.0],[69,2.0]],"p":[[0.0,[59,62,65,69],4.0],[4.0,[52,56,59,62],4.0],[8.0,[57,60,64],4.0]]}' data-ex="ex7_4">
+          <figcaption><span class="ex-tag">Exercício 7.4</span><span class="ex-title">Cadência menor: IIm7(b5) – V7 – Im</span><span class="ex-how">A versão menor do dois-cinco-um. As notas-guia estão em vermelho: cada 7ª resolve na 3ª do acorde seguinte.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex7_4.svg">
             <img src="partituras/ex7_4.svg" width="326" height="72" style="width:89.3%" alt="Partitura — Cadência menor: IIm7(b5) – V7 – Im">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[62,1.0],[65,1.0],[69,1.0],[73,1.0],[64,1.0],[67,1.0],[70,1.0],[74,1.0],[65,1.0],[69,1.0],[73,1.0],[76,1.0],[67,1.0],[70,1.0],[74,1.0],[77,1.0],[69,1.0],[73,1.0],[76,1.0],[79,1.0],[70,1.0],[74,1.0],[77,1.0],[81,1.0],[61,1.0],[64,1.0],[67,1.0],[70,1.0],[62,1.0],[65,1.0],[69,1.0],[73,1.0]],"p":[[0.0,[50,53,57,61],4.0],[4.0,[52,55,58,62],4.0],[8.0,[53,57,61,64],4.0],[12.0,[55,58,62,65],4.0],[16.0,[57,61,64,67],4.0],[20.0,[58,62,65,69],4.0],[24.0,[49,52,55,58],4.0],[28.0,[50,53,57,61],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 7.5</span><span class="ex-title">Ré menor harmônica (Dó# é a sensível)</span><span class="ex-how">Mesma fórmula em outro tom. A sensível aparece em vermelho.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[62,1.0],[65,1.0],[69,1.0],[73,1.0],[64,1.0],[67,1.0],[70,1.0],[74,1.0],[65,1.0],[69,1.0],[73,1.0],[76,1.0],[67,1.0],[70,1.0],[74,1.0],[77,1.0],[69,1.0],[73,1.0],[76,1.0],[79,1.0],[70,1.0],[74,1.0],[77,1.0],[81,1.0],[61,1.0],[64,1.0],[67,1.0],[70,1.0],[62,1.0],[65,1.0],[69,1.0],[73,1.0]],"p":[[0.0,[50,53,57,61],4.0],[4.0,[52,55,58,62],4.0],[8.0,[53,57,61,64],4.0],[12.0,[55,58,62,65],4.0],[16.0,[57,61,64,67],4.0],[20.0,[58,62,65,69],4.0],[24.0,[49,52,55,58],4.0],[28.0,[50,53,57,61],4.0]]}' data-ex="ex7_5">
+          <figcaption><span class="ex-tag">Exercício 7.5</span><span class="ex-title">Menor harmônica (a sensível em vermelho)</span><span class="ex-how">Mesma fórmula, começando em outra nota. A sensível aparece em vermelho.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex7_5.svg">
-            <img src="partituras/ex7_5.svg" width="477" height="146" style="width:100%" alt="Partitura — Ré menor harmônica (Dó# é a sensível)">
+            <img src="partituras/ex7_5.svg" width="477" height="146" style="width:100%" alt="Partitura — Menor harmônica (a sensível em vermelho)">
           </picture>
         </figure>
 
@@ -1073,23 +1624,23 @@
         <div class="chip changed"><span class="r">VIIm7(b5)</span><span class="c">G#m7(b5)</span><span class="g">G# B D F#</span></div>
         </div>
 
-        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[78,1.0],[80,1.0],[81,1.0],[80,1.0],[78,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,2.0]],"p":[]}'>
-          <figcaption><span class="ex-tag">Exercício 8.1</span><span class="ex-title">Escala de Lá menor melódica</span><span class="ex-how">Fá# e Sol# em vermelho, subindo e descendo.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[78,1.0],[80,1.0],[81,1.0],[80,1.0],[78,1.0],[76,1.0],[74,1.0],[72,1.0],[71,1.0],[69,2.0]],"p":[]}' data-ex="ex8_1">
+          <figcaption><span class="ex-tag">Exercício 8.1</span><span class="ex-title">Escala menor melódica</span><span class="ex-how">Os graus alterados (6 e 7) em vermelho, subindo e descendo.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex8_1.svg">
-            <img src="partituras/ex8_1.svg" width="421" height="60" style="width:100%" alt="Partitura — Escala de Lá menor melódica">
+            <img src="partituras/ex8_1.svg" width="421" height="60" style="width:100%" alt="Partitura — Escala menor melódica">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[80,1.0],[71,1.0],[74,1.0],[78,1.0],[81,1.0],[60,1.0],[64,1.0],[68,1.0],[71,1.0],[62,1.0],[66,1.0],[69,1.0],[72,1.0],[64,1.0],[68,1.0],[71,1.0],[74,1.0],[66,1.0],[69,1.0],[72,1.0],[76,1.0],[68,1.0],[71,1.0],[74,1.0],[78,1.0],[69,1.0],[72,1.0],[76,1.0],[80,1.0]],"p":[[0.0,[57,60,64,68],4.0],[4.0,[59,62,66,69],4.0],[8.0,[48,52,56,59],4.0],[12.0,[50,54,57,60],4.0],[16.0,[52,56,59,62],4.0],[20.0,[54,57,60,64],4.0],[24.0,[56,59,62,66],4.0],[28.0,[57,60,64,68],4.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 8.2</span><span class="ex-title">Tétrades do campo de Lá menor melódico</span><span class="ex-how">Repare no D7: um acorde dominante no IV grau, que só existe neste campo.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[69,1.0],[72,1.0],[76,1.0],[80,1.0],[71,1.0],[74,1.0],[78,1.0],[81,1.0],[60,1.0],[64,1.0],[68,1.0],[71,1.0],[62,1.0],[66,1.0],[69,1.0],[72,1.0],[64,1.0],[68,1.0],[71,1.0],[74,1.0],[66,1.0],[69,1.0],[72,1.0],[76,1.0],[68,1.0],[71,1.0],[74,1.0],[78,1.0],[69,1.0],[72,1.0],[76,1.0],[80,1.0]],"p":[[0.0,[57,60,64,68],4.0],[4.0,[59,62,66,69],4.0],[8.0,[48,52,56,59],4.0],[12.0,[50,54,57,60],4.0],[16.0,[52,56,59,62],4.0],[20.0,[54,57,60,64],4.0],[24.0,[56,59,62,66],4.0],[28.0,[57,60,64,68],4.0]]}' data-ex="ex8_2">
+          <figcaption><span class="ex-tag">Exercício 8.2</span><span class="ex-title">Tétrades do campo menor melódico</span><span class="ex-how">Repare no IV7: um acorde dominante no IV grau, que só existe neste campo.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex8_2.svg">
-            <img src="partituras/ex8_2.svg" width="477" height="147" style="width:100%" alt="Partitura — Tétrades do campo de Lá menor melódico">
+            <img src="partituras/ex8_2.svg" width="477" height="147" style="width:100%" alt="Partitura — Tétrades do campo menor melódico">
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[79,1.0],[81,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[80,1.0],[81,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[78,1.0],[80,1.0],[81,1.0]],"p":[]}'>
+        <figure class="pauta" data-play='{"n":[[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[79,1.0],[81,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[77,1.0],[80,1.0],[81,1.0],[69,1.0],[71,1.0],[72,1.0],[74,1.0],[76,1.0],[78,1.0],[80,1.0],[81,1.0]],"p":[]}' data-ex="ex8_3">
           <figcaption><span class="ex-tag">Exercício 8.3</span><span class="ex-title">As três menores lado a lado</span><span class="ex-how">Toque as três seguidas. A cada linha, uma nota a mais sobe: primeiro o 7, depois o 6.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex8_3.svg">
@@ -1097,8 +1648,8 @@
           </picture>
         </figure>
 
-        <figure class="pauta" data-play='{"n":[[62,1.0],[66,1.0],[69,1.0],[72,1.0],[74,1.0],[71,1.0],[68,1.0],[64,1.0],[69,1.0],[72,1.0],[76,1.0],[80,1.0],[81,4.0]],"p":[[0.0,[50,54,57,60],4.0],[4.0,[52,56,59,62],4.0],[8.0,[57,60,64,68],8.0]]}'>
-          <figcaption><span class="ex-tag">Exercício 8.4</span><span class="ex-title">IV7 – V7 – Im7M</span><span class="ex-how">Dois dominantes seguidos resolvendo no Am7M. As notas levantadas estão em vermelho.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[62,1.0],[66,1.0],[69,1.0],[72,1.0],[74,1.0],[71,1.0],[68,1.0],[64,1.0],[69,1.0],[72,1.0],[76,1.0],[80,1.0],[81,4.0]],"p":[[0.0,[50,54,57,60],4.0],[4.0,[52,56,59,62],4.0],[8.0,[57,60,64,68],8.0]]}' data-ex="ex8_4">
+          <figcaption><span class="ex-tag">Exercício 8.4</span><span class="ex-title">IV7 – V7 – Im7M</span><span class="ex-how">Dois dominantes seguidos resolvendo no Im7M. As notas levantadas estão em vermelho.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ex8_4.svg">
             <img src="partituras/ex8_4.svg" width="384" height="68" style="width:100%" alt="Partitura — IV7 – V7 – Im7M">
@@ -1260,32 +1811,32 @@
         <h2>Respostas dos exercícios</h2>
         <p class="lead">Confira só depois de tentar. Errar e corrigir ensina mais do que acertar de primeira.</p>
 
-        <figure class="pauta" data-play='{"n":[[67,1.0],[76,1.0],[69,1.0],[72,1.0],[65,1.0],[74,1.0],[71,1.0],[64,1.0],[81,1.0],[62,1.0],[79,1.0],[77,1.0]],"p":[]}'>
+        <figure class="pauta" data-play='{"n":[[67,1.0],[76,1.0],[69,1.0],[72,1.0],[65,1.0],[74,1.0],[71,1.0],[64,1.0],[81,1.0],[62,1.0],[79,1.0],[77,1.0]],"p":[]}' data-ex="ans1_2">
           <figcaption><span class="ex-tag">Resposta 1.2</span><span class="ex-title">Complete as cifras</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ans1_2.svg">
             <img src="partituras/ans1_2.svg" width="336" height="47" style="width:100%" alt="Partitura — Complete as cifras">
           </picture>
         </figure>
-        <figure class="pauta" data-play='{"n":[[74,1.0],[71,1.0],[67,1.0],[78,1.0],[72,1.0],[69,1.0],[76,1.0],[79,1.0],[62,1.0],[66,1.0],[71,1.0],[64,1.0]],"p":[]}'>
-          <figcaption><span class="ex-tag">Resposta 2.5</span><span class="ex-title">Descubra o grau em Sol maior</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[74,1.0],[71,1.0],[67,1.0],[78,1.0],[72,1.0],[69,1.0],[76,1.0],[79,1.0],[62,1.0],[66,1.0],[71,1.0],[64,1.0]],"p":[]}' data-ex="ans2_5">
+          <figcaption><span class="ex-tag">Resposta 2.5</span><span class="ex-title">Descubra o grau</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ans2_5.svg">
-            <img src="partituras/ans2_5.svg" width="345" height="57" style="width:100%" alt="Partitura — Descubra o grau em Sol maior">
+            <img src="partituras/ans2_5.svg" width="345" height="57" style="width:100%" alt="Partitura — Descubra o grau">
           </picture>
         </figure>
-        <figure class="pauta" data-play='{"n":[[62,1.0],[66,1.0],[69,1.0],[73,1.0],[64,1.0],[67,1.0],[71,1.0],[74,1.0],[66,1.0],[69,1.0],[73,1.0],[76,1.0],[67,1.0],[71,1.0],[74,1.0],[78,1.0],[69,1.0],[73,1.0],[76,1.0],[79,1.0],[71,1.0],[74,1.0],[78,1.0],[81,1.0],[61,1.0],[64,1.0],[67,1.0],[71,1.0],[62,1.0],[66,1.0],[69,1.0],[73,1.0]],"p":[[0.0,[50,54,57,61],4.0],[4.0,[52,55,59,62],4.0],[8.0,[54,57,61,64],4.0],[12.0,[55,59,62,66],4.0],[16.0,[57,61,64,67],4.0],[20.0,[59,62,66,69],4.0],[24.0,[49,52,55,59],4.0],[28.0,[50,54,57,61],4.0]]}'>
-          <figcaption><span class="ex-tag">Resposta 4.6</span><span class="ex-title">Campo de Ré maior</span><span class="ex-how">Se você escreveu as mesmas notas em outra oitava, também está certo.</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[62,1.0],[66,1.0],[69,1.0],[73,1.0],[64,1.0],[67,1.0],[71,1.0],[74,1.0],[66,1.0],[69,1.0],[73,1.0],[76,1.0],[67,1.0],[71,1.0],[74,1.0],[78,1.0],[69,1.0],[73,1.0],[76,1.0],[79,1.0],[71,1.0],[74,1.0],[78,1.0],[81,1.0],[61,1.0],[64,1.0],[67,1.0],[71,1.0],[62,1.0],[66,1.0],[69,1.0],[73,1.0]],"p":[[0.0,[50,54,57,61],4.0],[4.0,[52,55,59,62],4.0],[8.0,[54,57,61,64],4.0],[12.0,[55,59,62,66],4.0],[16.0,[57,61,64,67],4.0],[20.0,[59,62,66,69],4.0],[24.0,[49,52,55,59],4.0],[28.0,[50,54,57,61],4.0]]}' data-ex="ans4_6">
+          <figcaption><span class="ex-tag">Resposta 4.6</span><span class="ex-title">Campo maior</span><span class="ex-how">Se você escreveu as mesmas notas em outra oitava, também está certo.</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ans4_6.svg">
-            <img src="partituras/ans4_6.svg" width="477" height="137" style="width:100%" alt="Partitura — Campo de Ré maior">
+            <img src="partituras/ans4_6.svg" width="477" height="137" style="width:100%" alt="Partitura — Campo maior">
           </picture>
         </figure>
-        <figure class="pauta" data-play='{"n":[[63,1.0],[67,1.0],[70,1.0],[74,1.0],[70,1.0],[74,1.0],[77,1.0],[81,1.0],[65,1.0],[69,1.0],[72,1.0],[75,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[67,1.0],[70,1.0],[74,1.0],[77,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[69,1.0],[72,1.0],[75,1.0],[79,1.0]],"p":[[0.0,[51,55,58,62],4.0],[4.0,[58,62,65,69],4.0],[8.0,[53,57,60,63],4.0],[12.0,[48,51,55,58],4.0],[16.0,[55,58,62,65],4.0],[20.0,[50,53,57,60],4.0],[24.0,[57,60,63,67],4.0]]}'>
-          <figcaption><span class="ex-tag">Resposta 4.7</span><span class="ex-title">Detetive de cifras em Si bemol maior</span></figcaption>
+        <figure class="pauta" data-play='{"n":[[63,1.0],[67,1.0],[70,1.0],[74,1.0],[70,1.0],[74,1.0],[77,1.0],[81,1.0],[65,1.0],[69,1.0],[72,1.0],[75,1.0],[60,1.0],[63,1.0],[67,1.0],[70,1.0],[67,1.0],[70,1.0],[74,1.0],[77,1.0],[62,1.0],[65,1.0],[69,1.0],[72,1.0],[69,1.0],[72,1.0],[75,1.0],[79,1.0]],"p":[[0.0,[51,55,58,62],4.0],[4.0,[58,62,65,69],4.0],[8.0,[53,57,60,63],4.0],[12.0,[48,51,55,58],4.0],[16.0,[55,58,62,65],4.0],[20.0,[50,53,57,60],4.0],[24.0,[57,60,63,67],4.0]]}' data-ex="ans4_7">
+          <figcaption><span class="ex-tag">Resposta 4.7</span><span class="ex-title">Detetive de cifras</span></figcaption>
           <picture>
             <source media="(max-width:620px)" srcset="partituras/m/ans4_7.svg">
-            <img src="partituras/ans4_7.svg" width="477" height="139" style="width:100%" alt="Partitura — Detetive de cifras em Si bemol maior">
+            <img src="partituras/ans4_7.svg" width="477" height="139" style="width:100%" alt="Partitura — Detetive de cifras">
           </picture>
         </figure>
 
@@ -1455,7 +2006,9 @@
       : c.num ? 'Aula ' + c.num + ' de ' + totalAulas
       : c.label;
     btnPrev.disabled = (idx === 0);
-    btnNext.disabled = (idx === chapters.length - 1);
+    const isLast = (idx === chapters.length - 1);
+    btnNext.disabled = false;
+    btnNext.textContent = isLast ? '↺ Voltar ao início' : 'Próximo →';
 
     state.last = id; state.seen = Array.from(seen); saveState();
 
@@ -1474,7 +2027,10 @@
     if(next >= 0 && next < chapters.length) showChapter(chapters[next].id);
   }
   btnPrev.addEventListener('click', () => go(-1));
-  btnNext.addEventListener('click', () => go(1));
+  btnNext.addEventListener('click', () => {
+    if(currentIdx === chapters.length - 1) showChapter(chapters[0].id);
+    else go(1);
+  });
 
   window.addEventListener('hashchange', () => {
     const id = location.hash.replace('#', '');
@@ -1539,13 +2095,9 @@
     if(mq.addEventListener) mq.addEventListener('change', onPrintChange);
     else if(mq.addListener)  mq.addListener(onPrintChange);
   }
-  document.getElementById('btnPrint').addEventListener('click', () => {
-    prepararImpressao();
-    // dá tempo das partituras das outras aulas carregarem antes de abrir a impressão
-    const imgs = [].slice.call(document.querySelectorAll('figure.pauta img'));
-    Promise.all(imgs.map(img => img.complete ? null : new Promise(r => { img.onload = img.onerror = r; })))
-      .then(() => window.print());
-  });
+  // "Baixar PDF" agora é um link direto pro PDF pré-gerado (gerar_pdf.py),
+  // sem cabeçalho/rodapé do navegador. prepararImpressao/restaurarImpressao
+  // continuam de pé pra quem ainda assim apertar Ctrl+P na página ao vivo.
 
   /* ==================================================================
      ÁUDIO — sintetizador simples (Web Audio), sem arquivos de som.
@@ -1630,10 +2182,256 @@
     playing.timer = setTimeout(() => { const p = playing; playing = null; if(p && p.onend) p.onend(); }, (reps * total * beat + 0.4) * 1000);
   }
 
-  // botões "Ouvir" das partituras
+  /* ==================================================================
+     TOM — troca de tonalidade ao vivo (pauta + áudio), sem depender do
+     LilyPond. TRANSPOSE_DATA vem de partituras/transpose_data.js (gerado
+     por ferramentas/montar.py a partir de ferramentas/transpose.py); a
+     pauta é desenhada na hora com VexFlow (vexflow.min.js, vendorizado).
+     ================================================================== */
+  // mesmas cores do LilyPond original (lyb.py): romano em latão, cifra em
+  // tinta, grau em sálvia — e vermelho quando a nota está em destaque
+  const COL_ROMAN = '#9A6A1C', COL_CIFRA = '#161B26', COL_GRAU = '#1F6A4A';  // = tokens pauta-romano, pauta-cifra, pauta-grau
+
+  function vfMeasures(events, beatsPerMeasure){
+    const out = [];
+    let cur = [], acc = 0;
+    events.forEach(e => {
+      cur.push(e);
+      acc += e.beats;
+      if(acc >= beatsPerMeasure - 1e-6){ out.push(cur); cur = []; acc = 0; }
+    });
+    if(cur.length) out.push(cur);
+    return out;
+  }
+
+  function vfSystems(measures, breaks){
+    const starts = []; let idx = 0;
+    measures.forEach(m => { starts.push(idx); idx += m.length; });
+    const breakSet = new Set(breaks);
+    const out = []; let cur = [];
+    measures.forEach((m, i) => {
+      if(breakSet.has(starts[i]) && cur.length){ out.push(cur); cur = []; }
+      cur.push(m);
+    });
+    if(cur.length) out.push(cur);
+    return out;
+  }
+
+  function vfTickable(ev){
+    if(ev.t === 'r'){
+      const n = new VexFlow.StaveNote({ keys: ['b/4'], duration: ev.dur + 'r' });
+      if(ev.dots) VexFlow.Dot.buildAndAttach([n], { all: true });
+      return n;
+    }
+    if(ev.t === 's') return new VexFlow.GhostNote({ duration: ev.dur });
+    const n = new VexFlow.StaveNote({ keys: [ev.key], duration: ev.dur });
+    if(ev.dots) VexFlow.Dot.buildAndAttach([n], { all: true });
+    if(ev.color) n.setStyle({ fillStyle: ev.color, strokeStyle: ev.color });
+    return n;
+  }
+
+  /* largura mínima que o compasso precisa pra encaixar suas notas/acidentes
+     sem sobrar vão — o VexFlow não estica sozinho pra preencher o espaço
+     que a gente dá a ele (diferente do LilyPond), então em vez de chutar
+     uma largura e deixar sobrar espaço em branco no fim do compasso, mede
+     primeiro quanto cada compasso precisa de verdade. Também garante um
+     mínimo por nota — a largura "natural" da cabeça da nota é mais estreita
+     do que o texto de cifra/grau que fica em cima/embaixo dela (ex.: "C#"),
+     e o VexFlow não sabe desses rótulos (eles não são modifiers dele), então
+     sem esse piso os rótulos colam uns nos outros quando o compasso tem
+     várias notas. */
+  function vfMeasureWidth(measure, keySpec, measureCtx){
+    const notes = measure.map(vfTickable);
+    const voice = new VexFlow.Voice({ numBeats: measure.reduce((s, e) => s + e.beats, 0) || 4, beatValue: 4 });
+    voice.setStrict(false);
+    voice.addTickables(notes);
+    VexFlow.Accidental.applyAccidentals([voice], keySpec);
+    const natural = new VexFlow.Formatter().preCalculateMinTotalWidth([voice]);
+    // conta todo evento (nota, pausa ou espaço fantasma) — todos podem levar
+    // um rótulo em cima/embaixo, não só as notas de verdade
+    const MIN_PER_NOTE = 34;
+    let labelW = 0;
+    measureCtx.setFont('Work Sans', 11, '700');
+    measure.forEach(e => {
+      [e.roman, e.cifra, e.grau].forEach(t => {
+        if(!t) return;
+        const shown = t === '_' ? '——' : t;
+        const m = measureCtx.measureText(shown);
+        if(m && m.width) labelW += m.width + 10;
+      });
+    });
+    return Math.max(natural, measure.length * MIN_PER_NOTE, labelW);
+  }
+
+  /* texto em linha reta (como a Lyrics do LilyPond): não acompanha a altura
+     da nota, fica sempre na mesma linha de base, centralizado sobre `cx`.
+     Sempre em negrito. Quando é a caixa em branco do quiz ("_"), desenha um
+     quadrinho vazio (o aluno escreve a resposta a lápis) em vez de texto —
+     `boxW` é a largura desse quadrinho. */
+  function vfRowText(ctx, text, cx, baseY, boxW, color){
+    if(!text) return;
+    if(text === '_'){
+      const w = boxW || 30, h = 15;
+      ctx.rect(cx - w / 2, baseY - 11, w, h, { fill: 'none', stroke: '#4A5670', 'stroke-width': 1.1 });
+      return;
+    }
+    ctx.save();
+    ctx.setFont('Work Sans', 11, '700');
+    if(color) ctx.setFillStyle(color);
+    let tx = cx;
+    const m = ctx.measureText(text);
+    if(m && m.width) tx = cx - m.width / 2;
+    ctx.fillText(text, tx, baseY);
+    ctx.restore();
+  }
+
+  /* desenha um sistema (uma linha de compassos) em `y` dentro de `ctx` e
+     devolve o y mais alto/mais baixo realmente usado (fileira de cima,
+     fileira de baixo) — a fileira acompanha a nota mais aguda/grave de
+     verdade do sistema (getNoteHeadBounds, a posição real da cabeça da
+     nota; o getBoundingBox() do VexFlow NÃO serve pra isso, devolve uma
+     caixa interna de formatação bem maior que o desenho visível), não um
+     deslocamento fixo a partir da pauta. */
+  function buildSystem(ctx, sys, y, measureWidths, keyEntry, data, hasRoman, hasCifra, hasGrau, isLastSystem){
+    const ROW_H = 13;
+    let x = 20;
+    const sysData = [];
+    sys.forEach((measure, mi) => {
+      const isFirst = mi === 0;
+      const w = measureWidths[mi];
+      const stave = new VexFlow.Stave(x, y, w);
+      if(isFirst){
+        stave.addClef('treble');
+        stave.addKeySignature(keyEntry.keySpec);
+        stave.addTimeSignature(data.time);
+      }
+      // barra dupla de final de música só no último compasso do último
+      // sistema — igual ao "\bar "|."" do LilyPond original
+      if(isLastSystem && mi === sys.length - 1) stave.setEndBarType(VexFlow.BarlineType.END);
+      stave.setContext(ctx).draw();
+
+      const notes = measure.map(vfTickable);
+      const voice = new VexFlow.Voice({ numBeats: data.beatsPerMeasure, beatValue: 4 });
+      voice.setStrict(false);
+      voice.addTickables(notes);
+      // applyAccidentals tem que vir ANTES do format() — depois disso o
+      // VexFlow 5 trata a nota como "já formatada" e quebra ao desenhar
+      // o acidente (RuntimeError: UnformattedNote).
+      VexFlow.Accidental.applyAccidentals([voice], keyEntry.keySpec);
+      new VexFlow.Formatter().joinVoices([voice]).formatToStave([voice], stave);
+      VexFlow.Beam.generateBeams(notes).forEach(b => b.setContext(ctx).draw());
+      voice.draw(ctx, stave);
+
+      sysData.push({ measure, notes, stave });
+      x += w;
+    });
+
+    let minNoteY = Infinity, maxNoteY = -Infinity;
+    sysData.forEach(({ measure, notes }) => {
+      measure.forEach((ev, i) => {
+        if(ev.t !== 'n') return;
+        const b = notes[i].getNoteHeadBounds();
+        minNoteY = Math.min(minNoteY, b.yTop);
+        maxNoteY = Math.max(maxNoteY, b.yBottom);
+      });
+    });
+    const noteTopY = Math.min(sysData[0].stave.getYForLine(0), minNoteY);
+    const noteBotY = Math.max(sysData[0].stave.getYForLine(4), maxNoteY);
+    const cifraY = noteTopY - 8;
+    const romanY = cifraY - ROW_H;
+    const grauY = noteBotY + 13;
+
+    sysData.forEach(({ measure, notes }) => {
+      measure.forEach((ev, i) => {
+        if(ev.t === 'r') return;
+        const nx = notes[i].getAbsoluteX();
+        vfRowText(ctx, ev.roman, nx, romanY, 50, COL_ROMAN);
+        vfRowText(ctx, ev.cifra, nx, cifraY, 42, COL_CIFRA);
+        vfRowText(ctx, ev.grau, nx, grauY, 26, ev.color || COL_GRAU);
+      });
+    });
+
+    // só reserva espaço de verdade pelas fileiras que o exercício usa — sem
+    // isso sobraria uma faixa em branco pra um rótulo que nunca é desenhado
+    // (ex.: nem todo exercício tem romano)
+    return {
+      top: (hasRoman ? romanY : (hasCifra ? cifraY : noteTopY)) - 8,
+      bottom: (hasGrau ? grauY : noteBotY) + 4,
+    };
+  }
+
+  /* desenha a pauta de um exercício no tom escolhido dentro de `container`.
+     Desenha duas vezes: a primeira (descartável, numa div fora da tela) só
+     pra medir quanto espaço cada sistema precisa de verdade acima/abaixo da
+     pauta; a segunda empilha os sistemas sem sobrar vão entre eles — sem
+     isso, o espaço reservado por sistema teria que ser um chute genérico
+     (ou grande demais, sobrando vão em branco, ou pequeno demais, cortando
+     rótulo de nota aguda). */
+  function drawStave(container, data, keyEntry){
+    container.innerHTML = '';
+    const beatsPerMeasure = data.beatsPerMeasure;
+    const measures = vfMeasures(keyEntry.events, beatsPerMeasure);
+    const systems = vfSystems(measures, data.breaks);
+    const hasRoman = keyEntry.events.some(e => e.roman);
+    const hasCifra = keyEntry.events.some(e => e.cifra);
+    const hasGrau = keyEntry.events.some(e => e.grau);
+
+    const SCRATCH_Y = 1000;
+    const scratchDiv = document.createElement('div');
+    scratchDiv.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none;top:0;left:0;';
+    document.body.appendChild(scratchDiv);
+    const scratchCtx = new VexFlow.Renderer(scratchDiv, VexFlow.Renderer.Backends.SVG).getContext();
+
+    const FIRST_EXTRA = 95, PAD_FACTOR = 1.12;
+    // mede quanto cada compasso precisa de verdade (ver vfMeasureWidth) e
+    // depois estica cada sistema pra preencher a MESMA largura total — do
+    // jeito que o LilyPond também justifica todo sistema pra margem a
+    // margem, em vez de cada linha acabar numa largura diferente.
+    const systemWidths = systems.map(sys => sys.map((measure, mi) =>
+      vfMeasureWidth(measure, keyEntry.keySpec, scratchCtx) * PAD_FACTOR + (mi === 0 ? FIRST_EXTRA : 0)));
+    const systemTotalW = systemWidths.map(ws => ws.reduce((a, b) => a + b, 0));
+    const totalW = Math.max.apply(null, systemTotalW);
+    const finalWidths = systemWidths.map((ws, i) => {
+      const scale = totalW / systemTotalW[i];
+      return ws.map(w => w * scale);
+    });
+
+    const offsets = systems.map((sys, si) => {
+      const r = buildSystem(scratchCtx, sys, SCRATCH_Y, finalWidths[si], keyEntry, data, hasRoman, hasCifra, hasGrau, si === systems.length - 1);
+      return { topOffset: SCRATCH_Y - r.top, bottomOffset: r.bottom - SCRATCH_Y };
+    });
+    document.body.removeChild(scratchDiv);
+
+    const renderer = new VexFlow.Renderer(container, VexFlow.Renderer.Backends.SVG);
+    renderer.resize(totalW + 40, 4000);
+    const ctx = renderer.getContext();
+
+    const GAP = 14;
+    let cursorY = 20, globalMinY = Infinity, globalMaxY = -Infinity;
+    systems.forEach((sys, si) => {
+      const y = cursorY + offsets[si].topOffset;
+      const r = buildSystem(ctx, sys, y, finalWidths[si], keyEntry, data, hasRoman, hasCifra, hasGrau, si === systems.length - 1);
+      globalMinY = Math.min(globalMinY, r.top);
+      globalMaxY = Math.max(globalMaxY, r.bottom);
+      cursorY = r.bottom + GAP;
+    });
+
+    const svg = container.querySelector('svg');
+    const pad = 8;
+    const vy = globalMinY - pad, vh = (globalMaxY - globalMinY) + pad * 2;
+    svg.setAttribute('viewBox', '0 ' + vy + ' ' + (totalW + 40) + ' ' + vh);
+    svg.setAttribute('width', totalW + 40);
+    svg.setAttribute('height', vh);
+  }
+
+  // botões "Ouvir" + seletor de tom das partituras
   document.querySelectorAll('figure.pauta[data-play]').forEach(fig => {
-    let data;
-    try { data = JSON.parse(fig.dataset.play); } catch(e){ return; }
+    let originalData;
+    try { originalData = JSON.parse(fig.dataset.play); } catch(e){ return; }
+    let data = originalData;
+    const exName = fig.dataset.ex;
+    const exData = exName && window.TRANSPOSE_DATA ? TRANSPOSE_DATA[exName] : null;
+
     const row = document.createElement('div');
     row.className = 'play-row';
     const hasMel = (data.n || []).some(x => x[0] > 0);
@@ -1652,6 +2450,41 @@
       padBtn.innerHTML = '<input type="checkbox" checked> com acorde de fundo';
       row.appendChild(padBtn);
     }
+
+    let vfWrap = null;
+    if(exData && typeof VexFlow !== 'undefined'){
+      const tomSel = document.createElement('label');
+      tomSel.className = 'tempo';
+      const opts = exData.keys.map((k, i) => `<option value="${i}"${k.isOriginal ? ' selected' : ''}>${k.label}</option>`).join('');
+      tomSel.innerHTML = 'Tom <select>' + opts + '</select>';
+      row.appendChild(tomSel);
+
+      const picture = fig.querySelector('picture');
+      const img = picture.querySelector('img');
+      vfWrap = document.createElement('div');
+      vfWrap.className = 'vf-wrap';
+      vfWrap.style.display = 'none';
+      // mesma largura da imagem original — não deixa o tamanho/proporção da
+      // pauta mudar de um tom para o outro
+      if(img && img.style.width) vfWrap.style.width = img.style.width;
+      picture.after(vfWrap);
+
+      tomSel.querySelector('select').addEventListener('change', (e) => {
+        stopAll();
+        const keyEntry = exData.keys[+e.target.value];
+        if(keyEntry.isOriginal){
+          data = originalData;
+          vfWrap.style.display = 'none';
+          picture.style.display = '';
+        } else {
+          data = keyEntry.play;
+          picture.style.display = 'none';
+          vfWrap.style.display = '';
+          try { drawStave(vfWrap, exData, keyEntry); } catch(err){ console.error('pauta:', exName, err); }
+        }
+      });
+    }
+
     fig.appendChild(row);
     btn.addEventListener('click', () => {
       if(btn.classList.contains('playing')){ stopAll(); return; }
@@ -1829,6 +2662,19 @@
   const abrir = chapters.some(c => c.id === inicial) ? inicial
               : (chapters.some(c => c.id === state.last) ? state.last : 'capa');
   showChapter(abrir, {replace:true});
+
+  // ---------- seletor de paleta (Nanquim · Grafite · Sálvia) ----------
+  (function(){
+    const KEY = 'gc-paleta', html = document.documentElement;
+    const btns = Array.from(document.querySelectorAll('.paleta[data-paleta]'));
+    function aplicar(p, guardar){
+      html.dataset.paleta = p;
+      btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.paleta === p)));
+      if(guardar){ try { localStorage.setItem(KEY, p); } catch(e){} }
+    }
+    btns.forEach(b => b.addEventListener('click', () => aplicar(b.dataset.paleta, true)));
+    aplicar(html.dataset.paleta || 'nanquim', false);
+  })();
 </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-# Graus e Campos na Flauta — Cartilha do Aluno
+# Harmonização aplicada para Flauta — Cartilha do Aluno
 
 Material de apoio para aulas de flauta transversal: escalas, graus e campos
 harmônicos maiores e menores, com exercícios em partitura, cifras e graus.
@@ -26,9 +26,10 @@ teste rápido e um checklist que o aluno marca antes de avançar.
 
 `index.html` tem todo o texto, o estilo e o script — sem dependências além
 das fontes do Google Fonts. As partituras ficam em `partituras/` (uma versão
-para tela larga e outra, em `partituras/m/`, para celular). Layout responsivo
-e folha de estilo para impressão: o botão “Imprimir / salvar em PDF” sai com
-a cartilha inteira, uma aula por página.
+para tela larga e outra, em `partituras/m/`, para celular). O botão “Baixar
+PDF” baixa `cartilha-flauta.pdf`, um PDF já pronto com a cartilha inteira,
+uma aula por página — gerado sem o cabeçalho/rodapé que o `Ctrl+P` do
+navegador injeta por conta própria (veja `ferramentas/LEIA-ME.md`).
 
 O áudio dos exercícios é gerado pela própria página (Web Audio), sem arquivos
 de som.
@@ -48,6 +49,13 @@ O GitHub Pages atualiza o site em cerca de um minuto.
 Para criar ou alterar **partituras** (e novas aulas), use o gerador em
 `ferramentas/` — veja `ferramentas/LEIA-ME.md`. Nesse caso edite o texto em
 `ferramentas/src/`, porque o gerador reescreve o `index.html`.
+
+## Visual (Design System)
+
+As cores, fontes e componentes de todas as cartilhas estão descritos em
+`design-system/` — abra `design-system/index.html` no navegador para ver o guia
+e os exemplos. O aluno pode escolher entre três paletas (Nanquim, Grafite e
+Sálvia) no botão **Cores** da barra lateral.
 
 ---
 
